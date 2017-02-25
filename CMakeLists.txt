@@ -28,9 +28,8 @@ if(NOT parent)
         GIT_REPOSITORY "https://github.com/Microsoft/GSL.git"
         GIT_TAG "3819df6e378ffccf0e29465afe99c3b324c2aa70"
         SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl"
-        BUILD_COMMAND ""  # No thanks
-        INSTALL_COMMAND ""  # nope
-        DEPENDEES
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
     )
     add_library(gsl INTERFACE IMPORTED)
     add_dependencies(gsl GslProject)

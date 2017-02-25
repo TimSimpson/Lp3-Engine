@@ -130,7 +130,7 @@
 // LP3_COMPILE_DYNAMIC
 //     If set, libraries will try to compile dynamically (shared).
 
-#if defined(BOOST_ALL_DYN_LINK)
+#if defined(BOOST_ALL_DYN_LINK) || defined(BUILD_SHARED_LIBS)
   #define LP3_COMPILE_DYNAMIC
 #endif
 
