@@ -7,7 +7,7 @@ import sys
 import frontdoor
 
 
-REGISTRY = frontdoor.CommandRegistry('lp3-core-ci')
+REGISTRY = frontdoor.CommandRegistry('ci')
 cmd = REGISTRY.decorate
 ROOT=os.path.dirname(os.path.realpath(__file__))
 
@@ -58,8 +58,10 @@ def windows(args):
 
         ap_args = parser.parse_args(args=args)
 
+        print('#' * 80)
         print('# Building {} bit in {} mode'.format(
             ap_args.bits, ap_args.type))
+        print('#' * 80)
 
         wb_dir = os.path.join(BUILD_DIR, 'windows', str(ap_args.bits))
 

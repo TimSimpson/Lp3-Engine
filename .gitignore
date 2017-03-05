@@ -1,3 +1,4 @@
 cget
 build
-lib
+*.pyc
+__pycache__

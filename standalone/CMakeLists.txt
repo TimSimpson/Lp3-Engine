@@ -39,12 +39,12 @@ set_property(TARGET boost PROPERTY
 
 ### Microsoft Guidelines Support Library
 
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl/include")
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
 ExternalProject_Add(
     GslProject
     GIT_REPOSITORY "https://github.com/Microsoft/GSL.git"
     GIT_TAG "3819df6e378ffccf0e29465afe99c3b324c2aa70"
-    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl"
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl"
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
     INSTALL_DIR ${PROJECT_BINARY_DIR}
@@ -53,7 +53,7 @@ add_library(gsl INTERFACE IMPORTED)
 add_dependencies(gsl GslProject)
 set_property(TARGET gsl PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
-    "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl/include")
+    "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
 
 ###############################################################################
 #  Subproject
