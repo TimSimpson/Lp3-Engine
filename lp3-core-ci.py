@@ -58,6 +58,9 @@ def windows(args):
 
         ap_args = parser.parse_args(args=args)
 
+        print('# Building {} bit in {} mode'.format(
+            ap_args.bits, ap_args.type))
+
         wb_dir = os.path.join(BUILD_DIR, 'windows', str(ap_args.bits))
 
         mkdir(wb_dir)
