@@ -37,10 +37,10 @@ def clean(args):
 
 @cmd('windows', 'Build on Windows')
 def windows(args):
+    wb_dir = os.path.join(BUILD_DIR, 'windows')
+
     registry = frontdoor.CommandRegistry('windows')
     c = registry.decorate
-
-    wb_dir = os.path.join(BUILD_DIR, 'windows')
 
     @c('clean')
     def clean(args):
@@ -48,47 +48,51 @@ def windows(args):
         shutil.rmtree(wb_dir)
         print(' * clean! *')
 
-    @c('config')
-    def config(args):
-        bits = '64' if len(args) < 1 else args[0]
-        mkdir(wb_dir)
-        return subprocess.call(
-            'cmake -G "Visual Studio 14 2015 Win{bits}" -H{src_dir} -B{build_dir}'
-                .format(src_dir=SRC_DIR, build_dir=wb_dir, bits=bits),
-            shell=True,
-            cwd=wb_dir)
+    @c('build')
+    def build(args):
+        parser = argparse.ArgumentParser(prog='windows',
+                                         description='Builds the program')
+        parser.add_argument('--bits', type=int, help='64 or 32', default=64)
+        parser.add_argument('--type', type=str, help='debug / release',
+                            default='debug')
 
-    def build(btype):
+        ap_args = parser.parse_args(args=args)
+
+        wb_dir = os.path.join(BUILD_DIR, 'windows', str(ap_args.bits))
+
+        mkdir(wb_dir)
+
+        bit_str = {64: ' Win64', 32: ''}[ap_args.bits]
+
         new_env = os.environ.copy()
         new_env['LP3_ROOT_PATH'] = os.path.join(SRC_DIR, 'media')
 
-        return (
-            config([])
-            or
+        return any((
+            subprocess.call(
+                'cmake -G "Visual Studio 14 2015{bits}" -H{src_dir} -B{build_dir}'
+                    .format(src_dir=SRC_DIR, build_dir=wb_dir, bits=bit_str),
+                shell=True,
+                cwd=wb_dir),
             subprocess.call(
                 'cmake --build {} --config {} '.format(
-                    wb_dir, btype),
+                    wb_dir, ap_args.type),
                 shell=True,
-                cwd=wb_dir)
-            or
+                cwd=wb_dir),
             subprocess.call(
-                'ctest -C "{}"'.format(btype),
+                'ctest -C "{}"'.format(ap_args.type),
                 shell=True,
                 cwd=wb_dir,
-                env=new_env)
-        )
+                env=new_env),
+        ))
 
-    @c('debug')
-    def debug(args):
-        return build('Debug')
-
-    @c('release')
-    def release(args):
-        return build('Release')
-
-    @c('both')
-    def both(args):
-        return debug(args) or release(args)
+    @c('build-all')
+    def build_all(args):
+        return any((
+            build(['--bits=32', '--type=debug']),
+            build(['--bits=32', '--type=release']),
+            build(['--bits=64', '--type=debug']),
+            build(['--bits=64', '--type=release']),
+        ))
 
     return registry.dispatch(args)
 

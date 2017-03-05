@@ -32,7 +32,7 @@ namespace {
             if (file.bad() || file.fail())
             {
                 LP3_LOG_ERROR("Error opening file %s!", file_path);
-                LP3_THROW(core::Exception, 
+                LP3_THROW(core::Exception,
 					str(boost::format("Error opening file %s!") % file_path));
             }
         }
@@ -43,19 +43,26 @@ namespace {
             return _eof;
         }
 
-        virtual size_t read(gsl::span<char> buffer) {
+        virtual std::size_t read(gsl::span<char> buffer) {
             file.read(buffer.data(), buffer.length());
             LP3_ASSERT_FALSE_MESSAGE(file.bad(),
                 "Bad bit set! Stream integrity compromised.");
             _eof = file.eof();
-            return file.gcount();
+
+            // Check for overflow on 32 bit machines
+            LP3_ASSERT_EQUAL(
+                static_cast<std::streamsize>(
+                    static_cast<std::size_t>(file.gcount())),
+                file.gcount());
+
+            return static_cast<std::size_t>(file.gcount());
         }
 
-        virtual void reset(size_t position=0) {
+        virtual void reset(std::size_t position=0) {
             this->_eof = seek(file, position, std::ios::beg);
         }
 
-        virtual void skip(size_t bytes) {
+        virtual void skip(std::size_t bytes) {
             this->_eof = seek(file, bytes, std::ios::cur);
         }
     private:
@@ -64,7 +71,7 @@ namespace {
 
         template<typename T>
         bool seek(std::ifstream & file,
-				  const size_t position,
+				  const std::size_t position,
 				  const T seekdir) {
             LP3_ASSERT_FALSE_MESSAGE(file.bad(), "Can't reset, file is bad!");
             LP3_ASSERT_TRUE_MESSAGE(file.is_open(), "Can't reset, file not open!");
