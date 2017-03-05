@@ -11,6 +11,6 @@ build_script:
   - cmd: >-
       SET PATH=%PATH%;%PYTHON%\Scripts\
 
-      python lp3-core-ci.py windows clean
+      python ci.py windows clean
 
-      python lp3-core-ci.py windows build-all
+      python ci.py windows build-all
