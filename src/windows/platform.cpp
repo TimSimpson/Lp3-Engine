@@ -4,6 +4,7 @@
 
 #include <boost/scope_exit.hpp>
 #include <lp3/assert.hpp>
+#include <lp3/log.hpp>
 
 namespace lp3 { namespace core {
 
@@ -11,8 +12,8 @@ namespace {
 	using CallBackFunction = std::function<void(PlatformMessage)> *;
 
 	std::mutex call_backs_mutex;
-	std::vector<std::pair<HWND, CallBackFunction>> call_backs;    
-	
+	std::vector<std::pair<HWND, CallBackFunction>> call_backs;
+
 	auto find_callback_itr(const HWND hwnd) {
 		return std::find_if(
 			call_backs.begin(),
@@ -32,7 +33,7 @@ namespace {
 		}
 	}
 
-	void register_callback(const HWND hwnd, CallBackFunction cb) {		
+	void register_callback(const HWND hwnd, CallBackFunction cb) {
 		std::lock_guard<std::mutex> lock(call_backs_mutex);
 		LP3_ASSERT_TRUE(cb != nullptr);
 		call_backs.push_back(std::pair<HWND, CallBackFunction>(hwnd, cb));
@@ -49,14 +50,14 @@ namespace {
 
     struct CallBack {
 
-        static LRESULT CALLBACK window_proc(HWND hwnd, UINT message, 
+        static LRESULT CALLBACK window_proc(HWND hwnd, UINT message,
                                             WPARAM wParam, LPARAM lParam) {
             switch (message) {
             case WM_DESTROY: {
                 PostQuitMessage(0);
                 return 0;
             } break;
-            }		
+            }
 			CallBackFunction cb = find_callback(hwnd);
 			if (cb) {
 				// I don't *think* this is a race condition. :/
@@ -78,12 +79,12 @@ PlatformLoop::WindowDestroyer::~WindowDestroyer() {
 	DestroyWindow(hwnd);
 }
 
-PlatformLoop::PlatformLoop(const char * const program_name, 
+PlatformLoop::PlatformLoop(const char * const program_name,
                            HINSTANCE hinstance, int n_cmd_show)
 :   arguments(),
     hinstance(hinstance),
 	wd(new WindowDestroyer(nullptr))
-{    
+{
     using lp3::core::WCharToCharConverter;
     WNDCLASSEX wc;
 
@@ -126,7 +127,7 @@ PlatformLoop::PlatformLoop(const char * const program_name,
     ShowWindow(this->hwnd, n_cmd_show);
 }
 
-PlatformLoop::PlatformLoop(const PlatformLoop & pl) 
+PlatformLoop::PlatformLoop(const PlatformLoop & pl)
 :	arguments(pl.arguments),
 	hinstance(pl.hinstance),
 	hwnd(pl.hwnd),
@@ -165,17 +166,17 @@ bool PlatformLoop::do_events(
 	return msg.message != WM_QUIT;
 }
 
-int PlatformLoop::run(std::function<void()> iterate, 
+int PlatformLoop::run(std::function<void()> iterate,
                       std::function<void(PlatformMessage)> on_message)
 {
     return run(iterate, boost::optional<decltype(on_message)>(on_message));
 }
 
-int PlatformLoop::run(std::function<void()> iterate, 
-                      boost::optional<std::function<void(PlatformMessage)>> 
+int PlatformLoop::run(std::function<void()> iterate,
+                      boost::optional<std::function<void(PlatformMessage)>>
                           on_message) {
     if (on_message) {
-		register_callback(this->hwnd, &(on_message.get()));        
+		register_callback(this->hwnd, &(on_message.get()));
     }
 	const HWND hwnd = this->hwnd;
     BOOST_SCOPE_EXIT(&hwnd) {
@@ -184,7 +185,7 @@ int PlatformLoop::run(std::function<void()> iterate,
 
     MSG msg;
 
-    while (true) {        
+    while (true) {
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
