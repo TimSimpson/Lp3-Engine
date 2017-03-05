@@ -73,19 +73,24 @@
     #define LP3_TEST_RUN_ALL() \
         for(auto fn : LP3_TEST_INTERNAL_LIST) { fn(); }
 
+
+    namespace lp3 { namespace asserts {
+        int error_count = 0;
+    }   }
+
     #ifdef LP3_COMPILE_TARGET_DREAMCAST
         /*--------------------------------------------------------------------
          *  Dreamcast Main
          *-------------------------------------------------------------------*/
-        // Note: dc-tool doesn't know about the return value, so always return 0.
         #include <kos.h>
         #include <time.h>
 
         int main(int argc, char **argv) {
+            lp3::asserts::error_count = 0;
             printf("@DC_TEST_START %s\n", LP3_TEST_MODULE_C_STR);
             LP3_TEST_RUN_ALL();
             printf("@DC_TEST_COMPLETE\n");
-            return 0;
+            return lp3::asserts::error_count;
         }
 
     #else
@@ -95,11 +100,12 @@
         #include <iostream>
 
         int main(int argc, char **argv) {
+            lp3::asserts::error_count = 0;
             std::cout << "@LP3_TEST_START "
                       << LP3_TEST_MODULE_C_STR << "\n";
             LP3_TEST_RUN_ALL();
             std::cout << "@LP3_TEST_COMPLETE\n";
-            return 0;
+            return lp3::asserts::error_count;
         }
     #endif
 

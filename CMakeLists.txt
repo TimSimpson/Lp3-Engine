@@ -5,39 +5,6 @@
 project(lp3_core CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-get_directory_property(parent PARENT_DIRECTORY)
-
-if(NOT parent)
-    # If you are using this as a subproject, your super project CMakeLists.txt
-    # must define `boost` and `gsl` as interface import libraries as seen
-    # here.
-
-    # Otherwise, this will try to find Boost using CMake's built in methods
-    # and will download the GSL.
-    find_package(Boost REQUIRED)
-    add_library(boost INTERFACE IMPORTED)
-    set_property(TARGET boost PROPERTY
-        INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}")
-
-
-    # This uses the GSL, so download it
-    include(ExternalProject)
-
-    ExternalProject_Add(
-        GslProject
-        GIT_REPOSITORY "https://github.com/Microsoft/GSL.git"
-        GIT_TAG "3819df6e378ffccf0e29465afe99c3b324c2aa70"
-        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl"
-        BUILD_COMMAND ""
-        INSTALL_COMMAND ""
-    )
-    add_library(gsl INTERFACE IMPORTED)
-    add_dependencies(gsl GslProject)
-    set_property(TARGET gsl PROPERTY
-        INTERFACE_INCLUDE_DIRECTORIES
-        "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl/include")
-endif()
-
 add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
@@ -109,8 +76,8 @@ endif()
 
 add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
 target_link_libraries(media_tests Lp3_Core ${LP3_LIBS})
-add_test(media_tests ${EXECUTABLE_OUTPUT_PATH}/bin/media_tests)
+add_test(media_tests media_tests)
 
 add_executable(CoroutineTests ${CMAKE_CURRENT_SOURCE_DIR}/tests/coroutine_tests.cpp)
 target_link_libraries(CoroutineTests Lp3_Core ${LP3_LIBS})
-add_test(CoroutineTests ${EXECUTABLE_OUTPUT_PATH}/bin/CoroutineTests)
+add_test(CoroutineTests CoroutineTests)

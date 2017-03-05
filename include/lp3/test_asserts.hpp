@@ -18,6 +18,7 @@ namespace lp3 { namespace asserts {
 
 extern jmp_buf buf;
 extern const char * last_exception_type;
+extern int error_count;
 
 template<typename TypeA, typename TypeB>
 static void assert_equal(const char * file_name, int line_number,
@@ -26,6 +27,7 @@ static void assert_equal(const char * file_name, int line_number,
     if (a == b) {
         return;
     }
+    ++ error_count;
     std::cout << "@TEST_ERROR : " << file_name << ":" << line_number
               << " : \n\t" << a << " != " << b;
     if (message) {
@@ -41,6 +43,7 @@ static void assert_not_equal(const char * file_name, int line_number,
     if (a != b) {
         return;
     }
+    ++ error_count;
     std::cout << "@TEST_ERROR : " << file_name << ":" << line_number
               << " : \n\t" << a << " == " << b;
     if (message) {
@@ -55,6 +58,7 @@ static void assert_true(const char * file_name, int line_number,
     if (var) {
         return;
     }
+    ++ error_count;
     std::cout << "@TEST_ERROR : " << file_name << ":" << line_number
               << " : \n\t";
     if (message) {

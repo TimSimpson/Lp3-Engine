@@ -1,10 +1,14 @@
-# This tests that the project will build correctly as a subproject.
-# It's used only for CI; in your own project, ignore this and add Lp3-Core as
-# a subproject (nested directory) using Git submodules or something else.
+# A parent project which tests that the main CMakeLists.txt can be used
+# as a subproject.
+#
+# This is used only for CI; in your own project, ignore this and add Lp3-Core as
+# a subproject (nested directory) using Git submodules, ExternalProject_Add or
+# something else.
+#
+# Note that you will need to define the libraries below as seen here yourself.
+
 project(Lp3-Core-Parent CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-
-
 
 if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -14,7 +18,9 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GCC")
     add_compile_options(-std=c++14)
 endif()
 
+enable_testing()
 
+include(ExternalProject)
 
 ###############################################################################
 #  Third Party libraries
@@ -24,15 +30,14 @@ endif()
 # must define `boost` and `gsl` as interface import libraries as seen
 # here.
 
-# Otherwise, this will try to find Boost using CMake's built in methods
-# and will download the GSL.
+### Boost
+
 find_package(Boost REQUIRED)
 add_library(boost INTERFACE IMPORTED)
 set_property(TARGET boost PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}")
 
-# Microsoft Guidelines Support Library
-include(ExternalProject)
+### Microsoft Guidelines Support Library
 
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl/include")
 ExternalProject_Add(
@@ -51,8 +56,8 @@ set_property(TARGET gsl PROPERTY
     "${CMAKE_CURRENT_SOURCE_DIR}/lib/gsl/include")
 
 ###############################################################################
-#  Subprojects
+#  Subproject
 ###############################################################################
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_BINARY_DIR}/output)
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/..
+                 ${CMAKE_CURRENT_BINARY_DIR}/output)
