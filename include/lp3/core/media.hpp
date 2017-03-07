@@ -31,7 +31,7 @@ public:
     template<typename T>
     inline std::size_t read(gsl::span<T> buffer) {
         return read(
-            gsl::span<char>(reinterpret_cast<char *>(buffer.data()), 
+            gsl::span<char>(reinterpret_cast<char *>(buffer.data()),
                             buffer.size_bytes()));
     }
 
@@ -75,8 +75,8 @@ MediaManager {
 public:
     MediaManager();
 
-    #ifdef LP3_COMPILE_TARGET_WINDOWS
-        /* On Windows, the base directory can be set. */
+    #ifdef LP3_COMPILE_TARGET_PC
+        /* On PC, the base directory can be set. */
         MediaManager(const std::string & base_directory);
     #endif
 

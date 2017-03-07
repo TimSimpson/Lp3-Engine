@@ -54,10 +54,10 @@ export(TARGETS Lp3_Core FILE Lp3_Core_Config.cmake)
 if (WIN32)
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/windows/Clock.cpp)
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/windows/platform.cpp)
-endif()
-
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+elseif ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
+else()
+    target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/null/platform.cpp)
 endif()
 
 add_executable(AssertDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/AssertDemo.cpp)

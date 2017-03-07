@@ -35,6 +35,96 @@ def clean(args):
     print(' * spotless! *')
 
 
+@cmd('ubuntu', 'Build on Ubuntu')
+def ubuntu(args):
+    wb_dir = os.path.join(BUILD_DIR, 'ubuntu')
+
+    registry = frontdoor.CommandRegistry('ubuntu')
+    c = registry.decorate
+
+    @c('clean')
+    def clean(args):
+        mkdir(wb_dir)
+        shutil.rmtree(wb_dir)
+        print(' * clean! *')
+
+    @c('build')
+    def build(args):
+        parser = argparse.ArgumentParser(prog='ubuntu',
+                                         description='Builds the program')
+        parser.add_argument('--ntfs-work-around', type=bool, default=False)
+        parser.add_argument('--shared', type=bool, default=False)
+        parser.add_argument('--type', type=str, help='debug / release',
+                            default='debug')
+
+        ap_args = parser.parse_args(args=args)
+
+        build_subdir = os.path.join(
+            'ubuntu', ap_args.type, 'shared' if ap_args.shared else 'static')
+        print('#' * 80)
+        print('# Building {}'.format(build_subdir))
+        print('#' * 80)
+
+        wb_dir = os.path.join(BUILD_DIR, build_subdir)
+
+        new_env = os.environ.copy()
+        new_env['CC'] = subprocess.check_output('which gcc-6', shell=True).strip()
+        new_env['CXX'] = subprocess.check_output('which g++-6', shell=True).strip()
+        new_env['LP3_ROOT_PATH'] = os.path.join(SRC_DIR, 'media')
+
+        options = []
+        options.append('-DCMAKE_BUILD_TYPE={}'.format(
+            {'debug': 'Debug', 'release': 'Release'}[ap_args.type]))
+        if ap_args.shared:
+            options.append('-DBUILD_SHARED_LIBS=true')
+
+        # This is annoying. It exists only so I can use Bash for Ubuntu
+        # for Windows (aka Bfufw) as Git will try to check out a file with
+        # a colon there, screwing up the CMake call.
+        if ap_args.ntfs_work_around:
+            options.append('-DGSL_CHECKED_OUT=true')
+
+
+        mkdir(wb_dir)
+
+        return (
+            subprocess.call(
+                'cmake -G "Ninja" {options} -H{src_dir} -B{build_dir}'
+                    .format(options=' '.join(options), src_dir=SRC_DIR,
+                            build_dir=wb_dir),
+                shell=True,
+                cwd=wb_dir,
+                env=new_env)
+            or subprocess.call(
+                'cmake --build {}'.format(wb_dir),
+                shell=True,
+                cwd=wb_dir)
+            or subprocess.call(
+                'ctest -C "{}"'.format(ap_args.type),
+                shell=True,
+                cwd=wb_dir,
+                env=new_env)
+        )
+
+    @c('build-all')
+    def build_all(args):
+        prefix = []
+        if '--ntfs-work-around=true' in args:
+            prefix = ['--ntfs-work-around=true']
+
+        for t in ('debug', 'release'):
+            for s in ('--shared=true', ''):
+                b_args = prefix + ['--type={}'.format(t)]
+                if s:
+                    b_args.append(s)
+                result = build(b_args)
+                if result:
+                    return result
+        return 0
+
+    return registry.dispatch(args)
+
+
 @cmd('windows', 'Build on Windows')
 def windows(args):
     wb_dir = os.path.join(BUILD_DIR, 'windows')
@@ -72,32 +162,32 @@ def windows(args):
         new_env = os.environ.copy()
         new_env['LP3_ROOT_PATH'] = os.path.join(SRC_DIR, 'media')
 
-        return any((
+        return (
             subprocess.call(
                 'cmake -G "Visual Studio 14 2015{bits}" -H{src_dir} -B{build_dir}'
                     .format(src_dir=SRC_DIR, build_dir=wb_dir, bits=bit_str),
                 shell=True,
-                cwd=wb_dir),
-            subprocess.call(
+                cwd=wb_dir)
+            or subprocess.call(
                 'cmake --build {} --config {} '.format(
                     wb_dir, ap_args.type),
                 shell=True,
-                cwd=wb_dir),
-            subprocess.call(
+                cwd=wb_dir)
+            or subprocess.call(
                 'ctest -C "{}"'.format(ap_args.type),
                 shell=True,
                 cwd=wb_dir,
-                env=new_env),
-        ))
+                env=new_env)
+        )
 
     @c('build-all')
     def build_all(args):
-        return any((
-            build(['--bits=32', '--type=debug']),
-            build(['--bits=32', '--type=release']),
-            build(['--bits=64', '--type=debug']),
-            build(['--bits=64', '--type=release']),
-        ))
+        return (
+            build(['--bits=32', '--type=debug'])
+            or build(['--bits=32', '--type=release'])
+            or build(['--bits=64', '--type=debug'])
+            or build(['--bits=64', '--type=release']),
+        )
 
     return registry.dispatch(args)
 

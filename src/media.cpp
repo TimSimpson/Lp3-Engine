@@ -4,7 +4,7 @@
 #ifdef LP3_COMPILE_TARGET_DREAMCAST
     #include <kos.h>
 #endif
-#ifdef LP3_COMPILE_TARGET_WINDOWS
+#ifdef LP3_COMPILE_TARGET_PC
     #include <cstdlib>  // getenv
 #endif
 
@@ -103,7 +103,7 @@ namespace {
 
 namespace lp3 { namespace core {
 
-#ifdef LP3_COMPILE_TARGET_WINDOWS
+#ifdef LP3_COMPILE_TARGET_PC
 
 MediaManager::MediaManager(const std::string & base_directory)
 :   base_directory(base_directory)
@@ -119,7 +119,7 @@ MediaManager::MediaManager()
 :   base_directory("/")
 {}
 
-#else
+#elif defined(LP3_COMPILE_TARGET_DREAMCAST)
 
 #ifndef LP3_DREAMCAST_MEDIA_PATH
 	#error "Please define LP3_DREAMCAST_MEDIA_PATH"
@@ -128,6 +128,10 @@ MediaManager::MediaManager()
 MediaManager::MediaManager()
 :   base_directory(LP3_DREAMCAST_MEDIA_PATH)
 {}
+
+#else
+
+    #error "I don't know how to handle this platform!"
 
 #endif
 

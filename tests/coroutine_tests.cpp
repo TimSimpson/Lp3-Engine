@@ -1,5 +1,5 @@
 #define LP3_TEST_MODULE coroutine_tests
-#include <Lp3/test.hpp>
+#include <lp3/test.hpp>
 #include <lp3/assert.hpp>
 #include <lp3/core.hpp>
 

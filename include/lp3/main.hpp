@@ -20,7 +20,7 @@
             return main_function(loop); \
         }
 
-#elif defined(LP3_COMPILE_TARGET_EMSCRIPTEN)
+#else
 
     #include "platform.hpp"
 

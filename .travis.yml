@@ -1,0 +1,21 @@
+language: cpp
+
+compiler:
+  - gcc
+
+sudo: false
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-6
+      - g++-6
+      - libstdc++6
+      - ninja-build
+      - libboost-dev
+env: COMPILER=g++-6
+
+script:
+  -  python ci.py ubuntu build-all

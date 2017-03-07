@@ -39,21 +39,29 @@ set_property(TARGET boost PROPERTY
 
 ### Microsoft Guidelines Support Library
 
+option(GSL_CHECKED_OUT OFF)  # work around for NTFS bug when using Git on Unix
+
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
-ExternalProject_Add(
-    GslProject
-    GIT_REPOSITORY "https://github.com/Microsoft/GSL.git"
-    GIT_TAG "3819df6e378ffccf0e29465afe99c3b324c2aa70"
-    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl"
-    BUILD_COMMAND ""
-    INSTALL_COMMAND ""
-    INSTALL_DIR ${PROJECT_BINARY_DIR}
-)
+if (NOT GSL_CHECKED_OUT)
+    ExternalProject_Add(
+        GslProject
+        GIT_REPOSITORY "https://github.com/Microsoft/GSL.git"
+        GIT_TAG "3819df6e378ffccf0e29465afe99c3b324c2aa70"
+        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl"
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
+        INSTALL_DIR ${PROJECT_BINARY_DIR}
+    )
+endif()
 add_library(gsl INTERFACE IMPORTED)
-add_dependencies(gsl GslProject)
+if (NOT GSL_CHECKED_OUT)
+    add_dependencies(gsl GslProject)
+endif()
 set_property(TARGET gsl PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
     "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
+# target_include_directories(gsl
+#     INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
 
 ###############################################################################
 #  Subproject

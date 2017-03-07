@@ -1,7 +1,7 @@
 #ifndef FILE_LP3_TEST
 #define FILE_LP3_TEST
 
-#include <Lp3/le.hpp>
+#include <lp3/le.hpp>
 
 #ifndef LP3_TEST_MODULE
     #error "LP3_TEST_MODULE must be defined at the top of the file."
