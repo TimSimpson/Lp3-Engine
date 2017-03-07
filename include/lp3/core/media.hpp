@@ -2,9 +2,13 @@
 #define LP3_CORE_MEDIA_HPP
 
 #include "config.hpp"
-#pragma warning(push, 0)
+#ifdef BOOST_MSVC
+    #pragma warning(push, 0)
+#endif
 #include <gsl/gsl>
-#pragma warning(pop)
+#ifdef BOOST_MSVC
+    #pragma warning(pop)
+#endif
 #include <boost/optional.hpp>
 #include "../assert.hpp"
 

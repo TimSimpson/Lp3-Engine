@@ -21,12 +21,12 @@ Exception
 public:
     template<typename Message>
     explicit Exception(
-        Message && message,
+        Message && msg,
         typename std::enable_if<
             !std::is_same<Exception, Message>::value>::type * = nullptr
     ) BOOST_NOEXCEPT
     :     exception(),
-        message(std::forward<Message>(message)) {
+        message(std::forward<Message>(msg)) {
     }
 
     Exception(Exception const  & other) BOOST_NOEXCEPT;

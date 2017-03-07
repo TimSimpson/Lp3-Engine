@@ -32,7 +32,7 @@ namespace lp3 { namespace core {
             }
         }
     }
-	
+
 	LP3_CORE_API
     void write_log(const char * const filename, const int lineNumber,
                   const LogLevel & level, const char * const message)
@@ -45,10 +45,10 @@ namespace lp3 { namespace core {
     || defined(LP3_COMPILE_TARGET_LINUX) \
     || defined(LP3_COMPILE_TARGET_EMSCRIPTEN)
     void write_log(const char * const filename, const int lineNumber,
-                  const LogLevel & level, const char * const message)
+                   const LogLevel &, const char * const message)
     {
         ::printf("%s %d : ", filename, lineNumber);
-        ::printf(message);
+        ::printf("%s", message);
         ::printf("\n");
     }
 #endif

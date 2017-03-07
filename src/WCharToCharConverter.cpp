@@ -18,7 +18,9 @@ WCharToCharConverter::WCharToCharConverter(wchar_t const *  original)
     try
     {
     #endif
-        #pragma warning(disable : 4996) // Disable warning on wbstombs
+        #ifdef BOOST_MSVC
+            #pragma warning(disable : 4996) // Disable warning on wbstombs
+        #endif
         std::size_t convertedCount = wcstombs(converted, original, maxBytes);
         //wctomb_s(&convertedCount, converted, exePathW.size(), buffer);
         LP3_ASSERT_TRUE_MESSAGE(convertedCount == (maxBytes - 1),
