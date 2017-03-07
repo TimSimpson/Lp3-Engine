@@ -1,6 +1,7 @@
 # LP3 Core
 
 [![Build status](https://ci.appveyor.com/api/projects/status/a3r2jq32f1x6frcv?svg=true)](https://ci.appveyor.com/project/TimSimpson/lp3-core)
+[![Build Status](https://travis-ci.org/TimSimpson/Lp3-Core.svg?branch=master)](https://travis-ci.org/TimSimpson/Lp3-Core)
 
 This is a base library used by other components of LP3. It does a few things:
 

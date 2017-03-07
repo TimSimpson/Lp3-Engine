@@ -186,7 +186,7 @@ def windows(args):
             build(['--bits=32', '--type=debug'])
             or build(['--bits=32', '--type=release'])
             or build(['--bits=64', '--type=debug'])
-            or build(['--bits=64', '--type=release']),
+            or build(['--bits=64', '--type=release'])
         )
 
     return registry.dispatch(args)
