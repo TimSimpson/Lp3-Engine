@@ -56,20 +56,28 @@ def ubuntu(args):
         parser.add_argument('--shared', type=bool, default=False)
         parser.add_argument('--type', type=str, help='debug / release',
                             default='debug')
-
+        parser.add_argument('--compiler', type=str, help='gcc/clang',
+                            default='gcc')
+        parser.add_argument('--clang-tidy', type=bool, default=False)
+        parser.add_argument('--clean', type=bool, default=False)
         ap_args = parser.parse_args(args=args)
 
         build_subdir = os.path.join(
-            'ubuntu', ap_args.type, 'shared' if ap_args.shared else 'static')
+            'ubuntu', ap_args.compiler, ap_args.type, 'shared' if ap_args.shared else 'static')
         print('#' * 80)
         print('# Building {}'.format(build_subdir))
         print('#' * 80)
 
         wb_dir = os.path.join(BUILD_DIR, build_subdir)
 
+        cc = {'gcc': 'gcc-6',
+              'clang': 'clang-3.8'}[ap_args.compiler]
+        cxx = {'gcc': 'g++-6',
+               'clang': 'clang++-3.8'}[ap_args.compiler]
+
         new_env = os.environ.copy()
-        new_env['CC'] = subprocess.check_output('which gcc-6', shell=True).strip()
-        new_env['CXX'] = subprocess.check_output('which g++-6', shell=True).strip()
+        new_env['CC'] = subprocess.check_output('which {}'.format(cc), shell=True).strip()
+        new_env['CXX'] = subprocess.check_output('which {}'.format(cxx), shell=True).strip()
         new_env['LP3_ROOT_PATH'] = os.path.join(SRC_DIR, 'media')
 
         options = []
@@ -77,6 +85,9 @@ def ubuntu(args):
             {'debug': 'Debug', 'release': 'Release'}[ap_args.type]))
         if ap_args.shared:
             options.append('-DBUILD_SHARED_LIBS=true')
+        if ap_args.clang_tidy:
+            # TODO: add -warnings-as-errors with clang-tidy-4
+            options.append('-DCMAKE_CXX_CLANG_TIDY:STRING="clang-tidy-3.8;-checks=-*,readability-*,-std=c++14"')
 
         # This is annoying. It exists only so I can use Bash for Ubuntu
         # for Windows (aka Bfufw) as Git will try to check out a file with
@@ -84,6 +95,9 @@ def ubuntu(args):
         if ap_args.ntfs_work_around:
             options.append('-DGSL_CHECKED_OUT=true')
 
+        if ap_args.clean:
+            print(' * spotless! *')
+            shutil.rmtree(wb_dir)
 
         mkdir(wb_dir)
 
@@ -112,14 +126,16 @@ def ubuntu(args):
         if '--ntfs-work-around=true' in args:
             prefix = ['--ntfs-work-around=true']
 
-        for t in ('debug', 'release'):
-            for s in ('--shared=true', ''):
-                b_args = prefix + ['--type={}'.format(t)]
-                if s:
-                    b_args.append(s)
-                result = build(b_args)
-                if result:
-                    return result
+        for c in ('gcc', 'clang'):
+            for t in ('debug', 'release'):
+                for s in ('--shared=true', ''):
+                    b_args = prefix + [
+                        '--type={}'.format(t), '--compiler={}'.format(c)]
+                    if s:
+                        b_args.append(s)
+                    result = build(b_args)
+                    if result:
+                        return result
         return 0
 
     return registry.dispatch(args)

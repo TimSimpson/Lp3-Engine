@@ -21,7 +21,7 @@ LP3_TEST(testOne)
     gsl::span<char> content_span{ content };
     std::size_t read_size = story->read(content_span);
 
-    LP3_ASSERT_EQUAL(16, read_size);
+    LP3_ASSERT_EQUAL(std::size_t{16}, read_size);
 
     std::string contents(content, read_size);
     LP3_ASSERT_EQUAL(contents, "Romulus and Remu");

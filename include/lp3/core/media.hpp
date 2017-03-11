@@ -2,9 +2,13 @@
 #define LP3_CORE_MEDIA_HPP
 
 #include "config.hpp"
-#pragma warning(push, 0)
+#ifdef BOOST_MSVC
+    #pragma warning(push, 0)
+#endif
 #include <gsl/gsl>
-#pragma warning(pop)
+#ifdef BOOST_MSVC
+    #pragma warning(pop)
+#endif
 #include <boost/optional.hpp>
 #include "../assert.hpp"
 
@@ -77,7 +81,7 @@ public:
 
     #ifdef LP3_COMPILE_TARGET_PC
         /* On PC, the base directory can be set. */
-        MediaManager(const std::string & base_directory);
+        MediaManager(const std::string & _base_directory);
     #endif
 
     /* Opens a file for reading. */

@@ -27,11 +27,11 @@ namespace lp3 { namespace core {
 
 #ifdef LP3_COMPILE_LOG_DISABLE
 
-    #define LP3_LOG_CRITICAL(m, ...) /* m */
-    #define LP3_LOG_DEBUG(m, ...) /* m */
-    #define LP3_LOG_ERROR(m, ...) /* m */
-    #define LP3_LOG_INFO(m, ...) /* m */
-    #define LP3_LOG_WARNING(m, ...) /* m */
+    #define LP3_LOG_CRITICAL(...) /* */
+    #define LP3_LOG_DEBUG(...) /* */
+    #define LP3_LOG_ERROR(...) /* */
+    #define LP3_LOG_INFO(...) /* */
+    #define LP3_LOG_WARNING(...) /* */
     #define LP3_LOG_SET(name, value) /* name, value */
 
 #else
@@ -71,13 +71,13 @@ namespace lp3 { namespace core {
 
     } }
 
-    #define LP3_LOG(l, m, ...) \
-        lp3::core::write_log(__FILE__, __LINE__, l, m, ##__VA_ARGS__);
-    #define LP3_LOG_CRITICAL(m, ...) LP3_LOG(lp3::core::LogLevel::Critical, m,  ##__VA_ARGS__);
-    #define LP3_LOG_DEBUG(m, ...) LP3_LOG(lp3::core::LogLevel::Debug, m,  ##__VA_ARGS__);
-    #define LP3_LOG_INFO(m, ...) LP3_LOG(lp3::core::LogLevel::Info, m,  ##__VA_ARGS__);
-    #define LP3_LOG_ERROR(m, ...) LP3_LOG(lp3::core::LogLevel::Error, m,  ##__VA_ARGS__);
-    #define LP3_LOG_WARNING(m, ...) LP3_LOG(lp3::core::LogLevel::Warning, m,  ##__VA_ARGS__);
+    #define LP3_LOG(...) \
+        lp3::core::write_log(__FILE__, __LINE__, __VA_ARGS__);
+    #define LP3_LOG_CRITICAL(...) LP3_LOG(lp3::core::LogLevel::Critical , __VA_ARGS__);
+    #define LP3_LOG_DEBUG(...) LP3_LOG(lp3::core::LogLevel::Debug, __VA_ARGS__);
+    #define LP3_LOG_INFO(...) LP3_LOG(lp3::core::LogLevel::Info, __VA_ARGS__);
+    #define LP3_LOG_ERROR(...) LP3_LOG(lp3::core::LogLevel::Error, __VA_ARGS__);
+    #define LP3_LOG_WARNING(...) LP3_LOG(lp3::core::LogLevel::Warning, __VA_ARGS__);
 
     #define LP3_LOG_SET(name, value) \
     {   \

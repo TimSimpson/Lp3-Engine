@@ -10,13 +10,18 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise
     packages:
       - gcc-6
       - g++-6
+      - clang-3.8
+      - clang-format-3.8
+      - clang-tidy-3.8
       - libstdc++6
       - libboost-dev
       - ninja-build
 env: COMPILER=g++-6
+
 
 install:
   - |

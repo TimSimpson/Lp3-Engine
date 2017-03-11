@@ -63,9 +63,12 @@ LP3_TEST(running_handcranked_loop)
 
             i = 0;
             LP3_LABEL(start_loop);
-                if (i >= 100) goto end_loop;
+                if (i >= 100) {
+                    goto end_loop;
+                }
                 LP3_YIELD();
-                ++ i; goto start_loop;
+                ++ i;
+                goto start_loop;
 
             LP3_LABEL(end_loop);
                 finished = true;
@@ -118,20 +121,20 @@ LP3_TEST(running_loop_de_loop)
     LP3_ASSERT_EQUAL(co.finished, false);
     LP3_ASSERT_EQUAL((bool) co, true);
     LP3_ASSERT_EQUAL(co.i, -1);
-    LP3_ASSERT_EQUAL(co.letters.size(), 0);
+    LP3_ASSERT_EQUAL(co.letters.size(), std::size_t{0});
     co(); // starts- sets i to 0 and adds 'a'
     LP3_ASSERT_EQUAL(co.i, 0);
-    LP3_ASSERT_EQUAL(co.letters.size(), 1);
+    LP3_ASSERT_EQUAL(co.letters.size(), std::size_t{1});
     co(); // adds 'b'
     LP3_ASSERT_EQUAL(co.i, 0);
-    LP3_ASSERT_EQUAL(co.letters.size(), 2);
+    LP3_ASSERT_EQUAL(co.letters.size(), std::size_t{2});
     co();   // now adds 'c', increments i and adds 'a'
     LP3_ASSERT_EQUAL(co.i, 1);
-    LP3_ASSERT_EQUAL(co.letters.size(), 4);
+    LP3_ASSERT_EQUAL(co.letters.size(), std::size_t{4});
 
     CO co2; // make a new one so we aren't as confused.
     // Mimic the inner loop
-    int letterCount = 0;
+    std::size_t letterCount = 0;
     for (int i = 0; i < 5; i ++) {
         co2();
         ++ letterCount;
@@ -149,13 +152,13 @@ LP3_TEST(running_loop_de_loop)
     co2();
     // It will add a letter, then exit the loop, but yield.
     LP3_ASSERT_EQUAL(co2.i, 5);
-    LP3_ASSERT_EQUAL(co2.letters.size(), 3 * 5);
+    LP3_ASSERT_EQUAL(co2.letters.size(), std::size_t{3 * 5});
     LP3_ASSERT_EQUAL(co2.finished, false);
     LP3_ASSERT_EQUAL((bool) co2, true);
     // Now it will end the coroutine.
     co2();
     LP3_ASSERT_EQUAL(co2.i, 5);
-    LP3_ASSERT_EQUAL(co2.letters.size(), 3 * 5);
+    LP3_ASSERT_EQUAL(co2.letters.size(), std::size_t{3 * 5});
 
 
     LP3_ASSERT_EQUAL(co2.finished, true);

@@ -1,7 +1,7 @@
 #include <lp3/log.hpp>
 #include <lp3/core.hpp>
 
-int main(int argc, char **argv)
+int main()
 {
     lp3::core::LogSystem log;
 

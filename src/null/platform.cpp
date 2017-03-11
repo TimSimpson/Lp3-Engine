@@ -26,8 +26,7 @@ int PlatformLoop::run(std::function<void()> iterate,
 }
 
 int PlatformLoop::run(std::function<void()> iterate,
-                      boost::optional<std::function<void(PlatformMessage)>>
-                          on_message) {
+                      boost::optional<std::function<void(PlatformMessage)>>) {
     if (iterate) {
         while(true) {
             iterate();

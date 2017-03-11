@@ -32,7 +32,7 @@ namespace {
             if (file.bad() || file.fail())
             {
                 LP3_LOG_ERROR("Error opening file %s!", file_path);
-                LP3_THROW(core::Exception,
+                LP3_THROW2(core::Exception,
 					str(boost::format("Error opening file %s!") % file_path));
             }
         }
@@ -70,9 +70,9 @@ namespace {
         std::ifstream file;
 
         template<typename T>
-        bool seek(std::ifstream & file,
-				  const std::size_t position,
-				  const T seekdir) {
+        static bool seek(std::ifstream & file,
+				         const std::size_t position,
+				         const T seekdir) {
             LP3_ASSERT_FALSE_MESSAGE(file.bad(), "Can't reset, file is bad!");
             LP3_ASSERT_TRUE_MESSAGE(file.is_open(), "Can't reset, file not open!");
             file.clear(); // Clear eof flags.
@@ -105,8 +105,8 @@ namespace lp3 { namespace core {
 
 #ifdef LP3_COMPILE_TARGET_PC
 
-MediaManager::MediaManager(const std::string & base_directory)
-:   base_directory(base_directory)
+MediaManager::MediaManager(const std::string & _base_directory)
+:   base_directory(_base_directory)
 {}
 
 MediaManager::MediaManager()

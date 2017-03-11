@@ -99,7 +99,7 @@
          *-------------------------------------------------------------------*/
         #include <iostream>
 
-        int main(int argc, char **argv) {
+        int main() {
             lp3::asserts::error_count = 0;
             std::cout << "@LP3_TEST_START "
                       << LP3_TEST_MODULE_C_STR << "\n";
