@@ -2,7 +2,7 @@
 #include <lp3/log.hpp>
 
 
-int main(int argc, char **argv)
+int main()
 {
     // In Windows, it's necessary to manually configure the logging system.
     lp3::core::LogSystem log;

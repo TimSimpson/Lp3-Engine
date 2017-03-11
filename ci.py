@@ -86,6 +86,7 @@ def ubuntu(args):
         if ap_args.shared:
             options.append('-DBUILD_SHARED_LIBS=true')
         if ap_args.clang_tidy:
+            # TODO: add -warnings-as-errors with clang-tidy-4
             options.append('-DCMAKE_CXX_CLANG_TIDY:STRING="clang-tidy-3.8;-checks=-*,readability-*,-std=c++14"')
 
         # This is annoying. It exists only so I can use Bash for Ubuntu

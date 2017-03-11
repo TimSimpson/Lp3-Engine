@@ -22,7 +22,7 @@
   LP3_COMPILE_WITH_DEBUGGING
     If true, debug stuff is on, so feel free to take your time.
 
-  LP3_COMPILE_WITHOUT_LOGGING
+  LP3_COMPILE_LOG_DISABLE
     If true, don't use logging even if in debug mode.
 
   LP3_COMPILE_WITH_PCH
@@ -139,19 +139,23 @@
 
 // Throws an exception and includes source location.
 #ifndef LP3_COMPILE_TARGET_DREAMCAST
-  #define LP3_THROW(t, ...) { throw t(__VA_ARGS__); }
+  #define LP3_THROW(t) { throw t{}; }
+  #define LP3_THROW2(t, ...) { throw t(__VA_ARGS__); }
 #else
   // Things are much more complicated in Dreamcast land... :(
   #define LP3_THROW_EXCEPTION_TO_STRING(type) #type
   #ifndef LP3_COMPILE_TARGET_TEST
-     #define LP3_THROW(t, ...) { \
+     #define LP3_THROW(t) { \
         printf("\n!!!!\tCRITICAL ERROR:\n!!!!\t\t\t%s\n", LP3_THROW_EXCEPTION_TO_STRING(t)); \
         printf("!!!!\tOn %s, line %d\n\n", __FILE__, __LINE__); \
         abort(); \
      }
+     #define LP3_THROW2(t, ...) LP3_THROW(t)
   #else
-     #define LP3_THROW(t, ...) { \
+     #define LP3_THROW(t { \
         Lp3::DreamcastTestAsserts::lastExceptionType=LP3_THROW_EXCEPTION_TO_STRING(t); \
       }
+      #define LP3_THROW2(t, ...) LP3_THROW(t)
   #endif
 #endif
+

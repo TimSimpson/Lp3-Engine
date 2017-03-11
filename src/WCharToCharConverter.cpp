@@ -21,7 +21,10 @@ WCharToCharConverter::WCharToCharConverter(wchar_t const *  original)
         #ifdef BOOST_MSVC
             #pragma warning(disable : 4996) // Disable warning on wbstombs
         #endif
-        std::size_t convertedCount = wcstombs(converted, original, maxBytes);
+        #ifdef LP3_COMPILE_WITH_DEBUGGING
+        std::size_t convertedCount =
+        #endif
+            wcstombs(converted, original, maxBytes);
         //wctomb_s(&convertedCount, converted, exePathW.size(), buffer);
         LP3_ASSERT_TRUE_MESSAGE(convertedCount == (maxBytes - 1),
             "Could not convert wide character string to classic char string.");

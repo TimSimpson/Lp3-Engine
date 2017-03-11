@@ -14,15 +14,15 @@ if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
     add_compile_options(/WX)
 else()
-    add_definitions("-Wall")
+    add_definitions("-Wall -pedantic -Werror -Wshadow -Wno-long-long -Wextra")
 endif()
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    #set devloper compiler options
-    #ALL developers should build in debug mode by default
-    set(CMAKE_CXX_FLAGS "-Wall -Werror -Wshadow -Wno-long-long -Wextra ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "-Wall -Werror -Wshadow -Wno-long-long -Wextra ${CMAKE_C_FLAGS}")
-endif()
+# if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+#     #set devloper compiler options
+#     #ALL developers should build in debug mode by default
+#     # set(CMAKE_CXX_FLAGS "-Wall -Werror -Wshadow -Wno-long-long -Wextra ${CMAKE_CXX_FLAGS}")
+#     # set(CMAKE_C_FLAGS "-Wall -Werror -Wshadow -Wno-long-long -Wextra ${CMAKE_C_FLAGS}")
+# endif()
 
 # Not needed?
 # if (CMAKE_CXX_COMPILER_ID MATCHES "GCC")

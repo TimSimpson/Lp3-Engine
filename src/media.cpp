@@ -32,7 +32,7 @@ namespace {
             if (file.bad() || file.fail())
             {
                 LP3_LOG_ERROR("Error opening file %s!", file_path);
-                LP3_THROW(core::Exception,
+                LP3_THROW2(core::Exception,
 					str(boost::format("Error opening file %s!") % file_path));
             }
         }
