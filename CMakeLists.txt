@@ -61,23 +61,23 @@ else()
 endif()
 
 add_executable(AssertDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/AssertDemo.cpp)
-target_link_libraries(AssertDemo Lp3_Core ${LP3_LIBS})
+target_link_libraries(AssertDemo Lp3_Core)
 
 add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
-target_link_libraries(LogDemo Lp3_Core ${LP3_LIBS})
+target_link_libraries(LogDemo Lp3_Core)
 
 add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
-target_link_libraries(MainDemo Lp3_Core ${LP3_LIBS})
+target_link_libraries(MainDemo Lp3_Core)
 
 if (WIN32)
     add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(MultipleWindows Lp3_Core ${LP3_LIBS})
+    target_link_libraries(MultipleWindows Lp3_Core)
 endif()
 
 add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-target_link_libraries(media_tests Lp3_Core ${LP3_LIBS})
+target_link_libraries(media_tests Lp3_Core)
 add_test(media_tests media_tests)
 
 add_executable(CoroutineTests ${CMAKE_CURRENT_SOURCE_DIR}/tests/coroutine_tests.cpp)
-target_link_libraries(CoroutineTests Lp3_Core ${LP3_LIBS})
+target_link_libraries(CoroutineTests Lp3_Core)
 add_test(CoroutineTests CoroutineTests)

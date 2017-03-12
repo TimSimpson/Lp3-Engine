@@ -141,5 +141,8 @@ gsl::owner<InputStream *> MediaManager::load(const gsl::cstring_span<> & file) {
 	return new InputFileStream(full_path.c_str());
 }
 
+std::string MediaManager::path(const gsl::cstring_span<> & file) const {
+	return str(boost::format("%s/%s") % base_directory % file.data());
+}
 
 } }  // end lp3::core

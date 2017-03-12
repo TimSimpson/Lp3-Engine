@@ -92,6 +92,8 @@ public:
 		return up;
 	}
 
+	/* Returns absolute path to the given file. */
+	std::string path(const gsl::cstring_span<> & file) const;
 private:
     const std::string base_directory;
 };
