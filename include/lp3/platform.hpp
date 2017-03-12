@@ -117,11 +117,19 @@ public:
     int run(std::function<void()> iterate,
             std::function<void(PlatformMessage)> on_message);
 
+	int run(std::function<bool()> iterate,
+		    std::function<void(PlatformMessage)> on_message);
+
+	int run(std::function<void()> iterate,
+		    boost::optional<std::function<void(PlatformMessage)>> on_message
+		        = boost::none);
+
     // Runs the main loop. Accepts two functors, the first of which is called
     // every frame and the second which is called each time the underlying 
     // platform emits an event. The second argument can be omitted if you 
-    // do not wish handle platform events.
-    int run(std::function<void()> iterate,
+    // do not wish handle platform events. The loop stops when the first
+	// argument stops returning true, but only on some platforms.
+    int run(std::function<bool()> iterate,
             boost::optional<std::function<void(PlatformMessage)>> on_message
                 =boost::none);	
 

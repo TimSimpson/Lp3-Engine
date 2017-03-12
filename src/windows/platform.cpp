@@ -5,6 +5,7 @@
 #include <boost/scope_exit.hpp>
 #include <lp3/assert.hpp>
 #include <lp3/log.hpp>
+#include "../platform.ipp"
 
 namespace lp3 { namespace core {
 
@@ -166,13 +167,7 @@ bool PlatformLoop::do_events(
 	return msg.message != WM_QUIT;
 }
 
-int PlatformLoop::run(std::function<void()> iterate,
-                      std::function<void(PlatformMessage)> on_message)
-{
-    return run(iterate, boost::optional<decltype(on_message)>(on_message));
-}
-
-int PlatformLoop::run(std::function<void()> iterate,
+int PlatformLoop::run(std::function<bool()> iterate,
                       boost::optional<std::function<void(PlatformMessage)>>
                           on_message) {
     if (on_message) {
@@ -185,7 +180,8 @@ int PlatformLoop::run(std::function<void()> iterate,
 
     MSG msg;
 
-    while (true) {
+    bool keep_running = true;
+    while (keep_running) {
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
@@ -195,7 +191,7 @@ int PlatformLoop::run(std::function<void()> iterate,
             break;
         }
         else {
-            iterate();
+            keep_running = iterate();
         }
     }
     return (int)msg.wParam;

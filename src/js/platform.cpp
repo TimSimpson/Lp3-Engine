@@ -6,17 +6,18 @@
 #include <lp3/assert.hpp>
 
 #include <lp3/platform.hpp>
+#include "../platform.ipp"
 
 namespace lp3 { namespace core {
 
 namespace {
     static int global_instances = 0;
 
-    static std::function<void()> * global_iterate = nullptr;
+    static std::function<bool()> * global_iterate = nullptr;
 
     void do_loop() {
         if (global_iterate) {
-            (*global_iterate)();
+            (*global_iterate)();  // return value is ignored
         }
     }
 
@@ -42,13 +43,7 @@ PlatformInitArgs PlatformLoop::platform_args() {
     return Platform::create_init_args();
 }
 
-int PlatformLoop::run(std::function<void()> iterate,
-                      std::function<void(PlatformMessage)> on_message)
-{
-    return run(iterate, boost::optional<decltype(on_message)>(on_message));
-}
-
-int PlatformLoop::run(std::function<void()> iterate,
+int PlatformLoop::run(std::function<bool()> iterate,
                       boost::optional<std::function<void(PlatformMessage)>>
                           on_message) {
     BOOST_SCOPE_EXIT(void) {
