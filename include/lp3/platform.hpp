@@ -19,11 +19,11 @@ namespace lp3 { namespace core {
 // class Platform
 // --------------------------------------------------------------------
 //     Contains code to fetch native Windows arguments from type-erased
-//     generic classes PlatformInitArgs and PlatformMessage. Use this 
+//     generic classes PlatformInitArgs and PlatformMessage. Use this
 //     from Windows-aware code.
 // --------------------------------------------------------------------
 struct Platform {
-    // Called from Windows-aware code, this creates the initialization args 
+    // Called from Windows-aware code, this creates the initialization args
     // needed by the main loop.
 	static PlatformInitArgs create_init_args(HINSTANCE hinstance, HWND hwnd) {
 		PlatformInitArgs wrapper;
@@ -50,7 +50,7 @@ struct Platform {
 		HWND hwnd;
 	};
 
-    // Called from Windows-aware code, this returns the native arguments 
+    // Called from Windows-aware code, this returns the native arguments
     // wrapped by the generic PlatformInitArgs.
     static NativeInitArgs get_native_init_args(PlatformInitArgs args) {
         NativeInitArgs result;
@@ -91,8 +91,8 @@ struct Platform {
 class PlatformLoop {
 public:
     PlatformLoop(const char * const programName,
-                 HINSTANCE hInstance, 
-				 int nCmdShow=SW_SHOW);    
+                 HINSTANCE hInstance,
+				 int nCmdShow=SW_SHOW);
 
 	PlatformLoop(const PlatformLoop & pl);
 
@@ -112,7 +112,7 @@ public:
 		boost::optional<std::function<void(PlatformMessage)>> on_message);
 
     // Runs the main loop. Accepts two functors, the first of which is called
-    // every frame and the second which is called each time the underlying 
+    // every frame and the second which is called each time the underlying
     // platform emits an event.
     int run(std::function<void()> iterate,
             std::function<void(PlatformMessage)> on_message);
@@ -125,13 +125,13 @@ public:
 		        = boost::none);
 
     // Runs the main loop. Accepts two functors, the first of which is called
-    // every frame and the second which is called each time the underlying 
-    // platform emits an event. The second argument can be omitted if you 
+    // every frame and the second which is called each time the underlying
+    // platform emits an event. The second argument can be omitted if you
     // do not wish handle platform events. The loop stops when the first
 	// argument stops returning true, but only on some platforms.
     int run(std::function<bool()> iterate,
             boost::optional<std::function<void(PlatformMessage)>> on_message
-                =boost::none);	
+                =boost::none);
 
 private:
 	struct WindowDestroyer {
@@ -169,7 +169,15 @@ public:
 
     int run(std::function<void()> iterate,
         std::function<void(PlatformMessage)> on_message);
+
+    int run(std::function<bool()> iterate,
+            std::function<void(PlatformMessage)> on_message);
+
     int run(std::function<void()> iterate,
+            boost::optional<std::function<void(PlatformMessage)>> on_message
+                = boost::none);
+
+    int run(std::function<bool()> iterate,
             boost::optional<std::function<void(PlatformMessage)>> on_message
                 =boost::none);
 private:
