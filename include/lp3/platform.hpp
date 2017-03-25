@@ -30,8 +30,6 @@ public:
 
     std::vector<std::string> command_line_args() const;
 
-    PlatformInitArgs platform_args();
-
     int run(std::function<bool()> iterate);
 
 private:

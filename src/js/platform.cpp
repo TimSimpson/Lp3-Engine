@@ -38,10 +38,6 @@ std::vector<std::string> PlatformLoop::command_line_args() const {
     return arguments;
 }
 
-PlatformInitArgs PlatformLoop::platform_args() {
-    return Platform::create_init_args();
-}
-
 int PlatformLoop::run(std::function<bool()> iterate) {
     BOOST_SCOPE_EXIT(void) {
         global_iterate = nullptr;

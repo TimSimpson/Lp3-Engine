@@ -1,3 +1,4 @@
+#define LP3_CORE_API_CREATE
 #include <lp3/gl.hpp>
 #include <vector>
 #include <lp3/core/Exception.hpp>

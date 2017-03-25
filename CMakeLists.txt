@@ -17,9 +17,7 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/test_asserts.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Clock.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/coroutine.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/media.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
@@ -55,11 +53,6 @@ install(EXPORT Lp3_Core_Config DESTINATION share/Lp3_Core/cmake)
 export(TARGETS Lp3_Core FILE Lp3_Core_Config.cmake)
 
 
-if (WIN32)
-    target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/windows/Clock.cpp)
-endif()
-
-
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
 else()
@@ -78,10 +71,6 @@ target_link_libraries(MainDemo Lp3_Core)
 add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
 target_link_libraries(media_tests Lp3_Core)
 add_test(media_tests media_tests)
-
-add_executable(CoroutineTests ${CMAKE_CURRENT_SOURCE_DIR}/tests/coroutine_tests.cpp)
-target_link_libraries(CoroutineTests Lp3_Core)
-add_test(CoroutineTests CoroutineTests)
 
 add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
 target_link_libraries(Sdl2Simple Lp3_Core)
