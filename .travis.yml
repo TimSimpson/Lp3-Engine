@@ -20,6 +20,8 @@ addons:
       - libstdc++6
       - libboost-dev
       - ninja-build
+      - freeglut3-dev
+      - libglew-dev
 env: COMPILER=g++-6
 
 
@@ -34,4 +36,5 @@ script:
   - |
     export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:${PATH}
     cmake --version
+    python ci.py deps
     python ci.py ubuntu build-all

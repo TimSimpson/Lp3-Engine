@@ -11,6 +11,8 @@ build_script:
   - cmd: >-
       SET PATH=%PATH%;%PYTHON%\Scripts\
 
-      python ci.py windows clean
+      python ci.py clean
+
+      python ci.py deps
 
       python ci.py windows build-all

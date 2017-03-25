@@ -3,6 +3,7 @@ import os
 import shutil
 import subprocess
 import sys
+import zipfile
 
 import frontdoor
 
@@ -33,6 +34,59 @@ def clean(args):
     mkdir(BUILD_DIR)
     shutil.rmtree(BUILD_DIR)
     print(' * spotless! *')
+
+
+@cmd('deps', 'Downloads needed libraries to build standalone')
+def deps(args):
+    mkdir(BUILD_DIR)
+
+    deps = os.path.join(BUILD_DIR, 'deps')
+    mkdir(deps)
+
+    # Assumes curl will be present since it comes with Git
+    glew_url = 'https://9988350550b21bab76e1-e4f58d473b8b67b7df073d18b2ddc43c.ssl.cf1.rackcdn.com/glew-win-cmake.zip'
+    sdl2_url = 'https://9988350550b21bab76e1-e4f58d473b8b67b7df073d18b2ddc43c.ssl.cf1.rackcdn.com/sdl2-win-cmake.zip'
+
+    subprocess.check_call(['curl', '-o', 'glew.zip', glew_url], cwd=BUILD_DIR)
+    subprocess.check_call(['curl', '-o', 'sdl2.zip', sdl2_url], cwd=BUILD_DIR)
+
+    for name, url in [('glew', glew_url), ('sdl2', sdl2_url)]:
+        zip_name = '{}.zip'.format(name)
+        print('Downloading {}...'.format(zip_name))
+        subprocess.check_call(['curl', '-o', zip_name, url], cwd=BUILD_DIR)
+
+        try:
+            ZipFile = zipfile.Zipfile  # py2
+        except AttributeError:
+            ZipFile = zipfile.ZipFile  # py3
+
+        z = ZipFile(os.path.join(BUILD_DIR, zip_name))
+        z.extractall(os.path.join(deps, name))
+
+    print('Downloading SDL2 Cmake Script from TwinklebearDev')
+    cmake_scripts = os.path.join(deps, 'cmake')
+    mkdir(cmake_scripts)
+    find_sdl_url = 'https://raw.githubusercontent.com/Twinklebear/TwinklebearDev-Lessons/master/cmake/FindSDL2.cmake'
+    subprocess.check_call(['curl', '-o', 'FindSDL2.cmake', find_sdl_url],
+                          cwd=cmake_scripts,
+                          shell=True)
+
+
+    print('Checking out GSL...')
+    gsl_dir = os.path.join(deps, 'gsl')
+    mkdir(gsl_dir)
+    subprocess.check_call([
+        'git', 'clone',
+        'https://github.com/Microsoft/GSL.git',
+        gsl_dir
+    ])
+    subprocess.check_call([
+        'git', 'checkout',
+        '3819df6e378ffccf0e29465afe99c3b324c2aa70'
+    ], shell=True, cwd=gsl_dir)
+
+    print('Won\'t checkout Boost.')
+    assert os.environ['BOOST_ROOT']
 
 
 @cmd('ubuntu', 'Build on Ubuntu')

@@ -6,7 +6,6 @@
 #include <lp3/assert.hpp>
 
 #include <lp3/platform.hpp>
-#include "../platform.ipp"
 
 namespace lp3 { namespace core {
 
@@ -43,9 +42,7 @@ PlatformInitArgs PlatformLoop::platform_args() {
     return Platform::create_init_args();
 }
 
-int PlatformLoop::run(std::function<bool()> iterate,
-                      boost::optional<std::function<void(PlatformMessage)>>
-                          on_message) {
+int PlatformLoop::run(std::function<bool()> iterate) {
     BOOST_SCOPE_EXIT(void) {
         global_iterate = nullptr;
     } BOOST_SCOPE_EXIT_END

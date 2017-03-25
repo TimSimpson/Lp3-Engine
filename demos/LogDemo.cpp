@@ -23,6 +23,4 @@ int main()
 
     LP3_LOG_SET("Squirrel", "CRAZY");
     LP3_LOG_SET("The Answer", "42");
-
-    lp3::core::prompt_to_continue_on_dreamcast();
 }

@@ -39,10 +39,11 @@ include(ExternalProject)
 ###############################################################################
 
 # If you are using this as a subproject, your super project CMakeLists.txt
-# must define `boost` and `gsl` as interface import libraries as seen
-# here.
+# must define the following interface import libraries as seen here.
 
 ### Boost
+
+set(DEPS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../build/deps")
 
 find_package(Boost REQUIRED)
 add_library(boost INTERFACE IMPORTED)
@@ -51,29 +52,58 @@ set_property(TARGET boost PROPERTY
 
 ### Microsoft Guidelines Support Library
 
-option(GSL_CHECKED_OUT OFF)  # work around for NTFS bug when using Git on Unix
-
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
-if (NOT GSL_CHECKED_OUT)
-    ExternalProject_Add(
-        GslProject
-        GIT_REPOSITORY "https://github.com/Microsoft/GSL.git"
-        GIT_TAG "3819df6e378ffccf0e29465afe99c3b324c2aa70"
-        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl"
-        BUILD_COMMAND ""
-        INSTALL_COMMAND ""
-        INSTALL_DIR ${PROJECT_BINARY_DIR}
-    )
-endif()
 add_library(gsl INTERFACE IMPORTED)
-if (NOT GSL_CHECKED_OUT)
-    add_dependencies(gsl GslProject)
-endif()
 set_property(TARGET gsl PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
-    "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
-# target_include_directories(gsl
-#     INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/../build/lib/gsl/include")
+    "${DEPS_PATH}/gsl/include")
+
+### SDL2
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPS_PATH}/cmake")
+
+set(SDL2 "${DEPS_PATH}/sdl2")
+find_package(SDL2 REQUIRED)
+if (NOT "${SDL2_FOUND}")
+    message(FATAL_ERROR "Could not find SDL libraries.")
+endif()
+add_library(sdl2 INTERFACE IMPORTED)
+set_property(TARGET sdl2 PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES
+    "${SDL2_INCLUDE_DIR}")
+set_property(TARGET sdl2 PROPERTY
+    INTERFACE_LINK_LIBRARIES
+    "${SDL2_LIBRARY}")
+
+### OpenGL
+
+find_package(OpenGL REQUIRED)
+add_library(opengl INTERFACE IMPORTED)
+# Note: should this be ${OPENGL_INCLUDE_DIRS} instead?
+set_property(TARGET opengl PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES "${OpenGL_INCLUDE_DIR}" "${GLEW_INCLUDE_DIR}")
+if(WIN32)
+    set_property(TARGET opengl PROPERTY
+        INTERFACE_LINK_LIBRARIES "Gdi32" "Opengl32")
+else()
+    set_property(TARGET opengl PROPERTY
+        INTERFACE_LINK_LIBRARIES "GLESv2")
+endif()
+
+### Glew
+
+add_library(glew32 STATIC IMPORTED)
+set_property(TARGET glew32 PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES "${DEPS_PATH}/glew/include")
+set_property(TARGET glew32 PROPERTY
+    IMPORTED_LOCATION "${DEPS_PATH}/glew/lib/glew32.lib")
+if(WIN32)
+    set_property(TARGET glew32 PROPERTY
+        INTERFACE_LINK_LIBRARIES "glew32")
+else()
+    set_property(TARGET glew32 PROPERTY
+        INTERFACE_LINK_LIBRARIES "GLEW")
+endif()
+
 
 ###############################################################################
 #  Subproject

@@ -15,8 +15,8 @@ struct Platform;
 //     Contains platform specific arguments passed to main which are
 //     type-erased.
 // 	   The main goal is to allow the vast majority of code to avoid the
-//     dastardly windows.h (or similar native headers). Platform 
-//     specific code can use platform.hpp to unwrap the native 
+//     dastardly windows.h (or similar native headers). Platform
+//     specific code can use platform.hpp to unwrap the native
 //     arguments it needs.
 // --------------------------------------------------------------------
 LP3_CORE_API
@@ -33,8 +33,8 @@ protected:
 //     Contains platform specific arguments passed to the event handler
 //     function which are type-erased.
 // 	   The main goal is to allow the vast majority of code to avoid the
-//     dastardly windows.h (or similar native headers). Platform 
-//     specific code can use platform.hpp to unwrap the native 
+//     dastardly windows.h (or similar native headers). Platform
+//     specific code can use platform.hpp to unwrap the native
 //     arguments it needs.
 // --------------------------------------------------------------------
 LP3_CORE_API
@@ -47,13 +47,11 @@ protected:
 	boost::any l_param;
 };
 
-// On the Dreamcast it's nice to prompt before exitting.
-LP3_CORE_API void prompt_to_continue_on_dreamcast();
 
 // --------------------------------------------------------------------
 // class WCharToCharConverter
 // --------------------------------------------------------------------
-//     Converts wchar_t to simple const char *. Owns the converted 
+//     Converts wchar_t to simple const char *. Owns the converted
 //     char buffer.
 // --------------------------------------------------------------------
 class

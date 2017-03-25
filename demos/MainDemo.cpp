@@ -22,10 +22,7 @@ int _main(core::PlatformLoop & loop) {
 
     const auto result = loop.run([&]() {
         // This gets called each frame.
-    },
-    [&](core::PlatformMessage) {
-        // This is an optional second argument that is called for specific
-        // events from the underlying platform (such as resizing Windows).
+		return false;
     });
 
     LP3_LOG_DEBUG("Good bye.");
