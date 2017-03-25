@@ -252,10 +252,10 @@ def windows(args):
 
     @c('build-all')
     def build_all(args):
+        # It's not worth it to me to get 32 bit versions of SDL and Glew
+        # onto Travis, so just ignore these for now.
         return (
-            build(['--bits=32', '--type=debug'])
-            or build(['--bits=32', '--type=release'])
-            or build(['--bits=64', '--type=debug'])
+            build(['--bits=64', '--type=debug'])
             or build(['--bits=64', '--type=release'])
         )
 
