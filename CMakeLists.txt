@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
@@ -19,6 +20,7 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/media.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/exception.cpp
@@ -60,6 +62,10 @@ target_link_libraries(LogDemo Lp3_Core)
 
 add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
 target_link_libraries(MainDemo Lp3_Core)
+
+add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
+target_link_libraries(assert_tests Lp3_Core catch)
+add_test(assert_tests assert_tests)
 
 add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
 target_link_libraries(media_tests Lp3_Core catch)

@@ -1,4 +1,3 @@
-#define LP3_TEST_MODULE media_tests
 #include <gsl/gsl>
 #include <lp3/core.hpp>
 #include <string>
