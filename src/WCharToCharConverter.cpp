@@ -1,9 +1,9 @@
 #define LP3_CORE_API_CREATE
 #include <lp3/core/utils.hpp>
 
-#include <lp3/assert.hpp>
 #include <cstdlib>
 #include <wchar.h>
+#include <SDL.h>
 
 namespace lp3 { namespace core {
 
@@ -25,9 +25,8 @@ WCharToCharConverter::WCharToCharConverter(wchar_t const *  original)
         std::size_t convertedCount =
         #endif
             wcstombs(converted, original, maxBytes);
-        //wctomb_s(&convertedCount, converted, exePathW.size(), buffer);
-        LP3_ASSERT_TRUE_MESSAGE(convertedCount == (maxBytes - 1),
-            "Could not convert wide character string to classic char string.");
+        // Could not convert wide character string to classic char string.
+        SDL_assert(convertedCount == (maxBytes - 1));
     #ifndef LP3_COMPILE_TARGET_DREAMCAST
     }
     catch(...)

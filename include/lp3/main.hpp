@@ -5,13 +5,14 @@
 
 #include <lp3/le.hpp>
 #include "platform.hpp"
+#define SDL_MAIN_HANDLED
 #include <SDL.h>
 
 
-//#pragma comment(lib, "SDL2main.lib")
+// #pragma comment(lib, "SDL2main.lib")
 
-#define LP3_MAIN(main_function, window_title) \
-    int main(int argc, char* argv[]) { \
+#define LP3_MAIN(main_function) \
+    int SDL_main(int argc, char* argv[]) { \
         lp3::core::PlatformLoop loop(argc, argv); \
         return main_function(loop); \
     }

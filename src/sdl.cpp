@@ -11,4 +11,26 @@ SDL2::~SDL2() {
     SDL_Quit();
 }
 
+
+SdlAssertCalled::SdlAssertCalled()
+: Exception("SDL_Assert triggered")
+{
+}
+
+
+SdlAssertToExceptionConverter::SdlAssertToExceptionConverter()
+: old_handler(SDL_GetAssertionHandler(nullptr))
+{
+    auto throw_except = [](const SDL_AssertData * data,
+        void * userdata) -> SDL_AssertState {
+        throw SdlAssertCalled();
+    };
+    SDL_SetAssertionHandler(throw_except, nullptr);
+}
+
+SdlAssertToExceptionConverter::~SdlAssertToExceptionConverter() {
+    SDL_SetAssertionHandler(old_handler, nullptr);
+    SDL_ResetAssertionReport();
+}
+
 }	}

@@ -104,6 +104,12 @@ else()
         INTERFACE_LINK_LIBRARIES "GLEW")
 endif()
 
+### Catch
+
+add_library(catch INTERFACE IMPORTED)
+set_property(TARGET catch PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES
+    "${DEPS_PATH}/Catch/single_include")
 
 ###############################################################################
 #  Subproject

@@ -34,10 +34,10 @@ int _main(core::PlatformLoop & loop) {
     if (SDL_GL_MakeCurrent(window, gl_context) < 0) {
         LP3_LOG_ERROR("Error creating GL %s", SDL_GetError());
     }
-    LP3_ASSERT_TRUE(GLEW_OK == glewInit());
+    SDL_assert(GLEW_OK == glewInit());
 
 
-    // Create and compile the vertex shader
+    // Createq and compile the vertex shader
     const GLchar* vertex_shader_source =
         "attribute vec4 vPosition;    \n"
         "void main()                  \n"
@@ -99,4 +99,4 @@ int _main(core::PlatformLoop & loop) {
     return 0;
 }
 
-LP3_MAIN(_main, "Sdl2WithGlew")
+LP3_MAIN(_main)

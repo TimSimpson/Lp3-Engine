@@ -7,14 +7,11 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/platform.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sdl.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/test.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/test_asserts.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
@@ -29,7 +26,6 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sdl.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/test_asserts.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp)
 
@@ -59,9 +55,6 @@ else()
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
 endif()
 
-add_executable(AssertDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/AssertDemo.cpp)
-target_link_libraries(AssertDemo Lp3_Core)
-
 add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
 target_link_libraries(LogDemo Lp3_Core)
 
@@ -69,7 +62,7 @@ add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
 target_link_libraries(MainDemo Lp3_Core)
 
 add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-target_link_libraries(media_tests Lp3_Core)
+target_link_libraries(media_tests Lp3_Core catch)
 add_test(media_tests media_tests)
 
 add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)

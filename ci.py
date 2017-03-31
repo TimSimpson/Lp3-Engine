@@ -85,6 +85,18 @@ def deps(args):
         '3819df6e378ffccf0e29465afe99c3b324c2aa70'
     ], shell=True, cwd=gsl_dir)
 
+    print('Checking out Catch...')
+    catch_dir = os.path.join(deps, 'Catch')
+    mkdir(catch_dir)
+    subprocess.check_call([
+        'git', 'clone',
+        'https://github.com/philsquared/Catch.git',
+        catch_dir
+    ])
+    subprocess.check_call([
+        'git', 'checkout', 'v1.8.2'
+    ], shell=True, cwd=catch_dir)
+
     print('Won\'t checkout Boost.')
     assert os.environ['BOOST_ROOT']
 

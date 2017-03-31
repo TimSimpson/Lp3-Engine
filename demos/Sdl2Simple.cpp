@@ -57,4 +57,4 @@ int _main(core::PlatformLoop & loop) {
     return 0;
 }
 
-LP3_MAIN(_main, "Sdl2WithGlew")
+LP3_MAIN(_main)

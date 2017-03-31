@@ -1,4 +1,3 @@
-#include <lp3/assert.hpp>
 #include <lp3/platform.hpp>
 
 namespace lp3 { namespace core {

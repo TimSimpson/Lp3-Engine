@@ -3,8 +3,7 @@
 #include <emscripten.h>
 
 #include <boost/scope_exit.hpp>
-#include <lp3/assert.hpp>
-
+#include <SDL.h>
 #include <lp3/platform.hpp>
 
 namespace lp3 { namespace core {
@@ -25,7 +24,7 @@ namespace {
 PlatformLoop::PlatformLoop(int argc, char ** argv)
 :   arguments()
 {
-    LP3_ASSERT_TRUE(global_instances < 1);
+    SDL_assert(global_instances < 1);
     ++global_instances;
 
     for (int i = 0; i < argc; i++) {

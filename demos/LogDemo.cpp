@@ -1,8 +1,8 @@
+#define SDL_MAIN_HANDLED
 #include <lp3/log.hpp>
 #include <lp3/core.hpp>
 
-int main()
-{
+int main() {
     lp3::core::LogSystem log;
 
     LP3_LOG_DEBUG("Hello Squirrel!");

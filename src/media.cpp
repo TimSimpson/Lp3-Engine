@@ -9,12 +9,11 @@
 #endif
 
 #include <memory>
-#include <lp3/assert.hpp>
 #include <lp3/log.hpp>
 #include <lp3/core/Exception.hpp>
 #include <boost/format.hpp>
 #include <fstream>
-
+#include <SDL.h>
 
 namespace core = lp3::core;
 
@@ -45,15 +44,15 @@ namespace {
 
         virtual std::size_t read(gsl::span<char> buffer) {
             file.read(buffer.data(), buffer.length());
-            LP3_ASSERT_FALSE_MESSAGE(file.bad(),
-                "Bad bit set! Stream integrity compromised.");
+            // Bad bit set! Stream integrity compromised.
+            SDL_assert(!file.bad());
             _eof = file.eof();
 
             // Check for overflow on 32 bit machines
-            LP3_ASSERT_EQUAL(
+            SDL_assert(
                 static_cast<std::streamsize>(
-                    static_cast<std::size_t>(file.gcount())),
-                file.gcount());
+                    static_cast<std::size_t>(file.gcount()))
+                == file.gcount());
 
             return static_cast<std::size_t>(file.gcount());
         }
@@ -73,8 +72,8 @@ namespace {
         static bool seek(std::ifstream & file,
 				         const std::size_t position,
 				         const T seekdir) {
-            LP3_ASSERT_FALSE_MESSAGE(file.bad(), "Can't reset, file is bad!");
-            LP3_ASSERT_TRUE_MESSAGE(file.is_open(), "Can't reset, file not open!");
+            SDL_assert(!file.bad()); // Can't reset, file is bad!
+            SDL_assert(file.is_open()); // Can't reset, file not open!
             file.clear(); // Clear eof flags.
             file.seekg(position, seekdir);
             return file.eof();
@@ -87,13 +86,12 @@ namespace {
 		char * env_var_value;
 		std::size_t length;
 		auto result = _dupenv_s(&env_var_value, &length, "LP3_ROOT_PATH");
-		LP3_ASSERT_TRUE_MESSAGE(0 == result, "Error calling _dupenv_s");
+		SDL_assert(0 == result); // Error calling _dupenv_s
 		std::unique_ptr<char> delete_env_var(env_var_value);
 #else
 		const char * const env_var_value = getenv("LP3_ROOT_PATH");
 #endif
-		LP3_ASSERT_FALSE_MESSAGE(nullptr == env_var_value,
-			                     "Couldn't get LP3_ROOT_PATH!");
+		SDL_assert(nullptr != env_var_value); // Couldn't get LP3_ROOT_PATH!
 		return std::string{ env_var_value };
     }
 #endif

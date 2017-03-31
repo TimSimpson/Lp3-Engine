@@ -1,6 +1,8 @@
 #ifndef FILE_LP3_SDL_HPP
 #define FILE_LP3_SDL_HPP
 
+// Disable SDL's
+#define SDL_MAIN_HANDLED
 #include "core/config.hpp"
 #include "core/Exception.hpp"
 #include "log.hpp"
@@ -59,6 +61,29 @@ using Renderer = SdlAutoDeletedResource<SDL_Renderer *, SDL_DestroyRenderer>;
 using Surface = SdlAutoDeletedResource<SDL_Surface *, SDL_FreeSurface>;
 using Texture = SdlAutoDeletedResource<SDL_Texture *, SDL_DestroyTexture>;
 using GLContext = SdlAutoDeletedResource<SDL_GLContext, SDL_GL_DeleteContext>;
+
+
+// Use these two classes to make the SDL_assert calls throw exceptions
+// instead to test that code properly triggers them.
+// NOTE: Currently this breaks the default behavior of SDL_assert afterwards
+//       (asserts causes failures but it won't trigger a breakpoint) even
+//       though it looks correct according to the docs, so only use it in tests.
+LP3_CORE_API
+class SdlAssertCalled : public lp3::core::Exception {
+public:
+	SdlAssertCalled();
+};
+
+LP3_CORE_API
+class SdlAssertToExceptionConverter {
+public:
+	SdlAssertToExceptionConverter();
+
+	~SdlAssertToExceptionConverter();
+
+private:
+    SDL_AssertionHandler old_handler;
+};
 
 } }
 
