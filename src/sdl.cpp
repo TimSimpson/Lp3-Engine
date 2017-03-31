@@ -21,8 +21,7 @@ SdlAssertCalled::SdlAssertCalled()
 SdlAssertToExceptionConverter::SdlAssertToExceptionConverter()
 : old_handler(SDL_GetAssertionHandler(nullptr))
 {
-    auto throw_except = [](const SDL_AssertData * data,
-        void * userdata) -> SDL_AssertState {
+    auto throw_except = [](const SDL_AssertData *, void *) -> SDL_AssertState {
         throw SdlAssertCalled();
     };
     SDL_SetAssertionHandler(throw_except, nullptr);

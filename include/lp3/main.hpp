@@ -12,7 +12,7 @@
 // #pragma comment(lib, "SDL2main.lib")
 
 #define LP3_MAIN(main_function) \
-    int SDL_main(int argc, char* argv[]) { \
+    int main(int argc, char* argv[]) { \
         lp3::core::PlatformLoop loop(argc, argv); \
         return main_function(loop); \
     }

@@ -3,6 +3,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 import zipfile
 
 import frontdoor
@@ -27,6 +28,17 @@ def mkdir(path):
 
 BUILD_DIR = from_root('build')
 SRC_DIR = from_root('standalone')
+
+
+def github_check_call(*args, **kwargs):
+    # Github can fail requests due to rate limiting.
+    for attempts in range(10):
+        try:
+            return subprocess.check_call(*args, **kwargs)
+        except:
+            print('Github call failed, retrying...')
+            time.sleep(1)
+    raise RuntimeError('Failed to call GitHub!')
 
 
 @cmd('clean', 'Wipes out build directory.')
@@ -67,15 +79,14 @@ def deps(args):
     cmake_scripts = os.path.join(deps, 'cmake')
     mkdir(cmake_scripts)
     find_sdl_url = 'https://raw.githubusercontent.com/Twinklebear/TwinklebearDev-Lessons/master/cmake/FindSDL2.cmake'
-    subprocess.check_call(['curl', '-o', 'FindSDL2.cmake', find_sdl_url],
-                          cwd=cmake_scripts,
-                          shell=True)
-
+    github_check_call(['curl', '-o', 'FindSDL2.cmake', find_sdl_url],
+                      cwd=cmake_scripts,
+                      shell=True)
 
     print('Checking out GSL...')
     gsl_dir = os.path.join(deps, 'gsl')
     mkdir(gsl_dir)
-    subprocess.check_call([
+    github_check_call([
         'git', 'clone',
         'https://github.com/Microsoft/GSL.git',
         gsl_dir
@@ -88,7 +99,7 @@ def deps(args):
     print('Checking out Catch...')
     catch_dir = os.path.join(deps, 'Catch')
     mkdir(catch_dir)
-    subprocess.check_call([
+    github_check_call([
         'git', 'clone',
         'https://github.com/philsquared/Catch.git',
         catch_dir
@@ -272,6 +283,12 @@ def windows(args):
         )
 
     return registry.dispatch(args)
+
+
+@cmd('travis', 'Run Travis CI tasks')
+def travis(args):
+    deps([])
+    ubuntu(['build-all'])
 
 
 if __name__ == "__main__":
