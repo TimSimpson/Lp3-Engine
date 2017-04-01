@@ -80,8 +80,7 @@ def deps(args):
     mkdir(cmake_scripts)
     find_sdl_url = 'https://raw.githubusercontent.com/Twinklebear/TwinklebearDev-Lessons/master/cmake/FindSDL2.cmake'
     github_check_call(['curl', '-o', 'FindSDL2.cmake', find_sdl_url],
-                      cwd=cmake_scripts,
-                      shell=True)
+                      cwd=cmake_scripts)
 
     print('Checking out GSL...')
     gsl_dir = os.path.join(deps, 'gsl')
@@ -94,7 +93,7 @@ def deps(args):
     subprocess.check_call([
         'git', 'checkout',
         '3819df6e378ffccf0e29465afe99c3b324c2aa70'
-    ], shell=True, cwd=gsl_dir)
+    ], cwd=gsl_dir)
 
     print('Checking out Catch...')
     catch_dir = os.path.join(deps, 'Catch')
@@ -106,10 +105,9 @@ def deps(args):
     ])
     subprocess.check_call([
         'git', 'checkout', 'v1.8.2'
-    ], shell=True, cwd=catch_dir)
+    ], cwd=catch_dir)
 
     print('Won\'t checkout Boost.')
-    assert os.environ['BOOST_ROOT']
 
 
 @cmd('ubuntu', 'Build on Ubuntu')
@@ -287,8 +285,10 @@ def windows(args):
 
 @cmd('travis', 'Run Travis CI tasks')
 def travis(args):
-    deps([])
-    ubuntu(['build-all'])
+    return (
+        deps([])
+        or ubuntu(['build-all'])
+    )
 
 
 if __name__ == "__main__":

@@ -38,7 +38,7 @@ target_include_directories(Lp3_Core
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core boost gsl sdl2 opengl glew32)
+target_link_libraries(Lp3_Core boost gsl sdl2 opengl glew)
 
 install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
     ARCHIVE  DESTINATION lib

@@ -91,16 +91,21 @@ endif()
 
 ### Glew
 
-add_library(glew32 STATIC IMPORTED)
-set_property(TARGET glew32 PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES "${DEPS_PATH}/glew/include")
-set_property(TARGET glew32 PROPERTY
-    IMPORTED_LOCATION "${DEPS_PATH}/glew/lib/glew32.lib")
+add_library(glew INTERFACE IMPORTED)
+
 if(WIN32)
+    add_library(glew32 STATIC IMPORTED)
+    set_property(TARGET glew32 PROPERTY
+        INTERFACE_INCLUDE_DIRECTORIES "${DEPS_PATH}/glew/include")
+    set_property(TARGET glew32 PROPERTY
+                 IMPORTED_LOCATION "${DEPS_PATH}/glew/lib/glew32.lib")
     set_property(TARGET glew32 PROPERTY
         INTERFACE_LINK_LIBRARIES "glew32")
+
+    set_property(TARGET glew PROPERTY
+        INTERFACE_LINK_LIBRARIES glew32)
 else()
-    set_property(TARGET glew32 PROPERTY
+    set_property(TARGET glew PROPERTY
         INTERFACE_LINK_LIBRARIES "GLEW")
 endif()
 

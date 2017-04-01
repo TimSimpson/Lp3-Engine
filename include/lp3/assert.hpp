@@ -37,16 +37,32 @@ public:
 
 }   }
 
+// LP3_ASSERT - very close to SDL_assert which it mostly defers to, but
+//              whether asserts are thrown can be inspected for testing
+//              (debug mode only).
+// LP3_REQUIRE_ASSERT_FAILURE - Proves that some bit of code will trigger an
+//                              assertion at runtime. Only works in debug mode,
+//                              is a no-op otherwise.
+
 #ifdef LP3_COMPILE_WITH_DEBUGGING
     #define LP3_ASSERT(condition)   \
-        if (!condition) { \
+        if (!(condition)) { \
             lp3::core::AssertListener::throw_assert_failed(); \
         } \
         SDL_assert(condition)
+
+    #define LP3_REQUIRE_ASSERT_FAILURE(code) \
+        {   \
+            ::lp3::core::AssertListener listener; \
+            REQUIRE_THROWS_AS(code, ::lp3::core::AssertFailed); \
+        }
 #else
     #define LP3_ASSERT(condition)   \
         SDL_assert(condition)
+    #define LP3_REQUIRE_ASSERT_FAILURE(code) \
+        while (SDL_NULL_WHILE_LOOP_CONDITION) { code; }
 #endif
+
 
 
 #endif
