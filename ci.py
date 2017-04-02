@@ -250,8 +250,11 @@ def windows(args):
 
         bit_str = {64: ' Win64', 32: ''}[ap_args.bits]
 
+        # The following environment variables are needed by the tests.
         new_env = os.environ.copy()
+        new_env['PATH'] += ';{}'.format(from_root('build/deps/sdl2/lib'))
         new_env['LP3_ROOT_PATH'] = os.path.join(SRC_DIR, 'media')
+
 
         return (
             subprocess.call(
