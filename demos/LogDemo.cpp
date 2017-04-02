@@ -1,8 +1,8 @@
+#define SDL_MAIN_HANDLED
 #include <lp3/log.hpp>
 #include <lp3/core.hpp>
 
-int main()
-{
+int main() {
     lp3::core::LogSystem log;
 
     LP3_LOG_DEBUG("Hello Squirrel!");
@@ -23,6 +23,4 @@ int main()
 
     LP3_LOG_SET("Squirrel", "CRAZY");
     LP3_LOG_SET("The Answer", "42");
-
-    lp3::core::prompt_to_continue_on_dreamcast();
 }

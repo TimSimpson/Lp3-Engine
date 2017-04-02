@@ -10,7 +10,8 @@
     #pragma warning(pop)
 #endif
 #include <boost/optional.hpp>
-#include "../assert.hpp"
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
 
 namespace lp3 { namespace core {
 
@@ -55,8 +56,7 @@ public:
         #endif
             read(buffer);
         #ifdef LP3_COMPILE_WITH_DEBUGGING
-        LP3_ASSERT_TRUE_MESSAGE(sizeof(T) == bytes_read,
-                                "Unable to read all bytes for struct!");
+        SDL_assert(sizeof(T) == bytes_read);
         #endif
     }
 

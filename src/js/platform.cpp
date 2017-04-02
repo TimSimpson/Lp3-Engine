@@ -3,10 +3,8 @@
 #include <emscripten.h>
 
 #include <boost/scope_exit.hpp>
-#include <lp3/assert.hpp>
-
+#include <SDL.h>
 #include <lp3/platform.hpp>
-#include "../platform.ipp"
 
 namespace lp3 { namespace core {
 
@@ -26,7 +24,7 @@ namespace {
 PlatformLoop::PlatformLoop(int argc, char ** argv)
 :   arguments()
 {
-    LP3_ASSERT_TRUE(global_instances < 1);
+    SDL_assert(global_instances < 1);
     ++global_instances;
 
     for (int i = 0; i < argc; i++) {
@@ -39,13 +37,7 @@ std::vector<std::string> PlatformLoop::command_line_args() const {
     return arguments;
 }
 
-PlatformInitArgs PlatformLoop::platform_args() {
-    return Platform::create_init_args();
-}
-
-int PlatformLoop::run(std::function<bool()> iterate,
-                      boost::optional<std::function<void(PlatformMessage)>>
-                          on_message) {
+int PlatformLoop::run(std::function<bool()> iterate) {
     BOOST_SCOPE_EXIT(void) {
         global_iterate = nullptr;
     } BOOST_SCOPE_EXIT_END
