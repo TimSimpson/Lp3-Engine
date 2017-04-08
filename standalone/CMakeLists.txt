@@ -41,21 +41,23 @@ include(ExternalProject)
 # If you are using this as a subproject, your super project CMakeLists.txt
 # must define the following interface import libraries as seen here.
 
-### Boost
-
 set(DEPS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../build/deps")
+
+### Guidelines Support Library
+
+add_library(gsl INTERFACE IMPORTED)
+set_property(TARGET gsl PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES
+    "${DEPS_PATH}/gsl/include")
+
+
+### Boost
 
 find_package(Boost REQUIRED)
 add_library(boost INTERFACE IMPORTED)
 set_property(TARGET boost PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}")
 
-### Microsoft Guidelines Support Library
-
-add_library(gsl INTERFACE IMPORTED)
-set_property(TARGET gsl PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES
-    "${DEPS_PATH}/gsl/include")
 
 ### SDL2
 
@@ -74,6 +76,7 @@ set_property(TARGET sdl2 PROPERTY
     INTERFACE_LINK_LIBRARIES
     "${SDL2_LIBRARY}")
 
+
 ### OpenGL
 
 find_package(OpenGL REQUIRED)
@@ -88,6 +91,7 @@ else()
     set_property(TARGET opengl PROPERTY
         INTERFACE_LINK_LIBRARIES "GLESv2")
 endif()
+
 
 ### Glew
 
@@ -108,6 +112,8 @@ else()
     set_property(TARGET glew PROPERTY
         INTERFACE_LINK_LIBRARIES "GLEW")
 endif()
+
+
 
 ### Catch
 
