@@ -33,7 +33,7 @@ public:
 
     Exception  & operator=(Exception const  & other);
 
-    virtual char const *  what() const BOOST_NOEXCEPT;
+    char const *  what() const BOOST_NOEXCEPT override;
 
 private:
     std::string message;
