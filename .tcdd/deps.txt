@@ -2,8 +2,6 @@
 gsl
 boost
 sdl2
-opengl
-glew
 catch
 
 [files]

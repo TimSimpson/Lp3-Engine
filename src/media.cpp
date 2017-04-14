@@ -36,13 +36,13 @@ namespace {
             }
         }
 
-		virtual ~InputFileStream() = default;
+		~InputFileStream() override = default;
 
-        virtual bool eof() const {
+        bool eof() const override {
             return _eof;
         }
 
-        virtual std::size_t read(gsl::span<char> buffer) {
+        std::size_t read(gsl::span<char> buffer) override {
             file.read(buffer.data(), buffer.length());
             // Bad bit set! Stream integrity compromised.
             SDL_assert(!file.bad());
@@ -57,11 +57,11 @@ namespace {
             return static_cast<std::size_t>(file.gcount());
         }
 
-        virtual void reset(std::size_t position=0) {
+        void reset(std::size_t position=0) override {
             this->_eof = seek(file, position, std::ios::beg);
         }
 
-        virtual void skip(std::size_t bytes) {
+        void skip(std::size_t bytes) override {
             this->_eof = seek(file, bytes, std::ios::cur);
         }
     private:

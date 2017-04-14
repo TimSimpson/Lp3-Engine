@@ -77,44 +77,6 @@ set_property(TARGET sdl2 PROPERTY
     "${SDL2_LIBRARY}")
 
 
-### OpenGL
-
-find_package(OpenGL REQUIRED)
-add_library(opengl INTERFACE IMPORTED)
-# Note: should this be ${OPENGL_INCLUDE_DIRS} instead?
-set_property(TARGET opengl PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES "${OpenGL_INCLUDE_DIR}" "${GLEW_INCLUDE_DIR}")
-if(WIN32)
-    set_property(TARGET opengl PROPERTY
-        INTERFACE_LINK_LIBRARIES "Gdi32" "Opengl32")
-else()
-    set_property(TARGET opengl PROPERTY
-        INTERFACE_LINK_LIBRARIES "GLESv2")
-endif()
-
-
-### Glew
-
-add_library(glew INTERFACE IMPORTED)
-
-if(WIN32)
-    add_library(glew32 STATIC IMPORTED)
-    set_property(TARGET glew32 PROPERTY
-        INTERFACE_INCLUDE_DIRECTORIES "${DEPS_PATH}/glew/include")
-    set_property(TARGET glew32 PROPERTY
-                 IMPORTED_LOCATION "${DEPS_PATH}/glew/lib/glew32.lib")
-    set_property(TARGET glew32 PROPERTY
-        INTERFACE_LINK_LIBRARIES "glew32")
-
-    set_property(TARGET glew PROPERTY
-        INTERFACE_LINK_LIBRARIES glew32)
-else()
-    set_property(TARGET glew PROPERTY
-        INTERFACE_LINK_LIBRARIES "GLEW")
-endif()
-
-
-
 ### Catch
 
 add_library(catch INTERFACE IMPORTED)

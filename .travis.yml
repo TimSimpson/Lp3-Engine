@@ -21,8 +21,6 @@ addons:
       - libboost-dev
       - ninja-build
       - libsdl2-dev
-      - freeglut3-dev
-      - libglew-dev
 env: COMPILER=g++-6
 
 
