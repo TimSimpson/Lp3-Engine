@@ -8,7 +8,6 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/platform.hpp
@@ -24,7 +23,6 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/exception.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/gl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sdl.cpp
@@ -38,7 +36,7 @@ target_include_directories(Lp3_Core
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core boost gsl sdl2 opengl glew)
+target_link_libraries(Lp3_Core boost gsl sdl2)
 
 install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
     ARCHIVE  DESTINATION lib
@@ -76,6 +74,3 @@ target_link_libraries(Sdl2Simple Lp3_Core)
 
 add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
 target_link_libraries(MultipleWindows Lp3_Core)
-
-add_executable(Sdl2WithGlew ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2WithGlew.cpp)
-target_link_libraries(Sdl2WithGlew Lp3_Core)
