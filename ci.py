@@ -102,27 +102,6 @@ def deps(args):
                       cwd=cmake_scripts)
     
     
-    
-    
-    if not platform or platform == 'windows':
-        glew_url = 'https://9988350550b21bab76e1-e4f58d473b8b67b7df073d18b2ddc43c.ssl.cf1.rackcdn.com/glew-win-cmake.zip'
-        subprocess.check_call(['curl', '-o', 'glew.zip', glew_url], cwd=BUILD_DIR)
-    
-        name = 'glew'
-        url = glew_url
-        zip_name = '{}.zip'.format(name)
-        print('Downloading {}...'.format(zip_name))
-        subprocess.check_call(['curl', '-o', zip_name, url], cwd=BUILD_DIR)
-    
-        try:
-            ZipFile = zipfile.Zipfile  # py2
-        except AttributeError:
-            ZipFile = zipfile.ZipFile  # py3
-    
-        z = ZipFile(os.path.join(BUILD_DIR, zip_name))
-        z.extractall(os.path.join(deps, name))
-    
-    
     print('Checking out Catch...')
     catch_dir = os.path.join(deps, 'Catch')
     mkdir(catch_dir)
