@@ -34,10 +34,15 @@ public:
         }
     }
 
+	SdlAutoDeletedResource()
+		: ptr(nullptr)
+	{
+	}
+
     SdlAutoDeletedResource(SdlAutoDeletedResource && rvalue)
     :  ptr(rvalue.ptr)
     {
-        rvalue.ptr = 0;
+        rvalue.ptr = nullptr;
     }
 
     ~SdlAutoDeletedResource() {
@@ -46,10 +51,21 @@ public:
         }
     }
 
+	SdlAutoDeletedResource & operator=(SdlAutoDeletedResource && rvalue)
+	{
+		SDL_assert(nullptr == ptr);
+		if (this->ptr != rvalue.ptr) {
+			this->ptr = rvalue.ptr;
+			rvalue.ptr = nullptr;
+		}
+		return *this;
+	}
 	SdlAutoDeletedResource & operator=(const SdlAutoDeletedResource & other)
 		= delete;
 
+
     operator ResourceTypePtr () {
+		SDL_assert(nullptr != ptr);
         return ptr;
     }
 private:
