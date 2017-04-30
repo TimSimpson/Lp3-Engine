@@ -74,3 +74,13 @@ target_link_libraries(Sdl2Simple Lp3_Core)
 
 add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
 target_link_libraries(MultipleWindows Lp3_Core)
+
+if (LP3_SETUP_FOLDERS)
+    set_target_properties (Lp3_Core PROPERTIES FOLDER core)
+    set_target_properties (LogDemo PROPERTIES FOLDER core)
+    set_target_properties (MainDemo PROPERTIES FOLDER core)
+    set_target_properties (assert_tests PROPERTIES FOLDER core)
+    set_target_properties (media_tests PROPERTIES FOLDER core)
+    set_target_properties (Sdl2Simple PROPERTIES FOLDER core)
+    set_target_properties (MultipleWindows PROPERTIES FOLDER core)
+endif()
