@@ -17,6 +17,7 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/media.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/new_type.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
@@ -69,6 +70,10 @@ add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
 target_link_libraries(media_tests Lp3_Core catch)
 add_test(media_tests media_tests)
 
+add_executable(new_type_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/new_type_tests.cpp)
+target_link_libraries(new_type_tests Lp3_Core catch)
+add_test(new_type_tests new_type_tests)
+
 add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
 target_link_libraries(Sdl2Simple Lp3_Core)
 
@@ -81,6 +86,7 @@ if (LP3_SETUP_FOLDERS)
     set_target_properties (MainDemo PROPERTIES FOLDER core)
     set_target_properties (assert_tests PROPERTIES FOLDER core)
     set_target_properties (media_tests PROPERTIES FOLDER core)
+    set_target_properties (new_type_tests PROPERTIES FOLDER core)
     set_target_properties (Sdl2Simple PROPERTIES FOLDER core)
     set_target_properties (MultipleWindows PROPERTIES FOLDER core)
 endif()
