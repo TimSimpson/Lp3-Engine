@@ -18,9 +18,10 @@ addons:
       - clang-format-3.8
       - clang-tidy-3.8
       - libstdc++6
-      - libboost-dev
       - ninja-build
+      - libboost-dev
       - libsdl2-dev
+      - libsdl2-ttf-dev
 env: COMPILER=g++-6
 
 

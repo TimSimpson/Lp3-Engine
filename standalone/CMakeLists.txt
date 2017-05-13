@@ -76,6 +76,17 @@ set_property(TARGET sdl2 PROPERTY
     INTERFACE_LINK_LIBRARIES
     "${SDL2_LIBRARY}")
 
+# Add SDL2 ttf library, then add it to SDL2
+find_library(SDL2_ttf NAMES "SDL2_ttf"
+    PATHS
+        "${DEPS_PATH}/sdl2/lib"
+        "/usr/lib/x86_64-linux-gnu")
+
+set_property(TARGET sdl2 PROPERTY
+    INTERFACE_LINK_LIBRARIES
+    "${SDL2_LIBRARY}" "${SDL2_ttf}")
+
+
 
 ### Catch
 

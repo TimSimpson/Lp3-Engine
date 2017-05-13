@@ -8,6 +8,11 @@
 #include "log.hpp"
 #include <gsl/gsl>
 #include <SDL.h>
+#if LP3_COMPILE_TARGET_EMSCRIPTEN
+#include <SDL/SDL_ttf.h>
+#else
+#include <SDL_ttf.h>
+#endif
 
 
 namespace lp3 { namespace sdl {

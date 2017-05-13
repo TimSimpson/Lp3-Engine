@@ -6,13 +6,14 @@
 #include <lp3/log.hpp>
 #include <lp3/main.hpp>
 
-
 namespace core = lp3::core;
 namespace sdl = lp3::sdl;
 
 
 int _main(core::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
+
+    TTF_Init();
 
     core::LogSystem log;
     core::MediaManager media;
@@ -37,7 +38,25 @@ int _main(core::PlatformLoop & loop) {
     LP3_LOG_DEBUG("Loading texture...");
     const auto bmp_file = media.path("Engine/Gfx/Earth.bmp");
     sdl::Surface bitmap = SDL_LoadBMP(bmp_file.c_str());
-    sdl::Texture tex = SDL_CreateTextureFromSurface(renderer, bitmap);
+
+    LP3_LOG_DEBUG("Loading font...")
+    const auto font_path = media.path("Engine/Gfx/AGENCYB.ttf");
+    auto font = TTF_OpenFont(font_path.c_str(), 28);
+    if (nullptr == font) {
+        LP3_LOG_ERROR(SDL_GetError());
+        LP3_THROW2(core::Exception, "Error loading font!");
+    }
+
+    SDL_Color text_color = { 255, 0, 255, 255 };
+
+    auto text = TTF_RenderText_Solid(
+        font, "Hello, beautiful\nEarth :)", text_color);
+
+    SDL_BlitSurface(text, nullptr, bitmap, NULL);
+
+    //sdl::Texture tex = SDL_CreateTextureFromSurface(renderer, bitmap);
+    sdl::Texture tex = SDL_CreateTextureFromSurface(renderer, text);
+    LP3_LOG_DEBUG("Yes, somehow this is new code.");
 
 	LP3_LOG_DEBUG("start itr");
     loop.run([&renderer, &tex]() {
