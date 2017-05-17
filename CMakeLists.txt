@@ -27,7 +27,9 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sdl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp
+)
+
 
 target_include_directories(Lp3_Core
     PUBLIC
