@@ -1,5 +1,6 @@
 #define LP3_CORE_API_CREATE
 #include <lp3/core/utils.hpp>
+#include <lp3/assert.hpp>
 #include <lp3/log.hpp>
 
 #ifdef LP3_COMPILE_TARGET_PC
@@ -46,8 +47,8 @@ boost::optional<std::string> get_env_var(const gsl::cstring_span<> & name) {
 #ifdef LP3_COMPILE_TARGET_WINDOWS
     char * env_var_value;
     std::size_t length;
-    auto result = _dupenv_s(&env_var_value, &length, name);
-    SDL_assert(0 == result); // Error calling _dupenv_s
+    auto result = _dupenv_s(&env_var_value, &length, name.data());
+    LP3_ASSERT(0 == result); // Error calling _dupenv_s
     std::unique_ptr<char> delete_env_var(env_var_value);
 
 #elif defined(LP3_COMPILE_TARGET_EMSCRIPTEN)

@@ -8,6 +8,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/casts.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/platform.hpp
