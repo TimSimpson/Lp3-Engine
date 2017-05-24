@@ -1,6 +1,18 @@
 #include <lp3/platform.hpp>
+#include <boost/lexical_cast.hpp>
+
 
 namespace lp3 { namespace core {
+
+namespace {
+    boost::optional<int> loop_count() {
+        auto value = get_env_var("LP3_LOOP_COUNT");
+        if (!value)
+            return boost::none;
+        else
+            return boost::lexical_cast<int>(*value);
+    }
+}
 
 PlatformLoop::PlatformLoop(int argc, char ** argv)
 :   arguments()
@@ -21,7 +33,12 @@ std::vector<std::string> PlatformLoop::command_line_args() const {
 
 int PlatformLoop::run(std::function<bool()> iterate) {
     if (iterate) {
-        while(iterate()) {
+        const auto count = loop_count();
+        if (count) {
+            int c = *count;
+            while(iterate() && (--c) < 0) {}
+        } else {
+            while(iterate()) {}
         }
     }
     return 0;

@@ -69,7 +69,7 @@ def deps(args):
     ])
     subprocess.check_call([
         'git', 'checkout',
-        '3819df6e378ffccf0e29465afe99c3b324c2aa70'
+        'c2f953f2eb7ab501325a7ec5656b400d54b8a345'
     ], cwd=gsl_dir)
     
     

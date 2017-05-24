@@ -39,7 +39,7 @@ int _main(core::PlatformLoop & loop) {
     sdl::Surface bitmap = SDL_LoadBMP(bmp_file.c_str());
     sdl::Texture tex = SDL_CreateTextureFromSurface(renderer, bitmap);
 
-	LP3_LOG_DEBUG("start itr");
+    LP3_LOG_DEBUG("start itr");
     loop.run([&renderer, &tex]() {
         SDL_Event e;
         bool quit = false;

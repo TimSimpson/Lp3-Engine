@@ -8,6 +8,7 @@
 #include "log.hpp"
 #include <gsl/gsl>
 #include <SDL.h>
+#include <SDL_image.h>
 
 
 namespace lp3 { namespace sdl {

@@ -9,11 +9,13 @@
 #endif
 
 #include <memory>
-#include <lp3/log.hpp>
-#include <lp3/core/Exception.hpp>
 #include <boost/format.hpp>
 #include <fstream>
 #include <SDL.h>
+
+#include <lp3/log.hpp>
+#include <lp3/core/Exception.hpp>
+#include <lp3/core/utils.hpp>
 
 namespace core = lp3::core;
 
@@ -80,21 +82,9 @@ namespace {
         }
     };
 
-#ifdef LP3_COMPILE_TARGET_PC
     std::string get_env_media_path() {
-#ifdef LP3_COMPILE_TARGET_WINDOWS
-		char * env_var_value;
-		std::size_t length;
-		auto result = _dupenv_s(&env_var_value, &length, "LP3_ROOT_PATH");
-		SDL_assert(0 == result); // Error calling _dupenv_s
-		std::unique_ptr<char> delete_env_var(env_var_value);
-#else
-		const char * const env_var_value = getenv("LP3_ROOT_PATH");
-#endif
-		SDL_assert(nullptr != env_var_value); // Couldn't get LP3_ROOT_PATH!
-		return std::string{ env_var_value };
+        return lp3::core::get_env_var("LP3_ROOT_PATH").get_value_or("");
     }
-#endif
 
 }
 
