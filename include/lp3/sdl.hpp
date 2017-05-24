@@ -115,7 +115,7 @@ LP3_CORE_API
 class RWops {
 public:
 	RWops(gsl::owner<SDL_RWops *> ops);
-	
+
 	~RWops();
 
 	RWops(RWops && rhs);
@@ -131,12 +131,18 @@ public:
 		return ops;
 	}
 
-	inline std::size_t read(void * dst, std::size_t object_count, 
+	inline std::size_t read(void * dst, std::size_t object_count,
 		                    std::size_t object_size = 1) {
 		SDL_assert(nullptr != ops);
 		return ops->read(ops, dst, object_count, object_size);
 	}
-	
+
+    template<typename T>
+    inline void read(T & dst) {
+        const auto result = read(reinterpret_cast<char *>(&dst), sizeof(T));
+        SDL_assert(sizeof(T) == result);
+    }
+
 	inline std::int64_t seek(std::int64_t offset, int whence=RW_SEEK_CUR) {
 		SDL_assert(nullptr != ops);
 		return ops->seek(ops, offset, whence);
@@ -160,6 +166,12 @@ public:
 		SDL_assert(nullptr != ops);
 		return ops->write(ops, src, object_count, object_size);
 	}
+
+    template<typename T>
+    inline void write(const T & n) {
+        const auto result = write(reinterpret_cast<const char *>(&n), sizeof(T));
+        SDL_assert(sizeof(T) == result);
+    }
 private:
 	gsl::owner<SDL_RWops *> ops;
 };
