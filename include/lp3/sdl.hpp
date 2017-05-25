@@ -114,6 +114,8 @@ inline void close_rwops(SDL_RWops * ops) {
 LP3_CORE_API
 class RWops {
 public:
+	RWops();
+
 	RWops(gsl::owner<SDL_RWops *> ops);
 
 	~RWops();

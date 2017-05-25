@@ -36,9 +36,16 @@ SdlAssertToExceptionConverter::~SdlAssertToExceptionConverter() {
 }
 
 LP3_CORE_API
-RWops::RWops(gsl::owner<SDL_RWops *> _ops)
-: ops(_ops)
+RWops::RWops()
+:	ops(nullptr)
 {}
+
+LP3_CORE_API
+RWops::RWops(gsl::owner<SDL_RWops *> _ops)
+:	ops(_ops)
+{
+	SDL_assert(nullptr != _ops);
+}
 
 LP3_CORE_API
 RWops::~RWops() {
