@@ -140,7 +140,7 @@ public:
     template<typename T>
     inline void read(T & dst) {
         const auto result = read(reinterpret_cast<char *>(&dst), sizeof(T));
-        SDL_assert(sizeof(T) == result);
+        SDL_assert(1 == result);
     }
 
 	inline std::int64_t seek(std::int64_t offset, int whence=RW_SEEK_CUR) {
@@ -170,7 +170,7 @@ public:
     template<typename T>
     inline void write(const T & n) {
         const auto result = write(reinterpret_cast<const char *>(&n), sizeof(T));
-        SDL_assert(sizeof(T) == result);
+        SDL_assert(1 == result);
     }
 private:
 	gsl::owner<SDL_RWops *> ops;

@@ -1,5 +1,9 @@
 #define LP3_CORE_API_CREATE
 #include <lp3/log.hpp>
+#include <algorithm>
+#include <boost/lexical_cast.hpp>
+#include <lp3/core/utils.hpp>
+
 
 #ifdef LP3_COMPILE_TARGET_WINDOWS
     #include "ErrOut.hpp"
@@ -13,6 +17,38 @@
 #include <SDL.h>
 
 namespace lp3 { namespace core {
+
+namespace {
+	static LogLevel verbosity_level = LogLevel::Debug;
+
+	const char * log_level_to_text(const LogLevel & level) {
+		switch (level) {
+		case LogLevel::Critical:
+			return "CRIT  ";
+		case LogLevel::Error:
+			return "ERROR ";
+		case LogLevel::Warning:
+			return "WARN  ";
+		case LogLevel::Info:
+			return "INFO  ";
+		case LogLevel::Debug:
+			return "DEBUG ";
+		default:
+			return "??!";
+		};
+	}
+
+	void _write_log_stdout(const char * const filename, const int lineNumber,
+		                   const LogLevel & level, const char * const message)
+	{
+		if (level <= verbosity_level) {
+			::printf("%s %s %d : ", 
+				     log_level_to_text(level), filename, lineNumber);
+			::printf("%s", message);
+			::printf("\n");
+		}
+	}
+}
 
 #ifdef LP3_COMPILE_TARGET_WINDOWS
     namespace {
@@ -38,7 +74,8 @@ namespace lp3 { namespace core {
     void write_log(const char * const filename, const int lineNumber,
                   const LogLevel & level, const char * const message)
     {
-        ::ErrOutPipe::WriteLinePL(filename, lineNumber, priority(level), message);
+		::ErrOutPipe::WriteLinePL(filename, lineNumber, priority(level), message);
+		_write_log_stdout(filename, lineNumber, level, message);
     }
 #endif
 
@@ -46,11 +83,9 @@ namespace lp3 { namespace core {
     || defined(LP3_COMPILE_TARGET_LINUX) \
     || defined(LP3_COMPILE_TARGET_EMSCRIPTEN)
     void write_log(const char * const filename, const int lineNumber,
-                   const LogLevel &, const char * const message)
+                   const LogLevel & level, const char * const message)
     {
-        ::printf("%s %d : ", filename, lineNumber);
-        ::printf("%s", message);
-        ::printf("\n");
+		_write_log_stdout(filename, lineNumber, level, message);
     }
 #endif
 
@@ -120,6 +155,17 @@ LogSystem::LogSystem()
             ::ErrOutPipe::Init();
 		    SDL_LogSetOutputFunction(sdl_log, nullptr);
         #endif
+		auto level = lp3::core::get_env_var("LP3_LOG_LEVEL");
+		if (level) {
+			std::string l = level.get();
+			std::transform(l.begin(), l.end(), l.begin(), ::tolower);
+			verbosity_level =
+				(l == "critical" ? LogLevel::Critical
+					: (l == "error" ? LogLevel::Error 
+						: (l == "warning" ? LogLevel::Warning
+							: (l == "info" ? LogLevel::Info
+								: LogLevel::Debug))));						
+		}
     #endif // LP3_COMPILE_TARGET_WINDOWS
 }
 

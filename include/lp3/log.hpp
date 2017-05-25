@@ -8,11 +8,11 @@
 namespace lp3 { namespace core {
     enum class LogLevel
     {
-        Critical,
-        Debug,
-        Error,
-        Info,
-        Warning
+        Critical=0,
+        Debug=4,
+        Error=1,
+        Info=3,
+        Warning=2
     };
 
     class

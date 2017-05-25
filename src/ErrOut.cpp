@@ -303,11 +303,11 @@ void ErrOutPipe::WriteN(int priority, char const *  msg, bool newLine)
             }
             return;
         }
-        std::cout << msg;
-        if (newLine)
-        {
-            std::cout << std::endl;
-        }
+        //std::cout << msg;
+        //if (newLine)
+       // {
+         //   std::cout << std::endl;
+        //}
         EnterCriticalSection(&cs);
         if (msg == nullptr)
         {
