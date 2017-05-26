@@ -30,6 +30,11 @@ public:
         message(std::forward<Message>(msg)) {
     }
 
+	explicit Exception() BOOST_NOEXCEPT
+	:	exception(),
+		message() {
+	}
+
     Exception(Exception const  & other) BOOST_NOEXCEPT;
 
     Exception  & operator=(Exception const  & other);
