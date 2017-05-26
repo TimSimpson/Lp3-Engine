@@ -16,7 +16,6 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/media.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
