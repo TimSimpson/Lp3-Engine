@@ -1,5 +1,5 @@
 #define LP3_CORE_API_CREATE
-#include <lp3/core/media.hpp>
+#include <lp3/core/utils.hpp>
 #include <lp3/assert.hpp>
 
 #ifdef LP3_COMPILE_TARGET_DREAMCAST
@@ -64,7 +64,10 @@ sdl::RWops MediaManager::load(const gsl::cstring_span<> & file) {
     std::string full_path =
 		str(boost::format("%s/%s") % base_directory % file.data());
 	SDL_RWops * ptr = SDL_RWFromFile(full_path.c_str(), "rb");
-	LP3_ASSERT(ptr);
+	if (!ptr) {
+		LP3_LOG_ERROR("Error opening file %s.", full_path);
+		LP3_THROW(lp3::core::Exception);
+	}
 	return sdl::RWops{ptr};
 }
 
@@ -78,7 +81,10 @@ sdl::RWops MediaManager::save(const gsl::cstring_span<> & file) {
 	std::string full_path =
 		str(boost::format("%s/%s") % base_directory % file.data());
 	SDL_RWops * ptr = SDL_RWFromFile(full_path.c_str(), "wb");
-	LP3_ASSERT(ptr);
+	if (!ptr) {
+		LP3_LOG_ERROR("Error opening save file %s.", full_path);
+		LP3_THROW(lp3::core::Exception);
+	}
 	return sdl::RWops{ptr};
 }
 
