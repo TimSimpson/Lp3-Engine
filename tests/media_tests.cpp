@@ -12,7 +12,7 @@ TEST_CASE("Read file", "[read_a_file]") {
 	auto story = media.load("Engine/Resources/story.txt");
 
     char content[16];
-    std::size_t read_size = story.read(content, 16);
+    std::size_t read_size = story.read(content, 1, 16);
 
     REQUIRE(std::size_t{16} == read_size);
 

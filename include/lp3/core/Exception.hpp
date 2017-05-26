@@ -1,5 +1,6 @@
 #ifndef LP3_CORE_EXCEPTION_HPP
 #define LP3_CORE_EXCEPTION_HPP
+#pragma once
 
 #include <exception>
 #include <type_traits>

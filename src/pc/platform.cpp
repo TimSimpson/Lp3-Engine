@@ -1,4 +1,4 @@
-#include <lp3/platform.hpp>
+#include <lp3/core/utils.hpp>
 #include <boost/lexical_cast.hpp>
 
 
@@ -20,11 +20,6 @@ PlatformLoop::PlatformLoop(int argc, char ** argv)
     for (int i = 0; i < argc; i++) {
         this->arguments.push_back(argv[i]);
     }
-}
-
-PlatformLoop::PlatformLoop()
-	: arguments()
-{
 }
 
 std::vector<std::string> PlatformLoop::command_line_args() const {

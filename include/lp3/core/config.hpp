@@ -1,5 +1,6 @@
 #ifndef LP3_CORE_CONFIG_HPP
 #define LP3_CORE_CONFIG_HPP
+#pragma once
 
 #include <lp3/le.hpp>
 

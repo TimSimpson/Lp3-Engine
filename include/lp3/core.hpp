@@ -1,3 +1,5 @@
+#ifndef LP3_CORE_HPP
+#define LP3_CORE_HPP
 #pragma once
 
 #include "assert.hpp"
@@ -7,3 +9,5 @@
 #include "core/Exception.hpp"
 #include "core/media.hpp"
 #include "core/utils.hpp"
+
+#endif

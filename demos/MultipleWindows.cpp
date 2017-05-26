@@ -1,6 +1,5 @@
 #include <iostream>
 #include <lp3/core.hpp>
-#include <lp3/platform.hpp>
 #include <lp3/sdl.hpp>
 #include <lp3/main.hpp>
 

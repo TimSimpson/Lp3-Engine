@@ -1,6 +1,9 @@
 #ifndef LP3_CORE_UTILS_HPP
 #define LP3_CORE_UTILS_HPP
+#pragma once
 
+#include <functional>
+#include <vector>
 #include <boost/any.hpp>
 #include <boost/optional.hpp>
 #include <gsl/gsl>
@@ -8,13 +11,37 @@
 
 namespace lp3 { namespace core {
 
-// Grabs an environment variable.
+// --------------------------------------------------------------------
+// get_env_var
+// --------------------------------------------------------------------
+//	   Returns an environment variable.
+// --------------------------------------------------------------------
 LP3_CORE_API
 boost::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
 
 
-// Forward declaration of a struct defined in platform.hpp
-struct Platform;
+// --------------------------------------------------------------------
+// class PlatformLoop
+// --------------------------------------------------------------------
+//     Contains code to run the main loop on any given platform.
+//	   While it's possible to create this yourself, you should instead
+//	   use the macro LP3_MAIN from main.hpp which creates this for you.
+// --------------------------------------------------------------------
+LP3_CORE_API
+class PlatformLoop {
+public:
+	PlatformLoop(int argc, char ** argv);
+
+    PlatformLoop(const PlatformLoop & other) = delete;
+    PlatformLoop & operator=(const PlatformLoop & other) = delete;
+
+    std::vector<std::string> command_line_args() const;
+
+    int run(std::function<bool()> iterate);
+
+private:
+    std::vector<std::string> arguments;
+};
 
 // --------------------------------------------------------------------
 // class PlatformInitArgs
@@ -28,7 +55,6 @@ struct Platform;
 // --------------------------------------------------------------------
 LP3_CORE_API
 class PlatformInitArgs {
-	friend Platform;
 protected:
 	boost::any hinstance;
 	boost::any hwnd;
@@ -46,7 +72,6 @@ protected:
 // --------------------------------------------------------------------
 LP3_CORE_API
 class PlatformMessage {
-	friend Platform;
 protected:
 	boost::any hwnd;
 	boost::any message;

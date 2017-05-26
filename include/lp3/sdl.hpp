@@ -1,5 +1,28 @@
+// ----------------------------------------------------------------------------
+// sdl.hpp
+// ----------------------------------------------------------------------------
+//      This contains RAII enabled types for working with the SDL2 library.
+//
+//      The expectation is that code will use the C functions provided by
+//      the SDL library but use the types found here to manage the resources
+//      it creates. Some rules of thumb about these types:
+//
+//          * The majority of these wrapped types have implicit conversions to
+//            the pointers they wrap, allowing them to be used when calling
+//            SDL functions.
+//          * However these types "own" a resource (in the gsl::owner sense)
+//            and should not be copied. Instead references should be passed.
+//          * There is however a default constructor for these which sets the
+//            underlying pointer to nullptr. These resources can be assigned
+//            to from a not null pointer; however after that they can never be
+//            assigned to again (honoring the Moonlight Graham principle).
+//            Additionally there are asserts to ensure the non-default
+//            constructor is not passed nullptr, making it possible to directly
+//            pass the result of SDL calls that return null on failures.
+// ----------------------------------------------------------------------------
 #ifndef FILE_LP3_SDL_HPP
 #define FILE_LP3_SDL_HPP
+#pragma once
 
 // Disable SDL's
 #define SDL_MAIN_HANDLED
@@ -13,6 +36,12 @@
 
 namespace lp3 { namespace sdl {
 
+// ----------------------------------------------------------------------------
+// SDL2
+// ----------------------------------------------------------------------------
+//      Create one of these in your main method to initialize the SDL.
+//      The destructor will deinitialize the SDL.
+// ----------------------------------------------------------------------------
 LP3_CORE_API
 struct SDL2 {
     SDL2(Uint32 flags);
@@ -111,6 +140,19 @@ inline void close_rwops(SDL_RWops * ops) {
 	SDL_assert(0 == result);
 }
 
+// ----------------------------------------------------------------------------
+// RWops
+// ----------------------------------------------------------------------------
+//      Wraps SDL_RWops which controls all file and other resource I/O.
+//
+//      Unlike the majority of types this handles more than just resource
+//      lifetime. SDL_RWops is a strange struct that contains function
+//      pointers, all of which accept the struct itself as their first
+//      argument. All of these functions are mapped to class methods here.
+//
+//      A few extra functions are added which read and write directly into
+//      POD object references.
+// ----------------------------------------------------------------------------
 LP3_CORE_API
 class RWops {
 public:
@@ -141,6 +183,7 @@ public:
 
     template<typename T>
     inline void read(T & dst) {
+        static_assert(std::is_pod<T>::value, "Type must be POD.");
         const auto result = read(reinterpret_cast<char *>(&dst), sizeof(T));
         SDL_assert(1 == result);
     }
@@ -171,6 +214,7 @@ public:
 
     template<typename T>
     inline void write(const T & n) {
+        static_assert(std::is_pod<T>::value, "Type must be POD.");
         const auto result = write(reinterpret_cast<const char *>(&n), sizeof(T));
         SDL_assert(1 == result);
     }

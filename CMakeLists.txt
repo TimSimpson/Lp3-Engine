@@ -11,7 +11,6 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/casts.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/platform.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sdl.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp

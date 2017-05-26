@@ -1,5 +1,6 @@
 #ifndef LP3_CORE_MEDIA_HPP
 #define LP3_CORE_MEDIA_HPP
+#pragma once
 
 #include "config.hpp"
 #ifdef BOOST_MSVC
@@ -21,7 +22,7 @@ namespace lp3 { namespace core {
 // ----------------------------------------------------------------------------
 //     A factory for the stream classes, manages where to find media files.
 //	   Currently this just forwards to SDL's calls to open a file; the premise
-//	   is that in the future it could be something more complex, such as a 
+//	   is that in the future it could be something more complex, such as a
 //     file which is a collection of resources.
 // ----------------------------------------------------------------------------
 class
