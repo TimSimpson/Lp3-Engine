@@ -77,6 +77,21 @@ set_property(TARGET sdl2 PROPERTY
     "${SDL2_LIBRARY}")
 
 
+### SDL2_IMAGE
+
+# Add SDL2 image library, then add it to SDL2
+find_library(SDL2_image NAMES "SDL2_image"
+    PATHS
+    "${DEPS_PATH}/sdl2/lib"
+    "/usr/lib/x86_64-linux-gnu")
+
+add_library(sdl2_image INTERFACE IMPORTED)
+
+set_property(TARGET sdl2_image PROPERTY
+    INTERFACE_LINK_LIBRARIES
+    "${SDL2_image}")
+
+
 ### Catch
 
 add_library(catch INTERFACE IMPORTED)

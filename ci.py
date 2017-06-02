@@ -102,6 +102,8 @@ def deps(args):
                       cwd=cmake_scripts)
     
     
+    
+    
     print('Checking out Catch...')
     catch_dir = os.path.join(deps, 'Catch')
     mkdir(catch_dir)

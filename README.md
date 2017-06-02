@@ -26,6 +26,7 @@ For an example of what this looks like please see [the parent project used for C
 * The [Guideline Support Library] (https://github.com/Microsoft/GSL), defined as the imported interface library `gsl`.
 * [The Boost libraries](http://www.boost.org/) (header only) must be defined as the imported interface library `boost`.
 * [Simple Direct Media Layer (SDL) 2] (https://www.libsdl.org/download-2.0.php), defined as the imported interface library `sdl`.
+* [SDL 2 image] (https://www.libsdl.org/projects/SDL_image/docs/SDL_image.html#SEC_Top), defined as the imported interface library `sdl_image`.
 * [Catch] (https://github.com/philsquared/Catch), defined as the imported interface library `catch`.
 
 ### Options
