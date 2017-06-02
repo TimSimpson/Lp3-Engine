@@ -11,13 +11,11 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/casts.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/platform.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sdl.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/media.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
@@ -39,7 +37,7 @@ target_include_directories(Lp3_Core
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core boost gsl sdl2)
+target_link_libraries(Lp3_Core boost gsl sdl2 sdl2_image)
 
 install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
     ARCHIVE  DESTINATION lib

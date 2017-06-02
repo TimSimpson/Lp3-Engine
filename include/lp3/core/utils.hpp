@@ -1,57 +1,80 @@
 #ifndef LP3_CORE_UTILS_HPP
 #define LP3_CORE_UTILS_HPP
+#pragma once
 
+#include <functional>
+#include <vector>
 #include <boost/any.hpp>
 #include <boost/optional.hpp>
 #include <gsl/gsl>
 #include "config.hpp"
+#include "../sdl.hpp"
+
 
 namespace lp3 { namespace core {
 
-// Grabs an environment variable.
+
+// --------------------------------------------------------------------
+// class PlatformLoop
+// --------------------------------------------------------------------
+//     Contains code to run the main loop on any given platform.
+//	   While it's possible to create this yourself, you should instead
+//	   use the macro LP3_MAIN from main.hpp which creates this for you.
+// --------------------------------------------------------------------
+class
 LP3_CORE_API
-boost::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
+PlatformLoop {
+public:
+	PlatformLoop(int argc, char ** argv);
 
+    PlatformLoop(const PlatformLoop & other) = delete;
+    PlatformLoop & operator=(const PlatformLoop & other) = delete;
 
-// Forward declaration of a struct defined in platform.hpp
-struct Platform;
+    std::vector<std::string> command_line_args() const;
 
-// --------------------------------------------------------------------
-// class PlatformInitArgs
-// --------------------------------------------------------------------
-//     Contains platform specific arguments passed to main which are
-//     type-erased.
-// 	   The main goal is to allow the vast majority of code to avoid the
-//     dastardly windows.h (or similar native headers). Platform
-//     specific code can use platform.hpp to unwrap the native
-//     arguments it needs.
-// --------------------------------------------------------------------
-LP3_CORE_API
-class PlatformInitArgs {
-	friend Platform;
-protected:
-	boost::any hinstance;
-	boost::any hwnd;
+    int run(std::function<bool()> iterate);
+
+private:
+    std::vector<std::string> arguments;
 };
 
 // --------------------------------------------------------------------
-// class PlatformMessage
+// get_env_var
 // --------------------------------------------------------------------
-//     Contains platform specific arguments passed to the event handler
-//     function which are type-erased.
-// 	   The main goal is to allow the vast majority of code to avoid the
-//     dastardly windows.h (or similar native headers). Platform
-//     specific code can use platform.hpp to unwrap the native
-//     arguments it needs.
+//	   Returns an environment variable.
 // --------------------------------------------------------------------
 LP3_CORE_API
-class PlatformMessage {
-	friend Platform;
-protected:
-	boost::any hwnd;
-	boost::any message;
-	boost::any w_param;
-	boost::any l_param;
+boost::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
+
+// ----------------------------------------------------------------------------
+// class MediaManager
+// ----------------------------------------------------------------------------
+//     A factory for the stream classes, manages where to find media files.
+//	   Currently this just forwards to SDL's calls to open a file; the premise
+//	   is that in the future it could be something more complex, such as a
+//     file which is a collection of resources.
+// ----------------------------------------------------------------------------
+class
+LP3_CORE_API
+MediaManager {
+public:
+    MediaManager();
+
+    #ifdef LP3_COMPILE_TARGET_PC
+        /* On PC, the base directory can be set. */
+        MediaManager(const std::string & _base_directory);
+    #endif
+
+    /* Opens a resource for reading. */
+	sdl::RWops load(const gsl::cstring_span<> & file);
+
+	/* Returns absolute path to the given file. */
+	std::string path(const gsl::cstring_span<> & file) const;
+
+	/* Opens a resource for writing. */
+	sdl::RWops save(const gsl::cstring_span<> & file);
+private:
+    const std::string base_directory;
 };
 
 

@@ -4,7 +4,7 @@
 
 #include <boost/scope_exit.hpp>
 #include <SDL.h>
-#include <lp3/platform.hpp>
+#include <lp3/core/utils.hpp>
 
 namespace lp3 { namespace core {
 

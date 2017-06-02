@@ -1,5 +1,6 @@
 #ifndef LP3_CORE_CASTS_HPP
 #define LP3_CORE_CASTS_HPP
+#pragma once
 
 #include "core/config.hpp"
 #include <boost/numeric/conversion/cast.hpp>
@@ -14,7 +15,6 @@ namespace lp3 {
 //     them correctly. They also have checks to ensure no data is lost in
 //     debug builds.
 // ----------------------------------------------------------------------------
-
 template<typename R, typename A>
 inline R narrow(A number) {
     #ifdef LP3_COMPILE_WITH_DEBUGGING

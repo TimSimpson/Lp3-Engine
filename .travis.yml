@@ -21,6 +21,7 @@ addons:
       - ninja-build
       - libboost-dev
       - libsdl2-dev
+      - libsdl2-image-dev
 env: COMPILER=g++-6
 
 

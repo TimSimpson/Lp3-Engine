@@ -9,12 +9,10 @@ namespace core = lp3::core;
 
 TEST_CASE("Read file", "[read_a_file]") {
     core::MediaManager media{};
-    std::unique_ptr<core::InputStream> story(
-        media.load("Engine/Resources/story.txt"));
+	auto story = media.load("Engine/Resources/story.txt");
 
     char content[16];
-    gsl::span<char> content_span{ content };
-    std::size_t read_size = story->read(content_span);
+    std::size_t read_size = story.read(content, 1, 16);
 
     REQUIRE(std::size_t{16} == read_size);
 

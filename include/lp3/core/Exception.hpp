@@ -1,5 +1,6 @@
 #ifndef LP3_CORE_EXCEPTION_HPP
 #define LP3_CORE_EXCEPTION_HPP
+#pragma once
 
 #include <exception>
 #include <type_traits>
@@ -28,6 +29,11 @@ public:
     :     exception(),
         message(std::forward<Message>(msg)) {
     }
+
+	explicit Exception() BOOST_NOEXCEPT
+	:	exception(),
+		message() {
+	}
 
     Exception(Exception const  & other) BOOST_NOEXCEPT;
 

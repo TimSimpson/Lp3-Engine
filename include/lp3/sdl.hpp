@@ -1,5 +1,28 @@
+// ----------------------------------------------------------------------------
+// sdl.hpp
+// ----------------------------------------------------------------------------
+//      This contains RAII enabled types for working with the SDL2 library.
+//
+//      The expectation is that code will use the C functions provided by
+//      the SDL library but use the types found here to manage the resources
+//      it creates. Some rules of thumb about these types:
+//
+//          * The majority of these wrapped types have implicit conversions to
+//            the pointers they wrap, allowing them to be used when calling
+//            SDL functions.
+//          * However these types "own" a resource (in the gsl::owner sense)
+//            and should not be copied. Instead references should be passed.
+//          * There is however a default constructor for these which sets the
+//            underlying pointer to nullptr. These resources can be assigned
+//            to from a not null pointer; however after that they can never be
+//            assigned to again (honoring the Moonlight Graham principle).
+//            Additionally there are asserts to ensure the non-default
+//            constructor is not passed nullptr, making it possible to directly
+//            pass the result of SDL calls that return null on failures.
+// ----------------------------------------------------------------------------
 #ifndef FILE_LP3_SDL_HPP
 #define FILE_LP3_SDL_HPP
+#pragma once
 
 // Disable SDL's
 #define SDL_MAIN_HANDLED
@@ -13,6 +36,12 @@
 
 namespace lp3 { namespace sdl {
 
+// ----------------------------------------------------------------------------
+// SDL2
+// ----------------------------------------------------------------------------
+//      Create one of these in your main method to initialize the SDL.
+//      The destructor will deinitialize the SDL.
+// ----------------------------------------------------------------------------
 LP3_CORE_API
 struct SDL2 {
     SDL2(Uint32 flags);
@@ -80,6 +109,8 @@ using Texture = SdlAutoDeletedResource<SDL_Texture *, SDL_DestroyTexture>;
 using GLContext = SdlAutoDeletedResource<SDL_GLContext, SDL_GL_DeleteContext>;
 
 
+
+
 // Use these two classes to make the SDL_assert calls throw exceptions
 // instead to test that code properly triggers them.
 // NOTE: Currently this breaks the default behavior of SDL_assert afterwards
@@ -100,6 +131,95 @@ public:
 
 private:
     SDL_AssertionHandler old_handler;
+};
+
+LP3_CORE_API
+inline void close_rwops(SDL_RWops * ops) {
+	SDL_assert(nullptr != ops);
+	auto result = ops->close(ops);
+	SDL_assert(0 == result);
+}
+
+// ----------------------------------------------------------------------------
+// RWops
+// ----------------------------------------------------------------------------
+//      Wraps SDL_RWops which controls all file and other resource I/O.
+//
+//      Unlike the majority of types this handles more than just resource
+//      lifetime. SDL_RWops is a strange struct that contains function
+//      pointers, all of which accept the struct itself as their first
+//      argument. All of these functions are mapped to class methods here.
+//
+//      A few extra functions are added which read and write directly into
+//      POD object references.
+// ----------------------------------------------------------------------------
+LP3_CORE_API
+class RWops {
+public:
+	RWops();
+
+	RWops(gsl::owner<SDL_RWops *> ops);
+
+	~RWops();
+
+	RWops(RWops && rhs);
+
+	RWops & operator=(RWops && rvalue);
+
+	// No copy ctor
+	RWops & operator=(const RWops & other) = delete;
+
+	// Implicitly convert to SDL_RWops
+	inline operator SDL_RWops * () {
+		SDL_assert(nullptr != ops);
+		return ops;
+	}
+
+	inline std::size_t read(void * dst, std::size_t object_count,
+		                    std::size_t object_size = 1) {
+		SDL_assert(nullptr != ops);
+		return ops->read(ops, dst, object_count, object_size);
+	}
+
+    template<typename T>
+    inline void read(T & dst) {
+        static_assert(std::is_pod<T>::value, "Type must be POD.");
+        const auto result = read(reinterpret_cast<char *>(&dst), sizeof(T));
+        SDL_assert(1 == result);
+    }
+
+	inline std::int64_t seek(std::int64_t offset, int whence=RW_SEEK_CUR) {
+		SDL_assert(nullptr != ops);
+		return ops->seek(ops, offset, whence);
+	}
+
+	inline std::int64_t seek_from_beginning(std::int64_t offset) {
+		return seek(offset, RW_SEEK_SET);
+	}
+
+	inline std::int64_t seek_from_end(std::int64_t offset) {
+		return seek(offset, RW_SEEK_END);
+	}
+
+	inline std::int64_t size() {
+		SDL_assert(nullptr != ops);
+		return ops->size(ops);
+	}
+
+	inline std::size_t write(const void * src, std::size_t object_count,
+							 std::size_t object_size = 1) {
+		SDL_assert(nullptr != ops);
+		return ops->write(ops, src, object_count, object_size);
+	}
+
+    template<typename T>
+    inline void write(const T & n) {
+        static_assert(std::is_pod<T>::value, "Type must be POD.");
+        const auto result = write(reinterpret_cast<const char *>(&n), sizeof(T));
+        SDL_assert(1 == result);
+    }
+private:
+	gsl::owner<SDL_RWops *> ops;
 };
 
 } }

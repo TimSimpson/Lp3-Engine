@@ -1,5 +1,13 @@
+// ----------------------------------------------------------------------------
+// assert.hpp
+// ----------------------------------------------------------------------------
+//      Defines LP3_ASSERT, which is almost identical to SDL_assert, but can
+//      be configured to raise exceptions which allows for testing that
+//      asserts are triggered; see below.
+// ----------------------------------------------------------------------------
 #ifndef FILE_LP3_ASSERT_H
 #define FILE_LP3_ASSERT_H
+#pragma once
 
 #include "core/config.hpp"
 #include "core/Exception.hpp"
@@ -37,19 +45,36 @@ public:
 
 }   }
 
-// LP3_ASSERT - very close to SDL_assert which it mostly defers to, but
-//              whether asserts are thrown can be inspected for testing
-//              (debug mode only).
-// LP3_REQUIRE_ASSERT_FAILURE - Proves that some bit of code will trigger an
-//                              assertion at runtime. Only works in debug mode,
-//                              is a no-op otherwise.
 
 #ifdef LP3_COMPILE_WITH_DEBUGGING
+// ----------------------------------------------------------------------------
+// LP3_ASSERT
+// ----------------------------------------------------------------------------
+//      this defers almost entirely to SDL_assert to the point that
+//      it is nearly equivalent, except can be configured to throw
+//      exceptions on assertion failure, making it possible to write
+//      test cases that negative code paths are properly terminated
+//      in debug mode. Basically, the only reason to use this over
+//      SDL_assert is to make code more testable (and theoretically
+//      if an assert is triggered in debug it means the calling code is
+//      not honoring a contract, making it undefined behavior and not
+//      a part of the code's interface; personally I still want to
+//      verify these asserts are triggered even if it's only in debug
+//      mode).
+// ----------------------------------------------------------------------------
     #define LP3_ASSERT(condition)   \
         if (!(condition)) { \
             lp3::core::AssertListener::throw_assert_failed(); \
         } \
         SDL_assert(condition)
+
+// ----------------------------------------------------------------------------
+// LP3_REQUIRE_ASSERT_FAILURE
+// ----------------------------------------------------------------------------
+//      Proves that some bit of code will trigger an assertion at runtime.
+//      This only works in debug mode (meaning that test code you write here
+//      only executes in debug mode).
+// ----------------------------------------------------------------------------
 
     #define LP3_REQUIRE_ASSERT_FAILURE(code) \
         {   \
