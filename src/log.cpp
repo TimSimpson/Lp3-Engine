@@ -34,7 +34,7 @@ namespace {
 		case LogLevel::Debug:
 			return "DEBUG ";
 		default:
-			return "??!";
+			return "?!";
 		};
 	}
 
@@ -42,7 +42,7 @@ namespace {
 		                   const LogLevel & level, const char * const message)
 	{
 		if (level <= verbosity_level) {
-			::printf("%s %s %d : ", 
+			::printf("%s %s %d : ",
 				     log_level_to_text(level), filename, lineNumber);
 			::printf("%s", message);
 			::printf("\n");
@@ -161,10 +161,10 @@ LogSystem::LogSystem()
 			std::transform(l.begin(), l.end(), l.begin(), ::tolower);
 			verbosity_level =
 				(l == "critical" ? LogLevel::Critical
-					: (l == "error" ? LogLevel::Error 
+					: (l == "error" ? LogLevel::Error
 						: (l == "warning" ? LogLevel::Warning
 							: (l == "info" ? LogLevel::Info
-								: LogLevel::Debug))));						
+								: LogLevel::Debug))));
 		}
     #endif // LP3_COMPILE_TARGET_WINDOWS
 }

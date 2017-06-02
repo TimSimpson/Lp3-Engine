@@ -37,7 +37,7 @@ target_include_directories(Lp3_Core
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core boost gsl sdl2)
+target_link_libraries(Lp3_Core boost gsl sdl2 sdl2_image)
 
 install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
     ARCHIVE  DESTINATION lib

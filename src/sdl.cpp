@@ -6,6 +6,7 @@ namespace lp3 { namespace sdl {
 LP3_CORE_API
 SDL2::SDL2(Uint32 flags) {
     SDL_Init(flags);
+    IMG_Init(IMG_INIT_PNG);
 }
 
 LP3_CORE_API
