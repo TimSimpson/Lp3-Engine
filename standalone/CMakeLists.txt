@@ -2,13 +2,13 @@
 # A parent project which tests that the main CMakeLists.txt can be used
 # as a subproject.
 #
-# This is used only for CI; in your own project, ignore this and add lp3-core as
+# This is used only for CI; in your own project, ignore this and add lp3_core as
 # a subproject (nested directory) using Git submodules, ExternalProject_Add or
 # something else.
 #
 # Note that you will need to define the libraries below as seen here yourself.
 
-project(lp3-core-Parent CXX)
+project(lp3_core-Parent CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 if(MSVC)
@@ -46,8 +46,8 @@ set(DEPS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../build/deps")
 
 ### Guidelines Support Library
 
-add_library(gsl INTERFACE IMPORTED)
-set_property(TARGET gsl PROPERTY
+add_library(lp3_deps::gsl INTERFACE IMPORTED)
+set_property(TARGET lp3_deps::gsl PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
     "${DEPS_PATH}/gsl/include")
 
@@ -55,8 +55,8 @@ set_property(TARGET gsl PROPERTY
 ### Boost
 
 find_package(Boost REQUIRED)
-add_library(boost INTERFACE IMPORTED)
-set_property(TARGET boost PROPERTY
+add_library(lp3_deps::boost INTERFACE IMPORTED)
+set_property(TARGET lp3_deps::boost PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}")
 
 
@@ -69,11 +69,11 @@ find_package(SDL2 REQUIRED)
 if (NOT "${SDL2_FOUND}")
     message(FATAL_ERROR "Could not find SDL libraries.")
 endif()
-add_library(sdl2 INTERFACE IMPORTED)
-set_property(TARGET sdl2 PROPERTY
+add_library(lp3_deps::sdl2 INTERFACE IMPORTED)
+set_property(TARGET lp3_deps::sdl2 PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
     "${SDL2_INCLUDE_DIR}")
-set_property(TARGET sdl2 PROPERTY
+set_property(TARGET lp3_deps::sdl2 PROPERTY
     INTERFACE_LINK_LIBRARIES
     "${SDL2_LIBRARY}")
 
@@ -86,17 +86,17 @@ find_library(SDL2_image NAMES "SDL2_image"
     "${DEPS_PATH}/sdl2/lib"
     "/usr/lib/x86_64-linux-gnu")
 
-add_library(sdl2_image INTERFACE IMPORTED)
+add_library(lp3_deps::sdl2_image INTERFACE IMPORTED)
 
-set_property(TARGET sdl2_image PROPERTY
+set_property(TARGET lp3_deps::sdl2_image PROPERTY
     INTERFACE_LINK_LIBRARIES
     "${SDL2_image}")
 
 
 ### Catch
 
-add_library(catch INTERFACE IMPORTED)
-set_property(TARGET catch PROPERTY
+add_library(lp3_deps::catch INTERFACE IMPORTED)
+set_property(TARGET lp3_deps::catch PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
     "${DEPS_PATH}/Catch/single_include")
 
@@ -104,5 +104,6 @@ set_property(TARGET catch PROPERTY
 #  Subproject
 ###############################################################################
 
+set(LP3_CORE_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/..
                  ${CMAKE_CURRENT_BINARY_DIR}/output)
