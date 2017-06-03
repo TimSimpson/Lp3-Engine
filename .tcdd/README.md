@@ -17,9 +17,7 @@ For examples of how to use this stuff, see [the demos directory](demos).
 
 ## Building
 
-This library is built with CMake, and tries to adhere to the some rules described in [The Ultimate Guide to Modern CMake](https://rix0r.nl/blog/2015/08/13/cmake-guide/). Specifically effort is made to avoid trying to find it's own dependencies so that they can be specified by a parent project instead.
-
-For an example of what this looks like please see [the parent project used for CI](standalone/CMakeLists.txt).
+{{ readme_build }}
 
 ### Dependencies / Requirements
 

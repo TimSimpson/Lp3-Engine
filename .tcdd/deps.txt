@@ -1,3 +1,5 @@
+lp3-core
+
 [deps]
 gsl
 boost
@@ -6,8 +8,9 @@ sdl2_image
 catch
 
 [files]
-ci.py -> ../ci.py
-CMakeLists.txt -> ../standalone/CMakeLists.txt
+{appveyor.yml} -> ../appveyor.yml
+{ci.py} -> ../ci.py
+{CMakeLists.txt} -> ../standalone/CMakeLists.txt
 README.md -> ../README.md
-travis.yml -> ../.travis.yml
+{travis.yml} -> ../.travis.yml
 

@@ -1,3 +1,4 @@
+
 import argparse
 import os
 import shutil
@@ -27,6 +28,7 @@ def from_root(path):
 
 
 BUILD_DIR = from_root('build')
+DEPS_DIR = from_root('build/deps')
 SRC_DIR = from_root('standalone')
 
 
@@ -51,16 +53,14 @@ def clean(args):
 @cmd('deps', 'Downloads needed libraries to build standalone')
 def deps(args):
     mkdir(BUILD_DIR)
-
-    deps = os.path.join(BUILD_DIR, 'deps')
-    mkdir(deps)
+    mkdir(DEPS_DIR)
 
     platform = None
     if len(args) > 1:
         platform = args[0]
 
     print('Checking out GSL...')
-    gsl_dir = os.path.join(deps, 'gsl')
+    gsl_dir = os.path.join(DEPS_DIR, 'gsl')
     mkdir(gsl_dir)
     github_check_call([
         'git', 'clone',
@@ -92,10 +92,10 @@ def deps(args):
             ZipFile = zipfile.ZipFile  # py3
     
         z = ZipFile(os.path.join(BUILD_DIR, zip_name))
-        z.extractall(os.path.join(deps, name))
+        z.extractall(os.path.join(DEPS_DIR, name))
     
     print('Downloading SDL2 Cmake Script from TwinklebearDev')
-    cmake_scripts = os.path.join(deps, 'cmake')
+    cmake_scripts = os.path.join(DEPS_DIR, 'cmake')
     mkdir(cmake_scripts)
     find_sdl_url = 'https://raw.githubusercontent.com/Twinklebear/TwinklebearDev-Lessons/master/cmake/FindSDL2.cmake'
     github_check_call(['curl', '-o', 'FindSDL2.cmake', find_sdl_url],
@@ -105,7 +105,7 @@ def deps(args):
     
     
     print('Checking out Catch...')
-    catch_dir = os.path.join(deps, 'Catch')
+    catch_dir = os.path.join(DEPS_DIR, 'Catch')
     mkdir(catch_dir)
     github_check_call([
         'git', 'clone',

@@ -1,13 +1,14 @@
+
 # A parent project which tests that the main CMakeLists.txt can be used
 # as a subproject.
 #
-# This is used only for CI; in your own project, ignore this and add Lp3-Core as
+# This is used only for CI; in your own project, ignore this and add lp3-core as
 # a subproject (nested directory) using Git submodules, ExternalProject_Add or
 # something else.
 #
 # Note that you will need to define the libraries below as seen here yourself.
 
-project(Lp3-Core-Parent CXX)
+project(lp3-core-Parent CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 if(MSVC)
