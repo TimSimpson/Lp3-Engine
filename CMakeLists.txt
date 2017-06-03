@@ -37,7 +37,7 @@ target_include_directories(Lp3_Core
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core boost gsl sdl2 sdl2_image)
+target_link_libraries(Lp3_Core lp3_deps::boost lp3_deps::gsl lp3_deps::sdl2 lp3_deps::sdl2_image)
 
 install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
     ARCHIVE  DESTINATION lib
@@ -56,32 +56,34 @@ else()
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
 endif()
 
-add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
-target_link_libraries(LogDemo Lp3_Core)
+if (LP3_CORE_FULL)
+    add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
+    target_link_libraries(LogDemo Lp3_Core)
 
-add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
-target_link_libraries(MainDemo Lp3_Core)
+    add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
+    target_link_libraries(MainDemo Lp3_Core)
 
-add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
-target_link_libraries(assert_tests Lp3_Core catch)
-add_test(assert_tests assert_tests)
+    add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
+    target_link_libraries(assert_tests Lp3_Core lp3_deps::catch)
+    add_test(assert_tests assert_tests)
 
-add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-target_link_libraries(media_tests Lp3_Core catch)
-add_test(media_tests media_tests)
+    add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
+    target_link_libraries(media_tests Lp3_Core lp3_deps::catch)
+    add_test(media_tests media_tests)
 
-add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
-target_link_libraries(Sdl2Simple Lp3_Core)
+    add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
+    target_link_libraries(Sdl2Simple Lp3_Core)
 
-add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-target_link_libraries(MultipleWindows Lp3_Core)
+    add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
+    target_link_libraries(MultipleWindows Lp3_Core)
 
-if (LP3_SETUP_FOLDERS)
-    set_target_properties (Lp3_Core PROPERTIES FOLDER core)
-    set_target_properties (LogDemo PROPERTIES FOLDER core)
-    set_target_properties (MainDemo PROPERTIES FOLDER core)
-    set_target_properties (assert_tests PROPERTIES FOLDER core)
-    set_target_properties (media_tests PROPERTIES FOLDER core)
-    set_target_properties (Sdl2Simple PROPERTIES FOLDER core)
-    set_target_properties (MultipleWindows PROPERTIES FOLDER core)
+    if (LP3_SETUP_FOLDERS)
+        set_target_properties (Lp3_Core PROPERTIES FOLDER core)
+        set_target_properties (LogDemo PROPERTIES FOLDER core)
+        set_target_properties (MainDemo PROPERTIES FOLDER core)
+        set_target_properties (assert_tests PROPERTIES FOLDER core)
+        set_target_properties (media_tests PROPERTIES FOLDER core)
+        set_target_properties (Sdl2Simple PROPERTIES FOLDER core)
+        set_target_properties (MultipleWindows PROPERTIES FOLDER core)
+    endif()
 endif()
