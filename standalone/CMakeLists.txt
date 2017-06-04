@@ -108,6 +108,25 @@ set_property(TARGET lp3_deps::sdl2_ttf PROPERTY
     "${SDL2_ttf}")
 
 
+### SDL2_MIXER
+
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+    add_library(sdlx_mixer INTERFACE IMPORTED)
+else()
+    find_library(SDL2_mixer NAMES "SDL2_mixer"
+        PATHS
+        "${DEPS_PATH}/sdl2/lib"
+        "/usr/lib/x86_64-linux-gnu")
+
+    add_library(lp3_deps::sdlx_mixer INTERFACE IMPORTED)
+
+    set_property(TARGET lp3_deps::sdlx_mixer PROPERTY
+        INTERFACE_LINK_LIBRARIES
+        "${SDL2_mixer}")
+endif()
+
+
+
 ### Catch
 
 add_library(lp3_deps::catch INTERFACE IMPORTED)
@@ -142,3 +161,15 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gl
 set(LP3_GFX_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
                  ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)
+
+set(LP3_IMGUI_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../imgui
+                 ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
+
+set(LP3_INPUT_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
+                 ${CMAKE_CURRENT_BINARY_DIR}/input-output)
+
+set(LP3_MIX_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
+                 ${CMAKE_CURRENT_BINARY_DIR}/mix-output)

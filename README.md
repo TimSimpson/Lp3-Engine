@@ -20,5 +20,6 @@ For an example of what this looks like please see [the parent project used for C
 * [Simple Direct Media Layer (SDL) 2](https://www.libsdl.org/download-2.0.php), defined as the imported interface library `lp3_deps::sdl`.
 * [SDL 2 image](https://www.libsdl.org/projects/SDL_image/docs/SDL_image.html#SEC_Top), defined as the imported interface library `sdl_image`.
 * [SDL 2 TTF](https://www.libsdl.org/projects/SDL_ttf/docs/SDL_ttf.html#SEC_Top), defined as the imported interface library `sdl_ttf`.
+* [SDL mixer (version 1 or 2)](https://www.libsdl.org/projects/SDL_mixer/), defined as the imported interface library `sdlx_mixer`.
 * [Catch](https://github.com/philsquared/Catch), defined as the imported interface library `catch`.
 * [OpenGL Mathematics](http://glm.g-truc.net/0.9.8/index.html), defined as the imported interface library `glm`.

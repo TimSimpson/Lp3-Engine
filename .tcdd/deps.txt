@@ -6,6 +6,7 @@ boost
 sdl2
 sdl2_image
 sdl2_ttf
+sdlx_mixer
 catch
 glm
 
