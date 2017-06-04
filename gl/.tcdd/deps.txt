@@ -1,0 +1,18 @@
+lp3-gl
+
+[deps]
+gsl
+boost
+sdl2
+sdl2_image
+catch
+glm
+lp3-core
+
+[files]
+{appveyor.yml} -> ../appveyor.yml
+{ci.py} -> ../ci.py
+{CMakeLists.txt} -> ../standalone/CMakeLists.txt
+README.md -> ../README.md
+{travis.yml} -> ../.travis.yml
+
