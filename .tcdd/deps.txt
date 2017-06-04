@@ -5,7 +5,9 @@ gsl
 boost
 sdl2
 sdl2_image
+sdl2_ttf
 catch
+glm
 
 [files]
 {appveyor.yml} -> ../appveyor.yml

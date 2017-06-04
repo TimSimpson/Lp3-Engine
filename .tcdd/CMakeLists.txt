@@ -2,13 +2,13 @@
 # A parent project which tests that the main CMakeLists.txt can be used
 # as a subproject.
 #
-# This is used only for CI; in your own project, ignore this and add lp3_sims as
+# This is used only for CI; in your own project, ignore this and add lp3_core as
 # a subproject (nested directory) using Git submodules, ExternalProject_Add or
 # something else.
 #
 # Note that you will need to define the libraries below as seen here yourself.
 
-project(lp3_sims-Parent CXX)
+project(lp3_engine-Parent CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 if(MSVC)
@@ -100,16 +100,22 @@ set_property(TARGET lp3_deps::catch PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
     "${DEPS_PATH}/Catch/single_include")
 
-
-### Lp3-Core (defines lib `Lp3-Core`)
-
-add_subdirectory("${DEPS_PATH}/lp3-core"
-                 "${DEPS_PATH}/lp3-core/output")
-
 ###############################################################################
 #  Subproject
 ###############################################################################
 
+set(LP3_CORE_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
+                 ${CMAKE_CURRENT_BINARY_DIR}/output)
+
 set(LP3_SIMS_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/..
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../sims
+                 ${CMAKE_CURRENT_BINARY_DIR}/output)
+
+set(LP3_GL_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gl
+                 ${CMAKE_CURRENT_BINARY_DIR}/output)
+
+set(LP3_GFX_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
                  ${CMAKE_CURRENT_BINARY_DIR}/output)
