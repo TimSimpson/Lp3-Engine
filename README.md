@@ -1,7 +1,7 @@
 # LP3 Engine vII
 
-TODO: FIX [![Build status](https://ci.appveyor.com/api/projects/status/a3r2jq32f1x6frcv?svg=true)](https://ci.appveyor.com/project/TimSimpson/lp3-core)
-TODO: FIX [![Build Status](https://travis-ci.org/TimSimpson/Lp3-Core.svg?branch=master)](https://travis-ci.org/TimSimpson/Lp3-Core)
+[![Build Status](https://travis-ci.org/TimSimpson/Lp3-Engine.svg?branch=master)](https://travis-ci.org/TimSimpson/Lp3-Engine)
+[![Build status](https://ci.appveyor.com/api/projects/status/hro698ynw2t40014?svg=true)](https://ci.appveyor.com/project/TimSimpson/lp3-engine)
 
 This is a helper library for writing games which sits atop SDL2, OpenGL, glm, imgui and a few other components.
 
