@@ -104,6 +104,8 @@ def deps(args):
     
     
     
+    
+    
     print('Checking out Catch...')
     catch_dir = os.path.join(DEPS_DIR, 'Catch')
     mkdir(catch_dir)
@@ -115,6 +117,20 @@ def deps(args):
     subprocess.check_call([
         'git', 'checkout', 'v1.8.2'
     ], cwd=catch_dir)
+    
+    
+    print('Checking out GLM...')
+    glm_dir = os.path.join(DEPS_DIR, 'glm')
+    mkdir(glm_dir)
+    github_check_call([
+        'git', 'clone',
+        'https://github.com/g-truc/glm.git',
+        glm_dir
+    ])
+    subprocess.check_call([
+        'git', 'checkout',
+        '40398d67cd3e4f74b08649eda428dc411d801fd5'
+    ], cwd=glm_dir)
 
 
 @cmd('ubuntu', 'Build on Ubuntu')

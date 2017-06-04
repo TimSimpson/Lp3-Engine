@@ -23,6 +23,7 @@ addons:
       - libboost-dev
       - libsdl2-dev
       - libsdl2-image-dev
+      - libsdl2-ttf-dev
 env: COMPILER=g++-6
 
 

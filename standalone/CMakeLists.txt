@@ -8,7 +8,7 @@
 #
 # Note that you will need to define the libraries below as seen here yourself.
 
-project(lp3_core-Parent CXX)
+project(lp3_engine-Parent CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 if(MSVC)
@@ -93,6 +93,21 @@ set_property(TARGET lp3_deps::sdl2_image PROPERTY
     "${SDL2_image}")
 
 
+### SDL2_TTF
+
+# Add SDL2 ttf library, then add it to SDL2
+find_library(SDL2_ttf NAMES "SDL2_ttf"
+    PATHS
+    "${DEPS_PATH}/sdl2/lib"
+    "/usr/lib/x86_64-linux-gnu")
+
+add_library(lp3_deps::sdl2_ttf INTERFACE IMPORTED)
+
+set_property(TARGET lp3_deps::sdl2_ttf PROPERTY
+    INTERFACE_LINK_LIBRARIES
+    "${SDL2_ttf}")
+
+
 ### Catch
 
 add_library(lp3_deps::catch INTERFACE IMPORTED)
@@ -100,10 +115,30 @@ set_property(TARGET lp3_deps::catch PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES
     "${DEPS_PATH}/Catch/single_include")
 
+
+### GLM
+
+add_library(lp3_deps::glm INTERFACE IMPORTED)
+set_property(TARGET lp3_deps::glm PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES
+    "${DEPS_PATH}/glm")
+
 ###############################################################################
 #  Subproject
 ###############################################################################
 
 set(LP3_CORE_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/..
-                 ${CMAKE_CURRENT_BINARY_DIR}/output)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
+                 ${CMAKE_CURRENT_BINARY_DIR}/core-output)
+
+set(LP3_SIMS_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../sims
+                 ${CMAKE_CURRENT_BINARY_DIR}/sims-output)
+
+set(LP3_GL_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gl
+                 ${CMAKE_CURRENT_BINARY_DIR}/gl-output)
+
+set(LP3_GFX_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
+                 ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)

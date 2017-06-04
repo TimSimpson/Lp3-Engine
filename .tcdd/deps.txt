@@ -12,7 +12,7 @@ glm
 [files]
 {appveyor.yml} -> ../appveyor.yml
 {ci.py} -> ../ci.py
-{CMakeLists.txt} -> ../standalone/CMakeLists.txt
+CMakeLists.txt -> ../standalone/CMakeLists.txt
 README.md -> ../README.md
 {travis.yml} -> ../.travis.yml
 
