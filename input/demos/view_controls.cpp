@@ -1,4 +1,5 @@
 #include <sstream>
+#include <boost/format.hpp>
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/imgui.hpp>
@@ -82,6 +83,7 @@ int _main(core::PlatformLoop & loop) {
     //}
     for (int i = 0; i < SDL_NumJoysticks(); ++i) {
         const char * js_name = SDL_JoystickNameForIndex(i);
+        LP3_LOG_VAR(js_name)
         LP3_LOG_INFO("Joystick Name=%s", (js_name ? js_name : "nullptr"));
         char guid[32];
         static_assert(sizeof(guid) == 32, "?!");
@@ -101,6 +103,7 @@ int _main(core::PlatformLoop & loop) {
         }
 
         const char * gc_name = SDL_GameControllerNameForIndex(i);
+        LP3_LOG_VAR(gc_name)
         LP3_LOG_INFO("    Game Controller Name=%s", (gc_name ? gc_name : "nullptr"));
         LP3_LOG_INFO("    SDL_IsGameController(%i)=%s", i, (SDL_IsGameController(i) ? "true" : "false"));
 

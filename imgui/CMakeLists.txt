@@ -12,7 +12,7 @@ add_library(Lp3_ImGui
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui_demo.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui_draw.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui_draw_wrapper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui_internal.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imconfig.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb_rect_pack.h

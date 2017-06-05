@@ -1,4 +1,5 @@
 #include <sstream>
+#include <boost/format.hpp>
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/sims.hpp>

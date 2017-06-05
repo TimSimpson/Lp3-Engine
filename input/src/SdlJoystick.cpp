@@ -1,4 +1,5 @@
 #include "Device.hpp"
+#include <boost/format.hpp>
 
 inline namespace lp3_input_internal {
 
@@ -51,6 +52,7 @@ public:
             key_names.push_back(str(boost::format("Axis %i Positive") % i));
         }
         for (const auto & s : key_names) {
+            LP3_LOG_VAR(s)
             LP3_LOG_DEBUG("   [%s]", s);
         }
     }
