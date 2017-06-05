@@ -30,15 +30,15 @@ int _main(core::PlatformLoop & loop) {
 	// GLfloat f = 1.0f; //100.0f;
 	// GLfloat z = -0.0f;
 
-	GLfloat l = 0.0f; //0.0f;
-	GLfloat m = 50.0f; // 50.0f;
-	GLfloat f = 90.0f; //100.0f;
+	//GLfloat l = 0.0f; //0.0f;
+	//GLfloat m = 50.0f; // 50.0f;
+	//GLfloat f = 90.0f; //100.0f;
 	GLfloat z = -0.0f;
 
 
-	//    B
-	//  /   \
-	// A --- C
+	//    B    //
+	//  /   \  //
+	// A --- C //
 
 	std::vector<GLfloat> vertices;
 	struct color_holder {
@@ -107,26 +107,26 @@ int _main(core::PlatformLoop & loop) {
 	gl::buffer_data(GL_ARRAY_BUFFER, gsl::span<const GLfloat>(vertices),//gsl::span<const GLfloat>(vertices),
 		GL_STATIC_DRAW);
 
-	screen.set_object([&](const gfx::Screen & screen) {
+	screen.set_object([&](const gfx::Screen & _screen) {
 		GLfloat yellow[4] = { 1.0, 1.0f, 0.0f, 1.0f };
-		gl::vertex_attrib_4fv(screen.a_color, yellow);
+		gl::vertex_attrib_4fv(_screen.a_color, yellow);
 		gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);
-		gl::vertex_attrib_pointer(screen.a_position, 3, GL_FLOAT, 0, 0, 0);
+		gl::vertex_attrib_pointer(_screen.a_position, 3, GL_FLOAT, 0, 0, 0);
 
-		gl::enable_vertext_attrib_array(screen.a_position);
+		gl::enable_vertext_attrib_array(_screen.a_position);
 		gl::draw_arrays(GL_TRIANGLES, 0, 3);
 
-		GLfloat red[4] = { 1.0, 0.0f, 0.0f, 1.0f };
-		for (int i = 0; i < colors.size(); ++ i) {
+		// GLfloat red[4] = { 1.0, 0.0f, 0.0f, 1.0f };
+		for (std::size_t i = 0; i < colors.size(); ++ i) {
 			GLfloat color[4];
 			color[0] = colors[i].data[0];
 			color[1] = colors[i].data[1];
 			color[2] = colors[i].data[2];
 			color[3] = colors[i].data[3];
-			gl::vertex_attrib_4fv(screen.a_color, color);
+			gl::vertex_attrib_4fv(_screen.a_color, color);
 			gl::draw_arrays(GL_TRIANGLES, (i * 3), 3);
 		}
-		
+
 		//glEnableClientState(GL_TEXTURE_COORD_ARRAY_EXT);
 		//glBindTexture(GL_TEXTURE_2D, bitmap.gl_id());
 	});
@@ -148,4 +148,4 @@ int _main(core::PlatformLoop & loop) {
 	});
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

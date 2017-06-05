@@ -19,7 +19,8 @@ template<typename R, typename A>
 inline R narrow(A number) {
     #ifdef LP3_COMPILE_WITH_DEBUGGING
         //  Just use Boost's solution to this problem LOL
-        R r = boost::numeric_cast<R>(number);
+        const R r = boost::numeric_cast<R>(number);
+        LP3_ASSERT(r == static_cast<R>(number));
     #endif
 	// Make sure this always runs.
 	return static_cast<R>(number);

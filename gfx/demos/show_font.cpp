@@ -95,4 +95,4 @@ int _main(core::PlatformLoop & loop) {
     return 0;
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

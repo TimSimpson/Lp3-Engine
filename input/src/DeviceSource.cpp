@@ -40,7 +40,7 @@ DeviceSource::DeviceSource()
 
 Device * DeviceSource::get_device(int index) {
     LP3_ASSERT(index >= 0);
-    LP3_ASSERT(index < devices.size());
+    LP3_ASSERT(index < lp3::narrow<int>(devices.size()));
 	return devices[index].get();
 }
 

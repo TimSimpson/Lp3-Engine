@@ -21,6 +21,7 @@ public:
     }
 
     bool is_analog_key(const int key_code) override {
+        (void)key_code;  // unused
         return false;
     }
 

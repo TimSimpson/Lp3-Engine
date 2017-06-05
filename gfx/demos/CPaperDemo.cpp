@@ -58,4 +58,4 @@ int _main(core::PlatformLoop & loop) {
     });
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

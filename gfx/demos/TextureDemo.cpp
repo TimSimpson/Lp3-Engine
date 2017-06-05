@@ -54,7 +54,7 @@ int _main(core::PlatformLoop & loop) {
     }
 
     std::vector<gfx::Quad<gfx::TexVert>> quads;
-    for (int j = 0; j < number_of_quads; ++ j) {
+    for (std::size_t j = 0; j < number_of_quads; ++ j) {
         auto v = glm::vec2(0.1f * (j % 320), 0.1f * (j / 320));
 
 		auto q = tpaper.elements().add_quad();
@@ -117,4 +117,4 @@ int _main(core::PlatformLoop & loop) {
     });
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

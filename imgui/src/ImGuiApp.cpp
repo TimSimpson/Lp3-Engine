@@ -12,6 +12,18 @@
 
 #include <imgui.h>
 
+// I have no idea why this is necessary, but somehow, windows.h gets included
+// on Linux if I don't define these here myself.
+#ifdef LP3_COMPILE_TARGET_WINDOWS
+    #define SDL_VIDEO_DRIVER_WINDOWS 1
+#elif defined(LP3_COMPILE_TARGET_LINUX)
+    #define SDL_VIDEO_DRIVER_X11 1
+#endif
+#include <SDL_config.h>
+#ifdef LP3_COMPILE_TARGET_LINUX
+    #undef SDL_VIDEO_DRIVER_WINDOWS
+#endif
+
 #include <SDL_syswm.h>
 
 // Data
@@ -157,8 +169,8 @@ bool lp3::imgui::ImGuiApp::process_event(SDL_Event & event) {
         }
     case SDL_TEXTINPUT:
         {
-            ImGuiIO& io = ImGui::GetIO();
-            io.AddInputCharactersUTF8(event.text.text);
+            ImGuiIO& _io = ImGui::GetIO();
+            _io.AddInputCharactersUTF8(event.text.text);
             return true;
         }
     case SDL_KEYDOWN:
@@ -285,6 +297,8 @@ void ImGui_ImplSdl_InvalidateDeviceObjects()
 
 LP3_IMGUI_API
 lp3::imgui::ImGuiApp::ImGuiApp(lp3::gfx::Window & window) {
+    (void)window; // Unused on Linux
+
     LP3_LOG_DEBUG("Initializing ImGuiApp");
     ImGuiIO& io = ImGui::GetIO();
     LP3_LOG_DEBUG("Initializing ImGuiApp 2");
@@ -328,7 +342,7 @@ lp3::imgui::ImGuiApp::~ImGuiApp() {
     ImGui::Shutdown();
 }
 
-void lp3::imgui::ImGuiApp::operator() (const glm::mat4 & previous) {
+void lp3::imgui::ImGuiApp::operator() (const glm::mat4 &) {
     ImGui::Render();
 }
 

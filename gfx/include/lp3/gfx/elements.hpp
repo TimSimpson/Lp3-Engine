@@ -14,8 +14,8 @@ class TexVert {
 public:
     static constexpr std::size_t array_size = 5;
 
-    inline TexVert(GLfloat *data)
-    :   data(data)
+    inline TexVert(GLfloat * _data)
+    :   data(_data)
     {
         LP3_ASSERT(nullptr != data);
     }
@@ -75,8 +75,8 @@ LP3_GFX_API
 template<typename Vertex>
 class Triangle {
 public:
-    inline Triangle(GLfloat * data)
-    :   data(data)
+    inline Triangle(GLfloat * _data)
+    :   data(_data)
     {
         LP3_ASSERT(nullptr != data);
     }
@@ -122,8 +122,8 @@ LP3_GFX_API
 template<typename Vertex>
 class Quad {
 public:
-    inline Quad(GLfloat * data)
-    :   data(data)
+    inline Quad(GLfloat * _data)
+    :   data(_data)
     {
         LP3_ASSERT(nullptr != data);
     }

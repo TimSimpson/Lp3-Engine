@@ -28,8 +28,8 @@ inline Sint16 n_dz_adjust(const Sint16 v) {
 class SdlJoystick : public Device
 {
 public:
-    SdlJoystick(const char * name, gsl::owner<SDL_Joystick *> js)
-    :   name(name),
+    SdlJoystick(const char * _name, gsl::owner<SDL_Joystick *> js)
+    :   name(_name),
         key_names(),
         joystick(js),
         axis_count(SDL_JoystickNumAxes(js)),

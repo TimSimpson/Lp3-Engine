@@ -8,9 +8,9 @@ namespace gl = lp3::gl;
 namespace lp3 { namespace gfx {
 
 LP3_GFX_API
-FloatBuffer::FloatBuffer(const std::size_t size, bool resize_ok)
+FloatBuffer::FloatBuffer(const std::size_t size, bool _resize_ok)
 :   vertices(),
-    resize_ok(resize_ok),
+    resize_ok(_resize_ok),
     vertex_pos_object()
 {
     // Create the buffer to be used by OpenGL.(GLSL) (Bunny Link)
