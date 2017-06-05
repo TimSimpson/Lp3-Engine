@@ -48,9 +48,10 @@ SDL_GameControllerButton button_from_key_code(const int key_code) {
 constexpr Sint16 dead_zone = 8000;
 
 inline Sint16 dz_adjust(const Sint16 v) {
-    if (v < 8000) {
+    if (v < dead_zone) {
         return 0;
     }
+    return v;
 }
 
 // Turns SDL value of an axis, which ranges from positive to negative max

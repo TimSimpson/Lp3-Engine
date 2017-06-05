@@ -12,14 +12,14 @@ constexpr float diag_slop = 0.7071067811865476f;
 constexpr Sint16 dead_zone = 8000;
 
 inline Sint16 dz_adjust(const Sint16 v) {
-    if (v < 8000) {
+    if (v < dead_zone) {
         return 0;
     }
 	return v;
 }
 
 inline Sint16 n_dz_adjust(const Sint16 v) {
-    if (v > -8000) {
+    if (v > -dead_zone) {
         return 0;
     }
 	return v;

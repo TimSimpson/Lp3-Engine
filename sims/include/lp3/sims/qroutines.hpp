@@ -30,8 +30,6 @@ public:
 	friend bool equiv(const QRoutine & a, const QRoutine & b);
 private:
     // Returns time to sleep until next call, or none if it should die.
-    bool running;
-
     QRoutineDelegate func;
 
     SleepTime sleep_time;
