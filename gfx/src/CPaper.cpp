@@ -159,7 +159,7 @@ void CPaper::RendererList::render(const CPaper & cpaper) const {
 		color[2] = colors[i].b;
 		color[3] = colors[i].a;
 		gl::vertex_attrib_4fv(cpaper.a_color, color);
-		gl::draw_arrays(GL_TRIANGLES, (i * 3), 3);
+		gl::draw_arrays(GL_TRIANGLES, lp3::narrow<GLint>(i * 3), 3);
 	}
 }
 

@@ -44,7 +44,7 @@ public:
     // For boolean buttons, returns whether or not a key was pressed.
     bool get_key_state(const int key_code) override {
         const SDL_Scancode sdl_code = static_cast<SDL_Scancode>(key_code);
-        return state[sdl_code];
+        return 0 != state[sdl_code];
     }
 
     // For analog keys, gets a floating point number representing how
