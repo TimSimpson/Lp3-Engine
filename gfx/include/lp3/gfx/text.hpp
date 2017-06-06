@@ -63,7 +63,7 @@ public:
 		return glyphs[index];
 	}
 
-	inline const std::size_t glyph_count() const {
+	inline std::size_t glyph_count() const {
 		return glyphs.size();
 	}
 
@@ -98,6 +98,7 @@ template<typename QuadArray>
 std::size_t write_string(QuadArray && quads, const Font & font, glm::vec2 pos,
                          GLfloat z, GLfloat width,
                          const gsl::cstring_span<> & letters) {
+    (void)width; // TODO: Use parameter
     glm::vec2 p = pos;
 	int i = 0;
 	for (const auto & letter : letters) {
@@ -109,7 +110,7 @@ std::size_t write_string(QuadArray && quads, const Font & font, glm::vec2 pos,
         }
     }
 	return letters.size();
-};
+}
 
 } }
 

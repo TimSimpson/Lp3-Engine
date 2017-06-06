@@ -49,7 +49,7 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
 
     LP3_LOG_DEBUG("Loading font...")
 
-    
+
 	auto font = TTF_OpenFontRW(input_file, 0, font_size);
     if (nullptr == font) {
         LP3_LOG_ERROR(SDL_GetError());
@@ -66,9 +66,9 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
     GLfloat y = 0;
 
     for (char letter = ' '; letter <= '~'; ++ letter) {
-        const wchar_t ch = letter; //'A';
+        // const wchar_t ch = letter; //'A';
         int minx, maxx, miny, maxy, advance;
-        const auto result = TTF_GlyphMetrics(font, letter, &minx, &maxx, &miny, 
+        const auto result = TTF_GlyphMetrics(font, letter, &minx, &maxx, &miny,
 			                                 &maxy, &advance);
 		SDL_assert(0 == result);
 
@@ -116,13 +116,13 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
         SDL_BlitSurface(text, nullptr, single_letter, NULL);
 
         const int result2 = SDL_BlitSurface(single_letter, &src, new_surface, &dst);
-        LP3_ASSERT(0 == result);
+        LP3_ASSERT(0 == result2);
     }
 
     {
 		out_file.write("lp3_font", 8, 1);
         out_file.write("glyphs..", 8, 1);
-                
+
         out_file.write(fh);
 		out_file.write(' ');	// first letter
 		out_file.write('~'); // last letter
@@ -137,7 +137,7 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
             g.y = original_g.y / surface_size.y;
             g.x2 = original_g.x2 / surface_size.x;
             g.y2 = original_g.y2 / surface_size.y;
-            
+
 			// These stay expressed in terms of pixels.
 			g.advance = original_g.advance;
 			g.width = original_g.width;
@@ -151,16 +151,21 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
             // LP3_LOG_INFO("glyph (%d, %d) -> %d", g.x, g.y, g.advance);
         }
 
-        IMG_SavePNG_RW(new_surface, out_file, 0);		
+        IMG_SavePNG_RW(new_surface, out_file, 0);
     }
 }
 
 int load(core::PlatformLoop & loop,
-         sdl::RWops & input_file) {    
-    
+         sdl::RWops & input_file,
+         const bool & run) {
+
     gfx::Window window("FONT TIME BABEE", glm::vec2{ 640, 480 });
 
 	gfx::Font font{ input_file };
+
+    if (!run) {
+        return 0;
+    }
 
     LP3_LOG_INFO("glpyh_count = %i", font.glyph_count());
     LP3_ASSERT(font.glyph_count() < 256);
@@ -169,9 +174,9 @@ int load(core::PlatformLoop & loop,
     gfx::TPaper tpaper(glm::ivec2{640, 480 }, font.texture().gl_id(),
                        number_of_quads + 100);
 	gfx::QuadArray<gfx::TexVert> quads1 = tpaper.elements().add_quads(26);
-	
+
     const GLfloat z = -0.0f;
-    
+
     GLfloat l = 10.0f;
     GLfloat y = 10.0f;
 	int letter_i = 0;
@@ -300,7 +305,7 @@ int _main(core::PlatformLoop & loop) {
 
 	// Reopen file.
 	sdl::RWops out_file{ SDL_RWFromFile(output_file_path.c_str(), "rb") };
-    return load(loop, out_file);
+    return load(loop, out_file, run);
 }
 
 LP3_MAIN(_main)

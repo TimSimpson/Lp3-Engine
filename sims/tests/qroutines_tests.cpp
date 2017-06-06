@@ -64,6 +64,7 @@ TEST_CASE("Call a routine with arguments.", "[calling_with_args]") {
     std::string arg_holder("I am a crazy string. Wow! Crazy!");
 
     auto some_crazy_func = [](const std::string & hi) {
+        LP3_LOG_VAR(hi);
         LP3_LOG_INFO("I got message: %s", hi);
         return boost::none;
     };

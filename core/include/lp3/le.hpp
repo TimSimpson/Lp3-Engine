@@ -156,4 +156,3 @@
       #define LP3_THROW2(t, ...) LP3_THROW(t)
   #endif
 #endif
-

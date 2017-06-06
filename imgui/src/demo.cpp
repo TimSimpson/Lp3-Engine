@@ -96,7 +96,7 @@ int _main(lp3::core::PlatformLoop & loop) {
         glClearColor(g_clear_color.x, g_clear_color.y, g_clear_color.z, g_clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
-		window.render([](const glm::mat4 & previous) {
+		window.render([](const glm::mat4 &) {
 			ImGui::Render();
 		});
 

@@ -10,8 +10,7 @@ namespace {
 }
 
 QRoutine::QRoutine(QRoutineDelegate f, SleepTime _sleep_time)
-:   running(true),
-    func(f),
+:   func(f),
     sleep_time(_sleep_time),
     id(++ next_id)
 {}

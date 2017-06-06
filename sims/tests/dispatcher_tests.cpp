@@ -14,6 +14,7 @@ TEST_CASE("Test Dispatching", "[dispatcher_tests]") {
 		std::string character_id;
 	};
 	auto on_attack = [](const AttackInfo & info) {
+		(void)info;
 		LP3_LOG_INFO("Character %d was attacked for %d damage.",
 			info.character_id, info.hp);
 	};
@@ -21,6 +22,7 @@ TEST_CASE("Test Dispatching", "[dispatcher_tests]") {
 	dispatcher.send(ATTACKED, AttackInfo{ 35, "Alaghasta the Ninny" });
 
 	dispatcher.subscribe<AttackInfo>(ATTACKED, [](const AttackInfo & info) {
+		(void)info;
 		LP3_LOG_INFO("I also saw that %s was just attacked for %d damage!",
 			info.character_id, info.hp);
 	});
@@ -31,18 +33,17 @@ TEST_CASE("Test Dispatching", "[dispatcher_tests]") {
 	//});
 
 	{
-		lp3::core::AssertListener listen;		
-		REQUIRE_THROWS_AS(dispatcher.send<int>(ATTACKED, 5), 
-			              lp3::core::AssertFailed);
+		lp3::core::AssertListener listen;
+		LP3_REQUIRE_ASSERT_FAILURE(dispatcher.send<int>(ATTACKED, 5));
 	}
 
 	{
 		lp3::core::AssertListener listen;
-		REQUIRE_THROWS_AS(
+		LP3_REQUIRE_ASSERT_FAILURE(
 			dispatcher.subscribe<int>(ATTACKED, [](const int & info) {
+				(void)info;
 				LP3_LOG_INFO("I am a bug. %d", info);
-			}), 
-			lp3::core::AssertFailed);
+			}));
 	}
 }
 

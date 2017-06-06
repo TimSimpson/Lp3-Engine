@@ -40,8 +40,8 @@ void main()
 }
 
 LP3_GFX_API
-CPaper::CPaper(const glm::ivec2 resolution)
-:   resolution(resolution),
+CPaper::CPaper(const glm::ivec2 _resolution)
+:   resolution(_resolution),
     vertex_shader(gl::compile_shader(GL_VERTEX_SHADER, vertex_shader_source)),
     fragment_shader(gl::compile_shader(GL_FRAGMENT_SHADER,
                                        fragment_shader_source)),
@@ -123,8 +123,8 @@ void CPaper::operator()(const glm::mat4 & previous) const {
 }
 
 LP3_GFX_API
-void CPaper::set_render_list(const CPaper::RendererList & list) {
-	this->list = list;
+void CPaper::set_render_list(const CPaper::RendererList & new_list) {
+	this->list = new_list;
 }
 
 
@@ -152,14 +152,14 @@ void CPaper::RendererList::render(const CPaper & cpaper) const {
 	gl::vertex_attrib_pointer(cpaper.a_position, 3, GL_FLOAT, 0, 0, 0);
 	gl::enable_vertext_attrib_array(cpaper.a_position);
 
-	for (int i = 0; i < colors.size(); ++i) {
+	for (std::size_t i = 0; i < colors.size(); ++i) {
 		GLfloat color[4];
 		color[0] = colors[i].r;
 		color[1] = colors[i].g;
 		color[2] = colors[i].b;
 		color[3] = colors[i].a;
 		gl::vertex_attrib_4fv(cpaper.a_color, color);
-		gl::draw_arrays(GL_TRIANGLES, (i * 3), 3);
+		gl::draw_arrays(GL_TRIANGLES, lp3::narrow<GLint>(i * 3), 3);
 	}
 }
 

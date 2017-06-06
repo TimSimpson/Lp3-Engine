@@ -1,4 +1,5 @@
 #include <sstream>
+#include <boost/format.hpp>
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/sims.hpp>
@@ -95,4 +96,4 @@ int _main(core::PlatformLoop & loop) {
     return 0;
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

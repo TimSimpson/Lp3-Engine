@@ -38,8 +38,8 @@ void main()
 }
 
 LP3_GFX_API
-Screen::Screen(const glm::ivec2 resolution)
-:	resolution(resolution),
+Screen::Screen(const glm::ivec2 _resolution)
+:	resolution(_resolution),
 	vertex_shader(gl::compile_shader(GL_VERTEX_SHADER, vertex_shader_source)),
 	fragment_shader(gl::compile_shader(GL_FRAGMENT_SHADER,
 		                               fragment_shader_source)),

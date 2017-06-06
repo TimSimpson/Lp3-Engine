@@ -41,14 +41,14 @@ int _main(core::PlatformLoop & loop) {
     const glm::ivec2 res2d{ 427, 240 };
     gfx::programs::SimpleTextured program;
 
-    auto node = [&](const glm::mat4 & previous) {
+    auto node = [&](const glm::mat4 &) {
         ImGui::Render();
     };
 
     sims::FrameTimer frame_timer;
 
-    std::size_t letter_count = 0;   // Last letters written, represents how many
-                                    // quads we must clear.
+    //std::size_t letter_count = 0;   // Last letters written, represents how many
+    //                                // quads we must clear.
 
     if(!mix::Music::is_playing()) { //Play the music
 		music.play();
@@ -83,16 +83,16 @@ int _main(core::PlatformLoop & loop) {
             }
         }
 
-		const auto cb = [](void * udata, uint8_t * stream, int len) {
-			int & pos = *((int*)udata);
-			// SDL_MixAudioFormat
-			for (int i = 0; i < len; ++i) {
-				stream[i] = i % 0xff;
-			}
+		// const auto cb = [](void * udata, uint8_t * stream, int len) {
+		// 	int & pos = *((int*)udata);
+		// 	// SDL_MixAudioFormat
+		// 	for (int i = 0; i < len; ++i) {
+		// 		stream[i] = i % 0xff;
+		// 	}
 
-			pos += len;
-		};
-		int music_pos = 0;
+		// 	pos += len;
+		// };
+		// int music_pos = 0;
 		// Mix_HookMusic(cb, &music_pos);
 
 		controls.update();
@@ -135,4 +135,4 @@ int _main(core::PlatformLoop & loop) {
     return 0;
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

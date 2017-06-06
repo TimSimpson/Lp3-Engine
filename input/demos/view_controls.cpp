@@ -1,4 +1,5 @@
 #include <sstream>
+#include <boost/format.hpp>
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/imgui.hpp>
@@ -82,6 +83,7 @@ int _main(core::PlatformLoop & loop) {
     //}
     for (int i = 0; i < SDL_NumJoysticks(); ++i) {
         const char * js_name = SDL_JoystickNameForIndex(i);
+        LP3_LOG_VAR(js_name)
         LP3_LOG_INFO("Joystick Name=%s", (js_name ? js_name : "nullptr"));
         char guid[32];
         static_assert(sizeof(guid) == 32, "?!");
@@ -101,6 +103,7 @@ int _main(core::PlatformLoop & loop) {
         }
 
         const char * gc_name = SDL_GameControllerNameForIndex(i);
+        LP3_LOG_VAR(gc_name)
         LP3_LOG_INFO("    Game Controller Name=%s", (gc_name ? gc_name : "nullptr"));
         LP3_LOG_INFO("    SDL_IsGameController(%i)=%s", i, (SDL_IsGameController(i) ? "true" : "false"));
 
@@ -108,7 +111,7 @@ int _main(core::PlatformLoop & loop) {
 
     // TODO: Close joysticks - see https://wiki.libsdl.org/SDL_JoystickOpen
 
-    const ImVec4 g_clear_color = ImColor(114, 144, 154);
+    // const ImVec4 g_clear_color = ImColor(114, 144, 154);
 
     return loop.run([&]() {
         frame_timer.next_frame();
@@ -158,7 +161,7 @@ int _main(core::PlatformLoop & loop) {
 		}
 		std::string key_text = ss.str();
 		ImGui::Begin("Debug 2");
-    	ImGui::Text(key_text.c_str());
+    	ImGui::Text("%s", key_text.c_str());
 		ImGui::End();
 
         for (std::size_t i = 0; i < letter_count; ++i) {
@@ -180,4 +183,4 @@ int _main(core::PlatformLoop & loop) {
     return 0;
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

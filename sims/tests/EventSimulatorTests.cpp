@@ -19,6 +19,7 @@ TEST_CASE("Sending Some Events", "[es-example-1]") {
 		std::string attacker;
 	};
 	simmy.subscribe<HurtMsg>(ON_HURT, [&history](HurtMsg hm) {
+		LP3_LOG_VAR(hm);
 		LP3_LOG_INFO("You wound me for %d hp good sir %s.", hm.hp, hm.attacker);
 		history.push_back('c');
 	});
@@ -56,10 +57,12 @@ TEST_CASE("Spawning events during events", "[es-example-2]") {
 		std::string healer;
 	};
 	simmy.subscribe<HurtMsg>(ON_HURT, [&history](HurtMsg hm) {
+		LP3_LOG_VAR(hm);
 		LP3_LOG_INFO("You wound me for %d hp good sir %s.", hm.hp, hm.attacker);
 		history.push_back('-');
 	});
 	simmy.subscribe<HealMsg>(ON_HEAL, [&history](HealMsg hm) {
+		LP3_LOG_VAR(hm);
 		LP3_LOG_INFO("HP += %d. Thanks %s!", hm.hp, hm.healer);
 		history.push_back('+');
 	});

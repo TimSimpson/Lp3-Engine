@@ -26,7 +26,7 @@ namespace {
         std::uint64_t glyph_count;
         file.read(glyph_count);
         glyphs.reserve(glyph_count);
-        for(int i = 0; i < glyph_count; ++ i) {
+        for(std::size_t i = 0; i < glyph_count; ++ i) {
             Glyph g;
             file.read(g.x);
             file.read(g.y);

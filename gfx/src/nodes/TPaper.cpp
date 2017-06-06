@@ -7,11 +7,11 @@ namespace lp3 { namespace gfx {
 
 
 LP3_GFX_API
-TPaper::TPaper(const glm::ivec2 resolution, gl::TextureID texture,
+TPaper::TPaper(const glm::ivec2 _resolution, gl::TextureID _texture,
                const std::size_t vertex_count)
 :   program(),
-	resolution(resolution),
-	texture(texture),
+	resolution(_resolution),
+	texture(_texture),
     _elements(vertex_count * TexVert::array_size)
 {
 }

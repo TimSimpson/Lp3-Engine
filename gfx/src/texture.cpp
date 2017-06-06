@@ -5,16 +5,16 @@
 namespace lp3 { namespace gfx {
 
 LP3_GFX_API
-Texture::Texture(gsl::owner<SDL_Surface *> surface, const gsl::span<glm::ivec3> color_keys)
+Texture::Texture(gsl::owner<SDL_Surface *> _surface, const gsl::span<glm::ivec3> color_keys)
 :   surface(nullptr),
     texture()
 {
     #ifdef LP3_COMPILE_WITH_DEBUGGING
-        if (nullptr == surface) {
+        if (nullptr == _surface) {
             LP3_LOG_ERROR("Error with texture: %s", SDL_GetError());
         }
     #endif
-    LP3_ASSERT(nullptr != surface);
+    LP3_ASSERT(nullptr != _surface);
 
     Uint32 rmask, gmask, bmask, amask;
 
@@ -32,8 +32,8 @@ Texture::Texture(gsl::owner<SDL_Surface *> surface, const gsl::span<glm::ivec3> 
 
     SDL_Surface * new_surface = SDL_CreateRGBSurface(
         0,  // flags, unusued
-        surface->w,
-        surface->h,
+        _surface->w,
+        _surface->h,
         32, // depth
         rmask, gmask, bmask, amask);
     LP3_ASSERT(new_surface);
@@ -46,8 +46,8 @@ Texture::Texture(gsl::owner<SDL_Surface *> surface, const gsl::span<glm::ivec3> 
     // Set up color key stuff
     // Make the key pink
     for (const glm::ivec3 & pixel : color_keys) {
-        Uint32 key = SDL_MapRGB(surface->format, pixel.r, pixel.g, pixel.b);
-        SDL_SetColorKey(surface, SDL_TRUE, key);
+        Uint32 key = SDL_MapRGB(_surface->format, pixel.r, pixel.g, pixel.b);
+        SDL_SetColorKey(_surface, SDL_TRUE, key);
     }
     //SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_NONE);
     // {
@@ -57,13 +57,13 @@ Texture::Texture(gsl::owner<SDL_Surface *> surface, const gsl::span<glm::ivec3> 
 
     // blit!
 
-    const int result = SDL_BlitSurface(surface, nullptr, new_surface, NULL);
+    const int result = SDL_BlitSurface(_surface, nullptr, new_surface, NULL);
     if (0 != result) {
         LP3_LOG_ERROR("SDL error : %s ]]", SDL_GetError());
         LP3_THROW2(lp3::core::Exception, "Couldn't copy surface.");
     }
 
-    auto & old_surface = surface;
+    auto & old_surface = _surface;
     this->surface = new_surface;
     SDL_FreeSurface(old_surface);
 

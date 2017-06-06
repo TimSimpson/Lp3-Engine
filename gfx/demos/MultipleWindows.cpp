@@ -33,11 +33,11 @@ int _main(core::PlatformLoop & loop) {
                 // etc, etc
             }
         }
-        gfx::SceneNodeFunc do_nothing = [](const glm::mat4 & m) {};
+        gfx::SceneNodeFunc do_nothing = [](const glm::mat4 &) {};
         window.render(do_nothing);
         window2.render(do_nothing);
         return !quit;
     });
 }
 
-LP3_MAIN(_main);
+LP3_MAIN(_main)

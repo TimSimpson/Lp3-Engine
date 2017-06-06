@@ -1,4 +1,5 @@
 #include "Device.hpp"
+#include <boost/format.hpp>
 
 inline namespace lp3_input_internal {
 
@@ -11,14 +12,14 @@ constexpr float diag_slop = 0.7071067811865476f;
 constexpr Sint16 dead_zone = 8000;
 
 inline Sint16 dz_adjust(const Sint16 v) {
-    if (v < 8000) {
+    if (v < dead_zone) {
         return 0;
     }
 	return v;
 }
 
 inline Sint16 n_dz_adjust(const Sint16 v) {
-    if (v > -8000) {
+    if (v > -dead_zone) {
         return 0;
     }
 	return v;
@@ -28,8 +29,8 @@ inline Sint16 n_dz_adjust(const Sint16 v) {
 class SdlJoystick : public Device
 {
 public:
-    SdlJoystick(const char * name, gsl::owner<SDL_Joystick *> js)
-    :   name(name),
+    SdlJoystick(const char * _name, gsl::owner<SDL_Joystick *> js)
+    :   name(_name),
         key_names(),
         joystick(js),
         axis_count(SDL_JoystickNumAxes(js)),
@@ -51,6 +52,7 @@ public:
             key_names.push_back(str(boost::format("Axis %i Positive") % i));
         }
         for (const auto & s : key_names) {
+            LP3_LOG_VAR(s)
             LP3_LOG_DEBUG("   [%s]", s);
         }
     }
