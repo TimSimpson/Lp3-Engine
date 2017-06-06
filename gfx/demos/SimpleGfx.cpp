@@ -124,7 +124,7 @@ int _main(core::PlatformLoop & loop) {
 			color[2] = colors[i].data[2];
 			color[3] = colors[i].data[3];
 			gl::vertex_attrib_4fv(_screen.a_color, color);
-			gl::draw_arrays(GL_TRIANGLES, (i * 3), 3);
+			gl::draw_arrays(GL_TRIANGLES, lp3::narrow<GLint>(i * 3), 3);
 		}
 
 		//glEnableClientState(GL_TEXTURE_COORD_ARRAY_EXT);
