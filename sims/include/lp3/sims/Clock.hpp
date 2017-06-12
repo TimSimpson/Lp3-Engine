@@ -168,6 +168,7 @@ private:
 private:
     std::int64_t current_time;
     std::int64_t lag;
+    std::int64_t max_lag;
     std::int64_t update_time_in_ms;
     std::int64_t previous_time;
     Timer timer;
