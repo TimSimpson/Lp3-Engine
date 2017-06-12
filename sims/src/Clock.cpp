@@ -68,7 +68,7 @@ LP3_SIMS_API
 GameClock::GameClock(Timer::time_int logic_update_time_in_ms)
 :   current_time(0),
     lag(0),
-    max_lag(std::max(500ll, logic_update_time_in_ms)),
+    max_lag(std::max(Timer::time_int{500}, logic_update_time_in_ms)),
     update_time_in_ms(logic_update_time_in_ms),
     previous_time(0),
     timer()
