@@ -150,7 +150,7 @@ void CPaper::RendererList::render(const CPaper & cpaper) const {
 	// Setup the position attribute to accept a pointer to the buffer.
 	gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);
 	gl::vertex_attrib_pointer(cpaper.a_position, 3, GL_FLOAT, 0, 0, 0);
-	gl::enable_vertext_attrib_array(cpaper.a_position);
+	gl::enable_vertex_attrib_array(cpaper.a_position);
 
 	for (std::size_t i = 0; i < colors.size(); ++i) {
 		GLfloat color[4];

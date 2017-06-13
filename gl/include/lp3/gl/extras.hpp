@@ -183,9 +183,14 @@ inline void draw_arrays(GLenum mode, GLint first, GLsizei count) {
 	LP3_GL_ASSERT_NO_ERRORS();
 }
 
-inline void enable_vertext_attrib_array(VertexAttributeIndex index) {
+inline void enable_vertex_attrib_array(VertexAttributeIndex index) {
 	glEnableVertexAttribArray(index);
 	LP3_GL_ASSERT_NO_ERRORS();
+}
+
+inline void disable_vertex_attrib_array(VertexAttributeIndex index) {
+    glDisableVertexAttribArray(index);
+    LP3_GL_ASSERT_NO_ERRORS();
 }
 
 template<std::size_t size>

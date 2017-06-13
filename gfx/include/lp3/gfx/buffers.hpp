@@ -45,6 +45,9 @@ public:
         return vertex_pos_object;
     }
 
+	// Resets the buffer so it can be reused.
+	void reset();
+
     std::size_t size() const {
         return vertices.size();
     }
@@ -68,6 +71,9 @@ public:
     inline void push_back(GLushort value) {
         elements.push_back(value);
     }
+
+	// Clears all elements
+	void reset(); 
 
     inline GLsizei size() const {
         return GLsizei(elements.size());
@@ -145,6 +151,12 @@ public:
 
 		QuadArray<Vertex> array(data, count);
 		return array;
+	}
+
+	// Reset the buffers in order to write again.
+	void reset() {
+		vertices.reset();
+		elements.reset();
 	}
 
     void transfar() const {
