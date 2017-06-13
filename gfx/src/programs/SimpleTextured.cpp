@@ -103,15 +103,17 @@ void SimpleTextured::set_array_buffer(gl::BufferObjectName vertex_pos_object) co
         5 * sizeof(GLfloat),
         (const void *) (3 * sizeof(GLfloat))
     );
-    gl::enable_vertext_attrib_array(this->a_position);
-    gl::enable_vertext_attrib_array(this->a_texCoord);
+    gl::enable_vertex_attrib_array(this->a_position);
+    gl::enable_vertex_attrib_array(this->a_texCoord);
 }
 
+LP3_GFX_API
 void SimpleTextured::set_mvp(const glm::mat4 & mvp) const {
     const gl::UniformVariableLocation u_ortho_index = get_u_mvp();
     gl::uniform_matrix_4fv(u_ortho_index, const_cast<glm::mat4 &>(mvp));
 }
 
+LP3_GFX_API
 void SimpleTextured::set_texture(const gl::TextureID & id) const {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, id);
@@ -124,11 +126,19 @@ void SimpleTextured::set_texture(const gl::TextureID & id) const {
     glUniform1i(get_s_texture(), 0);
 }
 
+LP3_GFX_API
+void SimpleTextured::unset_array_buffer() const {
+    gl::disable_vertex_attrib_array(this->a_position);
+    gl::disable_vertex_attrib_array(this->a_texCoord);
+}
+
+LP3_GFX_API
 void SimpleTextured::draw(const ElementWriter<TexVert> & elements) const {
     elements.transfar();
     // Setup the position attribute to accept a pointer to the buffer.
     this->set_array_buffer(elements.vertices_attribute());
     glDrawElements(GL_TRIANGLES, elements.count(), GL_UNSIGNED_SHORT, 0);
+    this->unset_array_buffer();
 }
 
 }   }   }

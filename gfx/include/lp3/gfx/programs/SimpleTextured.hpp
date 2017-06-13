@@ -9,8 +9,8 @@
 namespace lp3 { namespace gfx { namespace programs {
 
 
-class 
-LP3_GFX_API 
+class
+LP3_GFX_API
 SimpleTextured {
 public:
 
@@ -26,7 +26,6 @@ public:
     const gl::VertexAttributeIndex a_texCoord{ 1 };
 
     // Name of mvp variable
-
 
     // Get variable of u mvp (MUST BE USING PROGRAM).
     gl::UniformVariableLocation get_u_mvp() const;
@@ -46,6 +45,9 @@ public:
     void set_mvp(const glm::mat4 & previous) const;
 
     void set_texture(const gl::TextureID & id) const;
+
+    // Disables array buffer variables.
+    void unset_array_buffer() const;
 
     void draw(const ElementWriter<TexVert> & elements) const;
 private:

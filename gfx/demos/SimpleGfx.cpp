@@ -113,7 +113,7 @@ int _main(core::PlatformLoop & loop) {
 		gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);
 		gl::vertex_attrib_pointer(_screen.a_position, 3, GL_FLOAT, 0, 0, 0);
 
-		gl::enable_vertext_attrib_array(_screen.a_position);
+		gl::enable_vertex_attrib_array(_screen.a_position);
 		gl::draw_arrays(GL_TRIANGLES, 0, 3);
 
 		// GLfloat red[4] = { 1.0, 0.0f, 0.0f, 1.0f };

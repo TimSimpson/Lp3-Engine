@@ -92,7 +92,7 @@ int _main(core::PlatformLoop & loop) {
 
         gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);		
         gl::vertex_attrib_pointer(v_position, 3, GL_FLOAT, 0, 0, 0);
-        gl::enable_vertext_attrib_array(v_position);
+        gl::enable_vertex_attrib_array(v_position);
         gl::draw_arrays(GL_TRIANGLES, 0, 3);
 
         SDL_GL_SwapWindow(window);

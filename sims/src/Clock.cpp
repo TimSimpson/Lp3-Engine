@@ -68,6 +68,7 @@ LP3_SIMS_API
 GameClock::GameClock(Timer::time_int logic_update_time_in_ms)
 :   current_time(0),
     lag(0),
+    max_lag(std::max(Timer::time_int{500}, logic_update_time_in_ms)),
     update_time_in_ms(logic_update_time_in_ms),
     previous_time(0),
     timer()
@@ -109,8 +110,8 @@ std::int64_t GameClock::start_frame() {
     // the real loop can't go at least that fast, the game will noticably
     // slow down.  However it beats the alternative, which would make the
     // app increasingly unresponsive.
-    if (lag > 500) {
-        lag = 500;
+    if (lag > max_lag) {
+        lag = max_lag;
     }
 
     return lag;

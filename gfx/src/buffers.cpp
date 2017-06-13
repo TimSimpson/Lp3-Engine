@@ -30,6 +30,13 @@ GLfloat * FloatBuffer::claim(const int size) {
 }
 
 LP3_GFX_API
+void FloatBuffer::reset() {
+	const auto s = this->size();
+	vertices.clear();
+	vertices.reserve(s);
+}
+
+LP3_GFX_API
 void FloatBuffer::transfar() const {
     // Copy data from client side to graphics land.
     // If the vertices change at all this must happen again.
@@ -46,6 +53,10 @@ ElementBuffer::ElementBuffer()
 {
     // Create the buffer to be used by OpenGL.(GLSL) (Bunny Link)
     vertex_index_object = gl::gen_buffer();
+}
+
+void ElementBuffer::reset() {
+	elements.clear();
 }
 
 void ElementBuffer::transfar() const {
