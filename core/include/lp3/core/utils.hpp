@@ -60,11 +60,13 @@ MediaManager {
 public:
     MediaManager();
 
-    #ifdef LP3_COMPILE_TARGET_PC
-        /* On PC, the base directory can be set. */
-        MediaManager(const std::string & _base_directory);
-    #endif
+#ifndef LP3_COMPILE_TARGET_PC
+private:  // Private, except on the PC where a base directory can be set.
+#endif
 
+    MediaManager(const std::string & _base_directory);
+
+public:
     /* Opens a resource for reading. */
 	sdl::RWops load(const gsl::cstring_span<> & file);
 
@@ -73,6 +75,10 @@ public:
 
 	/* Opens a resource for writing. */
 	sdl::RWops save(const gsl::cstring_span<> & file);
+
+    /* Opens a new Media Manager in a sub directory. */
+    MediaManager sub_directory(const gsl::cstring_span<> & sub_directory);
+
 private:
     const std::string base_directory;
 };
