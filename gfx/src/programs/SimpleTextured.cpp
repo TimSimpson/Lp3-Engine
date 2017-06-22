@@ -26,7 +26,7 @@ void main()
 }
 )GLSL_CODE";
 
-    const GLchar * fragment_shader_source = R"GLSL_CODE(
+	const GLchar * fragment_shader_source = R"GLSL_CODE(
 #version 100
 
 precision mediump float;
@@ -35,7 +35,13 @@ uniform sampler2D s_texture;
 
 void main()
 {
-    gl_FragColor = texture2D(s_texture, v_texCoord);
+	vec4 color = texture2D(s_texture, v_texCoord);
+
+	// Don't render if the alpha channel is zero
+	if (color.a == 0.0) {
+		discard;
+	}
+    gl_FragColor = color;
 }
 
 )GLSL_CODE";
@@ -120,9 +126,7 @@ void SimpleTextured::set_texture(const gl::TextureID & id) const {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //glEnable(GL_ALPHA_TEST);
-    //glAlphaFunc(GL_GREATER, 0.0f);
-
+    
     glUniform1i(get_s_texture(), 0);
 }
 
