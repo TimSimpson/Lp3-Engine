@@ -1,6 +1,8 @@
 #define LP3_GFX_API_CREATE
 #include <lp3/gfx/management.hpp>
 #include <lp3/gl.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace lp3 { namespace gfx {
 
@@ -62,8 +64,32 @@ void Window::render(SceneNodeFunc f) {
 	LP3_GL_ASSERT_NO_ERRORS();
 	glClear(GL_COLOR_BUFFER_BIT);
 	LP3_GL_ASSERT_NO_ERRORS();
-	f(glm::mat4());
 
+	// TODO: Cache all of this stuff and only calculate it when 
+	//       the display size is changed.
+	// Maintain aspect ratio:
+
+	glm::vec2 vr = _virtual_resolution;
+	glm::vec2 dr = _display_resolution;
+
+	const GLfloat desired_ar = vr.x / vr.y;
+	const GLfloat actual_ar = dr.x / dr.y;
+	const GLfloat x_stretch = desired_ar / actual_ar;
+
+	const glm::mat4 scale = glm::scale(
+		glm::mat4(), 
+		glm::vec3(x_stretch, 1.0f, 1.0f));
+	
+	const GLfloat visible_x_width = dr.x * x_stretch;
+	const GLfloat x_start = (dr.x - visible_x_width) / 2.0f;
+	
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(0 + (GLsizei) x_start, 0, 
+			  (GLsizei)visible_x_width, _display_resolution.y);
+
+	// Finally, call whatever will do the renderering
+	f(scale);
+	glDisable(GL_SCISSOR_TEST);
 	SDL_GL_SwapWindow(this->_window);
 }
 
