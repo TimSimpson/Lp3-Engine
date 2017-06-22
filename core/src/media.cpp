@@ -88,4 +88,11 @@ sdl::RWops MediaManager::save(const gsl::cstring_span<> & file) {
 	return sdl::RWops{ptr};
 }
 
+LP3_CORE_API
+MediaManager MediaManager::sub_directory(const gsl::cstring_span<> & sub_d) {
+	MediaManager subm(
+		str(boost::format("%s/%s") % base_directory % sub_d.data()));
+	return subm;
+}
+
 } }  // end lp3::core
