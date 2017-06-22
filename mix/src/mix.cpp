@@ -52,6 +52,10 @@ LP3_MIX_API
 Chunk::Chunk(gsl::owner<Mix_Chunk *> chunk)
 :   _chunk(chunk)
 {
+	if (nullptr == _chunk) {
+		LP3_LOG_ERROR("Chunk creation failed: %s", Mix_GetError());
+		LP3_THROW(lp3::core::Exception);
+	}
     SDL_assert(nullptr != _chunk);
 }
 
@@ -90,7 +94,10 @@ LP3_MIX_API
 Music::Music(gsl::owner<Mix_Music *> music)
 :   _music(music)
 {
-    SDL_assert(nullptr != _music);
+	if (nullptr == _music) {
+		LP3_LOG_ERROR("Music creation failed: %s", Mix_GetError());
+		LP3_THROW(lp3::core::Exception);
+	}
 }
 
 LP3_MIX_API
