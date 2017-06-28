@@ -9,6 +9,7 @@
 #include "gfx/screen.hpp"
 #include "gfx/text.hpp"
 #include "gfx/nodes/TPaper.hpp"
+#include "gfx/programs/ColoredTexture.hpp"
 #include "gfx/programs/SimpleTextured.hpp"
 
 #endif

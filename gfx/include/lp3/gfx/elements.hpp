@@ -66,8 +66,78 @@ public:
         y() = v.y;
         z() = v.z;
     }
-private:
+protected:
     GLfloat * data;
+};
+
+LP3_GFX_API
+class TexCVert : public TexVert {
+public:
+    static constexpr std::size_t array_size = 9;
+
+    inline TexCVert(GLfloat * _data)
+    :   TexVert(_data)
+    {
+    }
+
+    inline GLfloat & r() {
+        return data[5];
+    }
+
+    inline GLfloat & g() {
+        return data[6];
+    }
+
+    inline GLfloat & b() {
+        return data[7];
+    }
+
+    inline GLfloat & a() {
+        return data[8];
+    }
+
+    inline void set(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v) {
+        set(x, y, z, u, v, 1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    inline void set(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v,
+                    GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+        this->x() = x;
+        this->y() = y;
+        this->z() = z;
+        this->u() = u;
+        this->v() = v;
+        this->r() = r;
+        this->g() = g;
+        this->b() = b;
+        this->a() = a;
+    }
+
+    inline glm::vec2 pos_to_vec2() {
+        return glm::vec2{x(), y()};
+    }
+
+    inline void pos_to_vec2(const glm::vec2 & v) {
+        x() = v.x;
+        y() = v.y;
+    }
+
+    inline glm::vec3 pos_to_vec3() {
+        return glm::vec3{x(), y(), z()};
+    }
+
+    inline void pos_to_vec3(const glm::vec3 & v) {
+        x() = v.x;
+        y() = v.y;
+        z() = v.z;
+    }
+
+    inline void set_rgb(const glm::vec4 & v) {
+        r() = v.r;
+        g() = v.g;
+        b() = v.b;
+        a() = v.a;
+    }
 };
 
 
@@ -183,14 +253,23 @@ private:
 // Given the upper left and lower right vertices of a right angled quad, sets
 // the other vertices.
 template<typename Quad>
-void upright_quad(Quad && quad, glm::vec2 a, glm::vec2 b, GLfloat z,
-                  glm::vec2 ta, glm::vec2 tb) {
+void upright_quad(Quad && quad, const glm::vec2 & a, const glm::vec2 & b,
+                  const GLfloat z, const glm::vec2 & ta, const glm::vec2 & tb) {
     quad.ul().set(a.x, a.y, z, ta.x, ta.y);
     quad.dl().set(a.x, b.y, z, ta.x, tb.y);
     quad.dr().set(b.x, b.y, z, tb.x, tb.y);
     quad.ur().set(b.x, a.y, z, tb.x, ta.y);
 }
 
+template<typename Quad>
+void upright_quad(Quad && quad, const glm::vec2 & a, const glm::vec2 & b,
+                  const GLfloat z, const glm::vec2 & ta, const glm::vec2 & tb,
+                  const glm::vec4 & color) {
+    quad.ul().set(a.x, a.y, z, ta.x, ta.y, color.r, color.g, color.b, color.a);
+    quad.dl().set(a.x, b.y, z, ta.x, tb.y, color.r, color.g, color.b, color.a);
+    quad.dr().set(b.x, b.y, z, tb.x, tb.y, color.r, color.g, color.b, color.a);
+    quad.ur().set(b.x, a.y, z, tb.x, ta.y, color.r, color.g, color.b, color.a);
+}
 
 } }
 
