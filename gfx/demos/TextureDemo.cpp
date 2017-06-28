@@ -19,36 +19,42 @@ int _main(core::PlatformLoop & loop) {
     gfx::Window window("Construction Paper", glm::vec2{ 640, 480 });
 
 	glEnable(GL_DEPTH_TEST);
-	
+
 	// Loads up EARTH
 	auto earth_file = media.load("Engine/Gfx/Earth512.bmp");
 	gfx::Texture earth(IMG_Load_RW(earth_file, 0));
 
-	gfx::ElementWriter<gfx::TexVert> earth_elements{ 4 };
+	gfx::ElementWriter<gfx::TexCVert> earth_elements{ 4 };
+    
+    glm::vec4 color{0.0f, 1.0f, 0.0f, 1.0f};
+
 	gfx::upright_quad(
 		earth_elements.add_quad(),
 		glm::vec2(0.0f, 0.0f), glm::vec2(32.0, 32.0), 0.9f,
 		glm::vec2(0.0f, 0.0f),
-		glm::vec2(1.0f, 1.0f));
+		glm::vec2(1.0f, 1.0f),
+        color);
 
 
 	// Now draw a bunch of pizza
-	auto pizza_file = media.load("Engine/Gfx/pizza.bmp");	
+	auto pizza_file = media.load("Engine/Gfx/pizza.bmp");
     glm::ivec3 color_key[] = { glm::ivec3{ 255, 0, 220 }};
 	gfx::Texture pizza(
         //IMG_LoadTyped_RW(bmp_file, 0, "BMP"),
         IMG_Load_RW(pizza_file, 0),
         gsl::make_span(color_key, 1));
 
-	gfx::programs::SimpleTextured program;
-	
+	gfx::programs::ColoredTexture earth_program;
+
+    gfx::programs::SimpleTextured pizza_program;
+
 	const std::size_t number_of_quads = 1000; //00;
 
-	gfx::ElementWriter<gfx::TexVert> 
+	gfx::ElementWriter<gfx::TexVert>
 		pizza_elements{ (number_of_quads + 100) * 4 };
 
-    
-	
+
+
     // Now make our construction paper with a resolution of 64 by 64.
 	const glm::ivec2 res2d(32, 32);
 
@@ -93,18 +99,20 @@ int _main(core::PlatformLoop & loop) {
 	auto drawer = [&](const glm::mat4 & previous) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		program.use();
 		auto _2d = gfx::create_2d_screen(previous, res2d);
-		program.set_mvp(_2d);		
 
-		program.set_texture(pizza.gl_id());
-		program.draw(pizza_elements);
+        pizza_program.use();
+		pizza_program.set_mvp(_2d);
+		pizza_program.set_texture(pizza.gl_id());
+		pizza_program.draw(pizza_elements);
 
 		// Render the Earth after the pizzas - this is done intentionally to
 		// expose any bugs that may exist with the depth buffer or alpha
 		// channels.
-		program.set_texture(earth.gl_id());
-		program.draw(earth_elements);
+        earth_program.use();
+        earth_program.set_mvp(_2d);
+		earth_program.set_texture(earth.gl_id());
+		earth_program.draw(earth_elements);
 	};
 
     return loop.run([&]() {

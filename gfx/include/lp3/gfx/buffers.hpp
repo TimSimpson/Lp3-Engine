@@ -73,7 +73,7 @@ public:
     }
 
 	// Clears all elements
-	void reset(); 
+	void reset();
 
     inline GLsizei size() const {
         return GLsizei(elements.size());
@@ -101,7 +101,7 @@ public:
         const GLushort element_starting_index
             = static_cast<GLushort>(starting_index / Vertex::array_size);
 
-        GLfloat * data = vertices.claim(3 * TexVert::array_size);
+        GLfloat * data = vertices.claim(3 * Vertex::array_size);
 
         Triangle<Vertex> triangle{data};
 
@@ -117,7 +117,7 @@ public:
         const GLushort element_starting_index
             = static_cast<GLushort>(starting_index / Vertex::array_size);
 
-        GLfloat * data = vertices.claim(4 * TexVert::array_size);
+        GLfloat * data = vertices.claim(4 * Vertex::array_size);
 
         Quad<Vertex> quad{data};
 
@@ -137,7 +137,7 @@ public:
 		const GLushort element_starting_index
 			= static_cast<GLushort>(starting_index / Vertex::array_size);
 
-		GLfloat * data = vertices.claim(4 * TexVert::array_size * count);
+		GLfloat * data = vertices.claim(4 * Vertex::array_size * count);
 		for (int i = 0; i < count; ++i) {
 			const GLushort start_at = element_starting_index + (i * 4);
 			elements.push_back(start_at + 0);

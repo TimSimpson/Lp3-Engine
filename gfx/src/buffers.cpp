@@ -16,6 +16,7 @@ FloatBuffer::FloatBuffer(const std::size_t size, bool _resize_ok)
     // Create the buffer to be used by OpenGL.(GLSL) (Bunny Link)
     vertex_pos_object = gl::gen_buffer();
     // Create the buffer to be used on our side (C++) (Normal Link)
+    LP3_LOG_DEBUG("Reserving # floats %d", size);
     vertices.reserve(size);
 }
 

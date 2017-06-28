@@ -18,6 +18,7 @@ add_library(Lp3_Gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/text.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/nodes/TPaper.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/programs/ColoredTexture.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/programs/SimpleTextured.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/buffers.cpp
@@ -29,6 +30,7 @@ add_library(Lp3_Gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/src/texture.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/nodes/TPaper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/ColoredTexture.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/SimpleTextured.cpp
 )
 
