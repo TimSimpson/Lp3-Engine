@@ -27,11 +27,12 @@ namespace {
 	}
 }
 
-#ifdef LP3_COMPILE_TARGET_PC
 
 MediaManager::MediaManager(const std::string & _base_directory)
 :   base_directory(_base_directory)
 {}
+
+#ifdef LP3_COMPILE_TARGET_PC
 
 MediaManager::MediaManager()
 :   base_directory(get_env_media_path())
@@ -66,6 +67,7 @@ sdl::RWops MediaManager::load(const gsl::cstring_span<> & file) {
 	SDL_RWops * ptr = SDL_RWFromFile(full_path.c_str(), "rb");
 	if (!ptr) {
 		LP3_LOG_ERROR("Error opening file %s.", full_path);
+		LP3_LOG_ERROR("SDL error %s.", SDL_GetError());
 		LP3_THROW(lp3::core::Exception);
 	}
 	return sdl::RWops{ptr};
@@ -90,9 +92,14 @@ sdl::RWops MediaManager::save(const gsl::cstring_span<> & file) {
 
 LP3_CORE_API
 MediaManager MediaManager::sub_directory(const gsl::cstring_span<> & sub_d) {
-	MediaManager subm(
-		str(boost::format("%s/%s") % base_directory % sub_d.data()));
-	return subm;
+	if (base_directory == "/") {
+		MediaManager subm(sub_d.data());
+		return subm;
+	} else {
+		MediaManager subm(
+			str(boost::format("%s/%s") % base_directory % sub_d.data()));
+		return subm;
+	}
 }
 
 } }  // end lp3::core
