@@ -110,8 +110,6 @@
   #define LP3_COMPILE_TARGET_TEST
 #endif
 
-#endif
-
 
 #define LP3_SYMBOL_EXPORT BOOST_SYMBOL_EXPORT
 #define LP3_SYMBOL_IMPORT BOOST_SYMBOL_IMPORT
@@ -155,4 +153,8 @@
       }
       #define LP3_THROW2(t, ...) LP3_THROW(t)
   #endif
+#endif
+
+
+
 #endif

@@ -1,9 +1,8 @@
-#define SDL_MAIN_HANDLED
+#include <lp3/main.hpp>
 #include <iostream>
 
 #include <lp3/log.hpp>
 #include <lp3/core.hpp>
-#include <lp3/main.hpp>
 
 
 namespace core = lp3::core;
@@ -24,9 +23,9 @@ int _main(core::PlatformLoop & loop) {
         // This gets called each frame.
 		return false;
     });
-
-    LP3_LOG_DEBUG("Good bye.");
-    return result;
+	
+    LP3_LOG_DEBUG("Good bye."); 
+    return result; 
 }
 
 LP3_MAIN(_main)
