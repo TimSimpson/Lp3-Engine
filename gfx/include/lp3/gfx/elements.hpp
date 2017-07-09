@@ -227,13 +227,17 @@ template<typename Vertex>
 class QuadArray {
 public:
 	QuadArray(GLfloat * _data, std::size_t _count)
-		: count(_count),
+	:	count(_count),
 		data(_data)
 	{}
 
 	Quad<Vertex> operator[](const std::size_t index) {
 		LP3_ASSERT(index <= count);
 		return Quad<Vertex>(data + (index * Vertex::array_size * 4));
+	}
+	
+	inline const std::size_t size() const {
+		return count;
 	}
 
 	QuadArray<Vertex> subset(const std::size_t index, const int _count = -1) {

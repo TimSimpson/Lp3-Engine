@@ -16,6 +16,7 @@ add_library(Lp3_Gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/matrices.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/screen.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/text.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/tiles.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/nodes/TPaper.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/programs/ColoredTexture.hpp
@@ -28,6 +29,7 @@ add_library(Lp3_Gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/src/screen.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/text.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/texture.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/tiles.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/nodes/TPaper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/ColoredTexture.cpp
@@ -67,6 +69,9 @@ if (LP3_GFX_FULL)
     add_executable(TextureDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/TextureDemo.cpp)
     target_link_libraries(TextureDemo Lp3_Gfx Lp3_Sims)
 
+    add_executable(DrawTiles ${CMAKE_CURRENT_SOURCE_DIR}/demos/DrawTiles.cpp)
+    target_link_libraries(DrawTiles Lp3_Gfx Lp3_Sims)
+
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
     target_link_libraries(font_saver Lp3_Gfx Lp3_Sims lp3_deps::sdl2_ttf)
@@ -77,6 +82,7 @@ if (LP3_GFX_FULL)
     if (LP3_SETUP_FOLDERS)
         set_target_properties (Lp3_Gfx PROPERTIES FOLDER gfx)
         set_target_properties (CPaperDemo PROPERTIES FOLDER gfx)
+        set_target_properties (DrawTiles PROPERTIES FOLDER gfx)
         set_target_properties (font_saver PROPERTIES FOLDER gfx)
         set_target_properties (SimpleGfx PROPERTIES FOLDER gfx)
         set_target_properties (TextureDemo PROPERTIES FOLDER gfx)
