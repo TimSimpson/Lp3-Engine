@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <lp3/core.hpp>
+#include <lp3/input.hpp>
 
 inline namespace lp3_input_internal {
 
@@ -25,6 +26,14 @@ public:
     // States if control device has analog joystick capabilities at the
     // designated keycode.
     virtual bool is_analog_key(const int key_code) = 0;
+
+	virtual boost::optional<lp3::input::PreferredDevice> get_preferred_device_type() {
+		return boost::none;
+	}
+
+	virtual bool is_keyboard() {
+		return false;
+	}
 
     // Name of the Device.
     virtual const char * get_name() const = 0;
