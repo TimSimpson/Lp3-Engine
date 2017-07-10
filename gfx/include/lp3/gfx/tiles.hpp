@@ -7,6 +7,18 @@
 
 namespace lp3 { namespace gfx {
 
+struct
+LP3_GFX_API
+BoxTiles {
+	std::uint8_t ul;
+	std::uint8_t u;
+	std::uint8_t ur;
+	std::uint8_t l;
+	std::uint8_t r;
+	std::uint8_t bl;
+	std::uint8_t b;
+	std::uint8_t br;
+};
 
 
 class 
@@ -73,6 +85,9 @@ public:
             strnlen(text, 1024));
         write(pos, span, word_wrap, -32);
     }
+
+	void write_box(
+		const BoxTiles & bt, const glm::ivec2 & pos, const glm::ivec2 & size);
 private:
     const glm::ivec2 tile_size;
     const glm::ivec2 map_size;

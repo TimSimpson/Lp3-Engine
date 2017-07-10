@@ -85,4 +85,27 @@ void TileMap::write(const glm::ivec2 & pos,
     }
 }
 
+void TileMap::write_box(
+	const BoxTiles & bt, const glm::ivec2 & pos, const glm::ivec2 & size)
+{
+	// Create border around stuff.
+	const glm::ivec2 pos2 = pos + (size - glm::ivec2{ 1, 1 });
+	write(pos, bt.ul);
+	for (int x = pos.x + 1; x < pos2.x; ++x) {
+		write({ x, pos.y }, bt.u);
+	}
+	write({ pos2.x, pos.y }, bt.ur);
+
+	for (int y = pos.y + 1; y < pos2.y; ++y) {
+		write({ pos.x, y }, bt.l);
+		write({ pos2.x, y }, bt.r);
+	}
+
+	write({ pos.x, pos2.y }, bt.bl);
+	for (int x = pos.x + 1; x < pos2.x; ++x) {
+		write({ x, pos2.y }, bt.b);
+	}
+	write({ pos2.x, pos2.y }, bt.br);
+}
+
 }   }
