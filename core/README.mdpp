@@ -1,0 +1,62 @@
+# LP3 Core
+
+This is a base library used by other components of LP3. On it's own, it's pretty boring, but does a few things:
+
+* Defines some compiler symbols to detect what platform code is running on (see le.hpp).
+
+* Similarly has code for raising errors or calling std::abort if exceptions are disabled, and creates a base exception class for other libraries to extend.
+
+* Establishes a rudimentary logging system compatable with SDL2's log system and [the Squirrel Console](https://github.com/TimSimpson/SquirrelConsole). It also uses boost::format to support a printf syntax and completely dissapears outside of debug builds.
+
+* Defines some compiler symbols to detect what platform code is running on (see le.hpp).
+
+* Basic RAII helper classes to deal with SDL2 resources.
+
+* A class to abstract the platform loop via a passed in std::function.
+
+* A media class to load files and resources.
+
+Here's an example of the simplest possible Lp3 app. It sets up the logging system, prints some stuff out, and quits:
+
+!INCLUDE ""
+
+For examples of how to use this stuff, see [the demos directory](demos).
+
+## Build Info
+
+If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It will export the library Lp3_Core.
+
+## Library Options
+
+<dl>
+    <dt>LP3_CORE_API_DYNAMIC</dt>
+    <dd>If set, forces library functions to be defined as `__declspec(dllexport)` on Windows. Is set automatically when BUILD_SHARED_LIBS is set.</dd>
+
+
+    <dt>LP3_COMPILE_LOG_DISABLE</dt>
+    <dd>If set, disables logging even in debug mode. Good if you don't wish to use the built-in logging utilities.</dd>
+</dl>
+
+## Using the Code
+
+Most code should include `<lp3/core.hpp>` to get access to everything.
+
+Most functionality is defined in the `lp3::core`, though several bits are defined in plain `lp3` instead.
+
+Here's an example which creates a
+### namespace lp3
+
+!INCLUDE "../core/include/lp3/le.hpp", 4
+!INCLUDE "../core/include/lp3/assert.hpp", 4
+!INCLUDE "../core/include/lp3/casts.hpp", 4
+!INCLUDE "../core/include/lp3/main.hpp", 4
+
+### namespace lp3::core
+
+!INCLUDE "../core/include/lp3/log.hpp", 4
+!INCLUDE "../core/include/lp3/core/Exception.hpp", 4
+!INCLUDE "../core/include/lp3/core/utils.hpp", 4
+
+### namespace lp3::sdl
+
+!INCLUDE "../core/include/lp3/sdl.hpp", 4

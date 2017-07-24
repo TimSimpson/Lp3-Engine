@@ -1,3 +1,8 @@
+// --------------------------------------------------------------------
+// lp3::gl example
+// --------------------------------------------------------------------
+//      This shows using lp3::gl to create a simple app.
+// --------------------------------------------------------------------
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -43,7 +48,7 @@ int _main(core::PlatformLoop & loop) {
         "void main()                   \n"
         "{                             \n"
         "   gl_Position = v_position;  \n"
-        "}                             \n";	
+        "}                             \n";
     gl::ShaderOwner vertex_shader
         = gl::compile_shader(GL_VERTEX_SHADER, vertex_shader_source);
 
@@ -61,22 +66,22 @@ int _main(core::PlatformLoop & loop) {
 	gl::ProgramOwner program_object = gl::create_program();
     gl::attach_shader(program_object, vertex_shader);
     gl::attach_shader(program_object, fragment_shader);
-		
+
 	const gl::VertexAttributeIndex v_position{ 0 };
 
     gl::bind_attrib_location(program_object, v_position, "v_position");
 
 	lp3::gl::link_program(program_object);
-	
+
 	gl::BufferObjectName vertex_pos_object = gl::gen_buffer();
 
     GLfloat vertices[] = { 0.0f,  0.5f, 0.0f,
                           -0.5f, -0.5f, 0.5f,
                            0.5f, -0.5f, 0.0f };
-    gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);	
+    gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);
 	gl::buffer_data(GL_ARRAY_BUFFER, gsl::span<const GLfloat>(vertices),
 		            GL_STATIC_DRAW);
-		
+
 	loop.run([&window, &program_object, &vertex_pos_object, &v_position]() {
         SDL_Event e;
         bool quit = false;
@@ -90,7 +95,7 @@ int _main(core::PlatformLoop & loop) {
 
         gl::use_program(program_object);
 
-        gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);		
+        gl::bind_buffer(GL_ARRAY_BUFFER, vertex_pos_object);
         gl::vertex_attrib_pointer(v_position, 3, GL_FLOAT, 0, 0, 0);
         gl::enable_vertex_attrib_array(v_position);
         gl::draw_arrays(GL_TRIANGLES, 0, 3);
@@ -103,3 +108,5 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+
+// -/

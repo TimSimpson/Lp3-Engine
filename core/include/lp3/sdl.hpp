@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// sdl.hpp
+// namespace lp3::sdl
 // ----------------------------------------------------------------------------
 //      This contains RAII enabled types for working with the SDL2 library.
 //
@@ -37,7 +37,7 @@
 namespace lp3 { namespace sdl {
 
 // ----------------------------------------------------------------------------
-// SDL2
+// struct SDL2
 // ----------------------------------------------------------------------------
 //      Create one of these in your main method to initialize the SDL.
 //      The destructor will deinitialize the SDL.
@@ -47,6 +47,7 @@ struct SDL2 {
     SDL2(Uint32 flags);
     ~SDL2();
 };
+// -/
 
 /*
 	Template which checks to see if a resource is nullptr on creation and
@@ -102,13 +103,18 @@ private:
     gsl::owner<ResourceTypePtr> ptr;
 };
 
+// ----------------------------------------------------------------------------
+// Sdl Auto Deleted Resource types
+// ----------------------------------------------------------------------------
+//      The following types automatically delete SDL resources of the same
+//      name when they go out of scope.
+// ----------------------------------------------------------------------------
 using Window = SdlAutoDeletedResource<SDL_Window *, SDL_DestroyWindow>;
 using Renderer = SdlAutoDeletedResource<SDL_Renderer *, SDL_DestroyRenderer>;
 using Surface = SdlAutoDeletedResource<SDL_Surface *, SDL_FreeSurface>;
 using Texture = SdlAutoDeletedResource<SDL_Texture *, SDL_DestroyTexture>;
 using GLContext = SdlAutoDeletedResource<SDL_GLContext, SDL_GL_DeleteContext>;
-
-
+// -/
 
 
 // Use these two classes to make the SDL_assert calls throw exceptions
@@ -152,6 +158,9 @@ inline void close_rwops(SDL_RWops * ops) {
 //
 //      A few extra functions are added which read and write directly into
 //      POD object references.
+//
+//      lp3::core::MediaManager's `load` and `save` methods return instances
+//      of RWops.
 // ----------------------------------------------------------------------------
 LP3_CORE_API
 class RWops {
@@ -221,6 +230,8 @@ public:
 private:
 	gsl::owner<SDL_RWops *> ops;
 };
+
+// -/
 
 } }
 

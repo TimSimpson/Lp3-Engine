@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------
+// lp3::sdl example
+// --------------------------------------------------------------------
+//      This shows using `lp3::sdl`'s helper classes to create a
+//      simple app.
+// --------------------------------------------------------------------
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -17,7 +23,7 @@ int _main(core::PlatformLoop & loop) {
     core::LogSystem log;
     core::MediaManager media;
 
-    SDL_Log("I is a log too!\n");
+    SDL_Log("SDL_Log can be used in addition to LP3_LOG\n");
 
     LP3_LOG_DEBUG("Hello SDL!");
 

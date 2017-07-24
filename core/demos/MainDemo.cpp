@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------
+// <lp3/main.hpp> example
+// --------------------------------------------------------------------
+//      This shows using `<lp3/main.hpp>` to quickly create a simple
+//      app.
+// --------------------------------------------------------------------
 #include <lp3/main.hpp>
 #include <iostream>
 
@@ -19,13 +25,17 @@ int _main(core::PlatformLoop & loop) {
         #endif
     }
 
+    int iteration = 0;
+
     const auto result = loop.run([&]() {
         // This gets called each frame.
+
+        LP3_LOG_DEBUG("iteration = %d", iteration);
 		return false;
     });
-	
-    LP3_LOG_DEBUG("Good bye."); 
-    return result; 
+
+    LP3_LOG_DEBUG("Good bye.");
+    return result;
 }
 
 LP3_MAIN(_main)

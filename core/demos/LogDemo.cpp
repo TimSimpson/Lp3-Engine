@@ -18,9 +18,6 @@ int main() {
 
     LP3_LOG_ERROR("Writing an ERROR message.");
 
-    LP3_LOG_DEBUG("This is a demonstration on using Boost::Format.");
-    LP3_LOG_DEBUG(str(boost::format("%s=%d") % "The Answer" % 42).c_str());
-
-    LP3_LOG_SET("Squirrel", "CRAZY");
-    LP3_LOG_SET("The Answer", "42");
+    LP3_LOG_DEBUG("These macros use Boost::Format.");
+    LP3_LOG_DEBUG("%s=%d", "The Answer", 42);
 }
