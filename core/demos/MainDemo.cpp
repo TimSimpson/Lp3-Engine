@@ -4,12 +4,11 @@
 //      This shows using `<lp3/main.hpp>` to quickly create a simple
 //      app.
 // --------------------------------------------------------------------
-#include <lp3/main.hpp>
 #include <iostream>
 
 #include <lp3/log.hpp>
 #include <lp3/core.hpp>
-
+#include <lp3/main.hpp>
 
 namespace core = lp3::core;
 
@@ -18,8 +17,9 @@ int _main(core::PlatformLoop & loop) {
     lp3::core::LogSystem log;
 
     LP3_LOG_DEBUG("Greetings from the MicroMain Demo.");
+	int index = 0;
     for(const std::string & element : loop.command_line_args()) {
-        LP3_LOG_DEBUG(element.c_str());
+        LP3_LOG_ERROR("%d. %s", index ++, element);
         #ifdef LP3_COMPILE_LOG_DISABLE
             std::cout << element << "\n";
         #endif
@@ -29,8 +29,6 @@ int _main(core::PlatformLoop & loop) {
 
     const auto result = loop.run([&]() {
         // This gets called each frame.
-
-        LP3_LOG_DEBUG("iteration = %d", iteration);
 		return false;
     });
 
