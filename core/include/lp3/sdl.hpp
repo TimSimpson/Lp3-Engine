@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// sdl.hpp
+// namespace lp3::sdl
 // ----------------------------------------------------------------------------
 //      This contains RAII enabled types for working with the SDL2 library.
 //
@@ -29,6 +29,7 @@
 #include "core/config.hpp"
 #include "core/Exception.hpp"
 #include "log.hpp"
+#include <boost/optional.hpp>
 #include <gsl/gsl>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -37,7 +38,7 @@
 namespace lp3 { namespace sdl {
 
 // ----------------------------------------------------------------------------
-// SDL2
+// struct SDL2
 // ----------------------------------------------------------------------------
 //      Create one of these in your main method to initialize the SDL.
 //      The destructor will deinitialize the SDL.
@@ -47,6 +48,7 @@ struct SDL2 {
     SDL2(Uint32 flags);
     ~SDL2();
 };
+// -/
 
 /*
 	Template which checks to see if a resource is nullptr on creation and
@@ -102,13 +104,18 @@ private:
     gsl::owner<ResourceTypePtr> ptr;
 };
 
+// ----------------------------------------------------------------------------
+// Sdl Auto Deleted Resource types
+// ----------------------------------------------------------------------------
+//      The following types automatically delete SDL resources of the same
+//      name when they go out of scope.
+// ----------------------------------------------------------------------------
 using Window = SdlAutoDeletedResource<SDL_Window *, SDL_DestroyWindow>;
 using Renderer = SdlAutoDeletedResource<SDL_Renderer *, SDL_DestroyRenderer>;
 using Surface = SdlAutoDeletedResource<SDL_Surface *, SDL_FreeSurface>;
 using Texture = SdlAutoDeletedResource<SDL_Texture *, SDL_DestroyTexture>;
 using GLContext = SdlAutoDeletedResource<SDL_GLContext, SDL_GL_DeleteContext>;
-
-
+// -/
 
 
 // Use these two classes to make the SDL_assert calls throw exceptions
@@ -152,6 +159,9 @@ inline void close_rwops(SDL_RWops * ops) {
 //
 //      A few extra functions are added which read and write directly into
 //      POD object references.
+//
+//      lp3::core::MediaManager's `load` and `save` methods return instances
+//      of RWops.
 // ----------------------------------------------------------------------------
 LP3_CORE_API
 class RWops {
@@ -175,10 +185,13 @@ public:
 		return ops;
 	}
 
-	inline std::size_t read(void * dst, std::size_t object_count,
-		                    std::size_t object_size = 1) {
+	inline std::size_t read(void * dst, std::size_t object_size,
+		                    std::size_t object_count = 1) {
 		SDL_assert(nullptr != ops);
-		return ops->read(ops, dst, object_count, object_size);
+		// object_size is the size of an object to be read-
+		// object_count is the number of objects to read. If things work
+		// exactly as expected object_count is what's returned.
+		return ops->read(ops, dst, object_size, object_count);
 	}
 
     template<typename T>
@@ -187,6 +200,18 @@ public:
         const auto result = read(reinterpret_cast<char *>(&dst), sizeof(T));
         SDL_assert(1 == result);
     }
+
+	template<typename T>
+	inline boost::optional<T> read_optional() {
+		static_assert(std::is_pod<T>::value, "Type must be POD.");
+		char data[sizeof(T)];
+		const auto result = read(data, sizeof(T));
+		if (1 == result) {
+			return *(reinterpret_cast<T *>(data));
+		} else {
+			return boost::none;
+		}
+	}
 
 	inline std::int64_t seek(std::int64_t offset, int whence=RW_SEEK_CUR) {
 		SDL_assert(nullptr != ops);
@@ -221,6 +246,8 @@ public:
 private:
 	gsl::owner<SDL_RWops *> ops;
 };
+
+// -/
 
 } }
 

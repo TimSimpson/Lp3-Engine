@@ -1,10 +1,10 @@
 // ----------------------------------------------------------------------------
 // le.hpp
 // ----------------------------------------------------------------------------
-//   Defines symbols used to determine configurations.
+//  Defines symbols used to determine configurations.
 //
-//   Note that the tricks below which determine the platform may need to be
-//   updated as time goes by.
+//  Note that the tricks below which determine the platform may need to be
+//  updated as time goes by.
 //
 //  Flags:
 //
@@ -34,7 +34,7 @@
 //
 //   LP3_THROW
 //     Use this to throw exceptions.
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------/
 #ifndef LE_H
 #define LE_H
 #pragma once
@@ -116,24 +116,27 @@
 
 // ----------------------------------------------------------------------------
 // LP3_COMPILE_WITH_PCH
-//
-
+// ----------------------------------------------------------------------------
+//    Set when using precompiled headers.
+// ----------------------------------------------------------------------------
 #if defined(BOOST_BUILD_PCH_ENABLED)
   #define LP3_COMPILE_WITH_PCH
 #endif
 
 // ----------------------------------------------------------------------------
 // LP3_COMPILE_DYNAMIC
+// ----------------------------------------------------------------------------
 //     If set, libraries will try to compile dynamically (shared).
-
+// ----------------------------------------------------------------------------
 #if defined(BOOST_ALL_DYN_LINK) || defined(BUILD_SHARED_LIBS)
   #define LP3_COMPILE_DYNAMIC
 #endif
 
 // ----------------------------------------------------------------------------
 // LP3_THROW
-
+// ----------------------------------------------------------------------------
 // Throws an exception and includes source location.
+// ----------------------------------------------------------------------------
 #ifndef LP3_COMPILE_TARGET_DREAMCAST
   #define LP3_THROW(t) { throw t{}; }
   #define LP3_THROW2(t, ...) { throw t(__VA_ARGS__); }

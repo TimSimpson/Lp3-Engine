@@ -44,6 +44,10 @@ public:
         return max_button_count;
     }
 
+	// Sets decent defaults that maps controller 0 like so:
+	//	up, down, left, right, a, b, x, y, LT, RT, start
+	void set_defaults();
+
     // Returns whether or not the button is pressed at all.
     inline bool state(int index) {
         return analog_state(index) != 0;
@@ -51,6 +55,39 @@ public:
 
 protected:
     std::array<float, max_button_count> buttons;
+};
+
+// --------------------------------------------------------------------
+// PreferedKey
+// --------------------------------------------------------------------
+//     Helps set up initial control options.
+// --------------------------------------------------------------------
+LP3_INPUT_API
+struct PreferredKey {	
+	int key_index;
+	const std::string key_name;
+};
+
+LP3_INPUT_API
+enum class PreferredDevice {
+	GAME_PAD = 0,
+	KEYBOARD = 1
+};
+
+LP3_INPUT_API
+struct PreferredButtonMapping {
+	PreferredDevice device;
+	std::vector<PreferredKey> keys;	
+
+	inline void set_mapping(const char * key) {
+		keys.push_back({ lp3::narrow<int>(keys.size()), key });
+	}
+
+	template<typename... P>
+	void set_mapping(const char * key, P... rest_of_keys) {
+		keys.push_back({ lp3::narrow<int>(keys.size()), key });
+		set_mapping(rest_of_keys...);
+	}	
 };
 
 
@@ -87,6 +124,11 @@ public:
 	// Returns a list of all currently pressed keys.
 	std::vector<std::pair<std::string, std::string>>
 		get_current_pressed_keys();
+
+	// Sets the virtual controls to the given key names. Returns false if no
+	// mapping could be achieved.
+	bool set_defaults(int control_index, 
+		              const gsl::span<PreferredButtonMapping> & button_mappings);
 
     // Call this once each frame.
     void update();

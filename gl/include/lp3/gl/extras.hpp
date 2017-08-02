@@ -133,6 +133,10 @@ private:
 // --------------------------------------------------------------------
 // type strong aliases and owner classes
 // --------------------------------------------------------------------
+//      The following wrap GLuint in type strong aliases classes, which
+//      can help avoid confusion in cases where functions accept
+//      multiple GLuint parameters.
+// --------------------------------------------------------------------
 LP3_GL_WRAP_GLUINT_TYPE(BufferObjectName)
 
 LP3_GL_WRAP_GLUINT_TYPE(Index)
@@ -256,6 +260,7 @@ inline void uniform_matrix_4fv(UniformVariableLocation location,
 // --------------------------------------------------------------------
 // Wrapped deleters / creators and owner objects.
 // --------------------------------------------------------------------
+// --------------------------------------------------------------------
 
 inline void delete_texture(TextureID id) {
 	GLuint gl_id = id;
@@ -290,6 +295,8 @@ ShaderOwner compile_shader(const GLenum type, gsl::not_null<gsl::czstring<>> src
 
 LP3_GL_API
 void link_program(Program program);
+
+// -/
 
 } }
 

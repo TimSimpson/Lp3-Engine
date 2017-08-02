@@ -68,6 +68,8 @@ public:
         } \
         SDL_assert(condition)
 
+//;
+
 // ----------------------------------------------------------------------------
 // LP3_REQUIRE_ASSERT_FAILURE
 // ----------------------------------------------------------------------------
@@ -81,6 +83,8 @@ public:
             ::lp3::core::AssertListener listener; \
             REQUIRE_THROWS_AS(code, ::lp3::core::AssertFailed); \
         }
+// end-doc
+
 #else
     #define LP3_ASSERT(condition)   \
         SDL_assert(condition)

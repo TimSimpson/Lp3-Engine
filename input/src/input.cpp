@@ -66,7 +66,6 @@ public:
     :   device_source(),
         mapping{}
     {
-        setDefaults();
     }
 
     void configure_button(int control_index,
@@ -152,51 +151,43 @@ public:
 	}
 
     // Sets defaults to use a basic game pad (directions, face buttons, start)
-    void setDefaults() {
+
+	
+	bool set_defaults(
+		const int control_index,
+		const gsl::span<PreferredButtonMapping> & button_mappings)
+	{
 		// TODO: Make this pick the first SDL Controller, since that's
 		//       always some nice XInput style setup option
         LP3_LOG_DEBUG("Setting defaults.");
 
-            //if (this->device_source->get_device_count() <= 0) {
-            //    LP3_LOG_DEBUG("No device returned? Aborting default init.");
-            //    return;
-            //}
-            //const auto x_device_index = static_cast<WindowsDeviceSource *>(
-            //    this->device_source.get())->find_xinput_device();
-            //if (!x_device_index)  // Use the stinky old keyboard.
-            //{
-            //    const Device * const device = this->device_source->get_device(0);
-            //    const std::string device_name(device->get_name());
-            //    configure_button(0,  0, device_name, "up arrow            ");
-            //    configure_button(0,  1, device_name, "down arrow          ");
-            //    configure_button(0,  2, device_name, "left arrow          ");
-            //    configure_button(0,  3, device_name, "right arrow         ");
-            //    configure_button(0,  4, device_name, "S                   ");
-            //    configure_button(0,  5, device_name, "D                   ");
-            //    configure_button(0,  6, device_name, "A                   ");
-            //    configure_button(0,  7, device_name, "W                   ");
-            //    configure_button(0,  8, device_name, "Q                   ");
-            //    configure_button(0,  9, device_name, "E                   ");
-            //    configure_button(0, 10, device_name, "R                   ");
-            //}
-            //else  // Use the controller.
-            //{
-            //    const Device * const device =
-            //        this->device_source->get_device(x_device_index.get());
-            //    const std::string deviceName(device->get_name());
-            //    configure_button(0,  0, deviceName, "Left Analog Up");
-            //    configure_button(0,  1, deviceName, "Left Analog Down");
-            //    configure_button(0,  2, deviceName, "Left Analog Left");
-            //    configure_button(0,  3, deviceName, "Left Analog Right");
-            //    configure_button(0,  4, deviceName, "A");
-            //    configure_button(0,  5, deviceName, "B");
-            //    configure_button(0,  6, deviceName, "X");
-            //    configure_button(0,  7, deviceName, "Y");
-            //    configure_button(0,  8, deviceName, "LT");
-            //    configure_button(0,  9, deviceName, "RT");
-            //    configure_button(0, 10, deviceName, "Start");
-            //}
+		if (device_source.get_device_count() <= 0) {
+            LP3_LOG_DEBUG("No device returned- aborting default init.");
+            return false;
+        }
 
+		const auto find_device = [&](const PreferredDevice & dev_type) -> Device * {
+			for (auto i = 0; i < device_source.get_device_count(); ++i) {
+				auto pdt = device_source.get_device(i)->get_preferred_device_type();
+				if (pdt && dev_type == pdt.get()) {
+					return device_source.get_device(i);
+				}
+			}
+			return nullptr;
+		};
+		
+		for (const PreferredButtonMapping & button_mapping : button_mappings) {
+			Device * dev = find_device(button_mapping.device);
+			if (dev) {
+				for (const PreferredKey & key : button_mapping.keys) {
+					configure_button(
+						control_index, key.key_index, dev->get_name(), key.key_name);
+				}
+				return true;
+			}
+		}
+		LP3_LOG_WARNING("Couldn't find any appropriate device.");
+		return false;
     }
 
     void update() {
@@ -257,6 +248,13 @@ LP3_INPUT_API
 std::vector<std::pair<std::string, std::string>>
 Controls::get_current_pressed_keys() {
 	return impl->get_current_pressed_keys();
+}
+
+LP3_INPUT_API
+bool Controls::set_defaults(
+	int control_index, const gsl::span<PreferredButtonMapping> & button_mappings)
+{
+	return impl->set_defaults(control_index, button_mappings);
 }
 
 // Call this once per frame to update devices.

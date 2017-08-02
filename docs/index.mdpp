@@ -1,0 +1,6 @@
+!INCLUDE "../README.md"
+
+
+!INCLUDE "../core/README.mdpp", 1
+
+!INCLUDE "../gl/README.mdpp", 1
