@@ -226,7 +226,7 @@ private:
 // QuadArray
 // --------------------------------------------------------------------
 //		References GLfloat data in such a way that it can be treated
-//		as an array of quads. 
+//		as an array of quads.
 //		NOTE: This is a view- it does now own the memory it points to!
 // --------------------------------------------------------------------
 LP3_GFX_API
@@ -243,10 +243,15 @@ public:
 		data(_data)
 	{}
 
-	QuadArray(QuadArray & other)
+	QuadArray(const QuadArray & other)
 	:   count(other.count),
 		data(other.data)
 	{}
+
+    QuadArray(QuadArray && other)
+    :   count(other.count),
+        data(other.data)
+    {}
 
 	QuadArray & operator=(QuadArray & rhs) {
 		this->count = rhs.count;
@@ -257,7 +262,7 @@ public:
 		LP3_ASSERT(index <= count);
 		return Quad<Vertex>(data + (index * Vertex::array_size * 4));
 	}
-	
+
 	inline const std::size_t size() const {
 		return count;
 	}
