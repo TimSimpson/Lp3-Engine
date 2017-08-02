@@ -1,5 +1,5 @@
 #ifndef FILE_LP3_GFX_TILES_HPP
-#define FILE_LP3_GFX_T_HPP
+#define FILE_LP3_GFX_TILES_HPP
 
 #include <cmath>
 #include "config.hpp"

@@ -17,8 +17,7 @@ int _main(core::PlatformLoop & loop) {
     lp3::core::LogSystem log;
 
     LP3_LOG_DEBUG("Greetings from the MicroMain Demo.");
-	int index = 0;
-    for(const std::string & element : loop.command_line_args()) {
+	for(const std::string & element : loop.command_line_args()) {
         LP3_LOG_ERROR("%d. %s", index ++, element);
         #ifdef LP3_COMPILE_LOG_DISABLE
             std::cout << element << "\n";
