@@ -25,8 +25,6 @@ int _main(core::PlatformLoop & loop) {
         #endif
     }
 
-    int iteration = 0;
-
     const auto result = loop.run([&]() {
         // This gets called each frame.
 		return false;

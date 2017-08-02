@@ -6,10 +6,10 @@
 namespace lp3 { namespace gfx {
 
 LP3_GFX_API
-TileMap::TileMap(const glm::ivec2 & tile_size, const glm::ivec2 & map_size)
-:   tile_size(tile_size),
-    map_size(map_size),
-	tiles(map_size.x * map_size.y, 0)
+TileMap::TileMap(const glm::ivec2 & tile_size_, const glm::ivec2 & map_size_)
+:   tile_size(tile_size_),
+    map_size(map_size_),
+	tiles(map_size_.x * map_size_.y, 0)
 {
 }
 
@@ -58,7 +58,7 @@ void TileMap::write(const glm::ivec2 & pos, const std::uint8_t text) {
 }
 
 LP3_GFX_API
-void TileMap::write(const glm::ivec2 & pos, 
+void TileMap::write(const glm::ivec2 & pos,
 	                const gsl::span<const std::uint8_t> text,
                     const bool word_wrap,
 					const int index_adjust) {

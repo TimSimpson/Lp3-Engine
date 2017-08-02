@@ -21,8 +21,8 @@ BoxTiles {
 };
 
 
-class 
-LP3_GFX_API	
+class
+LP3_GFX_API
 TileMap {
 public:
     TileMap(const glm::ivec2 & tile_size, const glm::ivec2 & map_size);
@@ -40,7 +40,7 @@ public:
     glm::vec2 find_starting_texture_coordinates(
         glm::vec2 tile_resolution, const glm::vec2 texture_size,
         const std::uint8_t tile_index)
-    {	
+    {
 		const float tiles_per_row = std::floor(texture_size.x / tile_resolution.x);
 
 		const float ty = std::floor(tile_index / tiles_per_row);
@@ -97,8 +97,8 @@ private:
 template<typename Vertex>
 class TileMapRenderer {
 public:
-    TileMapRenderer(QuadArray<Vertex> & quads)
-    :   quads(quads)
+    TileMapRenderer(QuadArray<Vertex> & quads_arg)
+    :   quads(quads_arg)
     {}
 private:
     QuadArray<Vertex> quads;

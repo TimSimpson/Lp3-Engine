@@ -33,14 +33,12 @@ int _main(core::PlatformLoop & loop) {
     const glm::ivec2 res2d(640, 480);
 
     // Make the render list. This will store what to render and do it later
-    const GLfloat z = -0.0f;
-
     sims::FrameTimer frame_timer;
 
 	gfx::TileMap tm{ {16.0f, 16.0f}, {256.0f / 16.0f, 128.0f / 16.05f} };
 
 
-	tm.write({ 0, 0 }, 
+	tm.write({ 0, 0 },
 		"And ye, I say,\n"
 		"don't doubt me,\n"
 		"for I shall rise in the night\n"
@@ -76,7 +74,7 @@ int _main(core::PlatformLoop & loop) {
             }
         }
 
-		tm.set_quads({ 16.0f, 16.0f }, 0.0f, quads, { 16.0f, 16.0f }, 
+		tm.set_quads({ 16.0f, 16.0f }, 0.0f, quads, { 16.0f, 16.0f },
 			         texture_text.size());
 
         window.render(drawer);
