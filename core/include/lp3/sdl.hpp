@@ -29,6 +29,7 @@
 #include "core/config.hpp"
 #include "core/Exception.hpp"
 #include "log.hpp"
+#include <boost/optional.hpp>
 #include <gsl/gsl>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -184,10 +185,13 @@ public:
 		return ops;
 	}
 
-	inline std::size_t read(void * dst, std::size_t object_count,
-		                    std::size_t object_size = 1) {
+	inline std::size_t read(void * dst, std::size_t object_size,
+		                    std::size_t object_count = 1) {
 		SDL_assert(nullptr != ops);
-		return ops->read(ops, dst, object_count, object_size);
+		// object_size is the size of an object to be read-
+		// object_count is the number of objects to read. If things work
+		// exactly as expected object_count is what's returned.
+		return ops->read(ops, dst, object_size, object_count);
 	}
 
     template<typename T>
@@ -196,6 +200,18 @@ public:
         const auto result = read(reinterpret_cast<char *>(&dst), sizeof(T));
         SDL_assert(1 == result);
     }
+
+	template<typename T>
+	inline boost::optional<T> read_optional() {
+		static_assert(std::is_pod<T>::value, "Type must be POD.");
+		char data[sizeof(T)];
+		const auto result = read(data, sizeof(T));
+		if (1 == result) {
+			return *(reinterpret_cast<T *>(data));
+		} else {
+			return boost::none;
+		}
+	}
 
 	inline std::int64_t seek(std::int64_t offset, int whence=RW_SEEK_CUR) {
 		SDL_assert(nullptr != ops);
