@@ -293,21 +293,6 @@ void ErrOutPipe::WriteN(int priority, char const *  msg, bool newLine)
 
     using lp3::core::WCharToCharConverter;
 
-
-        if (!usePipe)
-        {
-            printf(msg);
-            if (newLine)
-            {
-                printf("\n");
-            }
-            return;
-        }
-        //std::cout << msg;
-        //if (newLine)
-       // {
-         //   std::cout << std::endl;
-        //}
         EnterCriticalSection(&cs);
         if (msg == nullptr)
         {
@@ -390,11 +375,6 @@ void ErrOutPipe::WriteNumberL(char const *  name, int value)
 
 void ErrOutPipe::WriteNumberP(int priority, signed int number)
 {
-    if (!usePipe)
-    {
-        printf("%d", number);
-        return;
-    }
     EnterCriticalSection(&cs);
     if (number == 0)
     {
