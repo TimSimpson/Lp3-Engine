@@ -9,7 +9,7 @@ namespace lp3 { namespace gfx {
 namespace {
 
     const GLchar * vertex_shader_source = R"GLSL_CODE(
-#version 100
+#version 120
 
 uniform mat4 u_ortho;
 attribute vec4 a_position;
@@ -24,9 +24,11 @@ void main()
 )GLSL_CODE";
 
     const GLchar * fragment_shader_source = R"GLSL_CODE(
-#version 100
+#version 120
 
+#ifdef GL_ES
 precision mediump float;
+#endif
 
 varying vec4 v_color;
 void main()

@@ -33,8 +33,9 @@ void main()
     const GLchar * fragment_shader_source = R"GLSL_CODE(
 #version 120
 
-# Causes issues w/ Pocket Chip - see if version 130 works
-# precision mediump float;
+#ifdef GL_ES
+precision mediump float;
+#endif
 
 varying vec2 v_texCoord;
 varying vec4 v_color;

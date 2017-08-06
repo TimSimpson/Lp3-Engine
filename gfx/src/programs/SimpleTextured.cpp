@@ -23,13 +23,16 @@ void main()
 {
     gl_Position = u_mvp * a_position;
     v_texCoord = a_texCoord;
+    v_texCoord = a_texCoord;
 }
 )GLSL_CODE";
 
 	const GLchar * fragment_shader_source = R"GLSL_CODE(
 #version 120
 
-# precision mediump float;
+#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 uniform sampler2D s_texture;
 
