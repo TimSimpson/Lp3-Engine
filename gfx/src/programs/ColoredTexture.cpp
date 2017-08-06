@@ -12,7 +12,7 @@ namespace {
     constexpr char const s_texture[] = "s_texture";
 
     const GLchar * vertex_shader_source = R"GLSL_CODE(
-#version 100
+#version 120
 
 uniform mat4 u_mvp;
 attribute vec4 a_position;
@@ -31,9 +31,10 @@ void main()
 )GLSL_CODE";
 
     const GLchar * fragment_shader_source = R"GLSL_CODE(
-#version 100
+#version 120
 
-precision mediump float;
+# Causes issues w/ Pocket Chip - see if version 130 works
+# precision mediump float;
 
 varying vec2 v_texCoord;
 varying vec4 v_color;

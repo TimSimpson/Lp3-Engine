@@ -6,6 +6,21 @@
 
 namespace lp3 { namespace gfx {
 
+glm::ivec2 fudge_real_size(const glm::ivec2 & size) {
+	#ifdef LP3_COMPILE_TARGET_POCKETCHIP
+		glm::ivec2 new_size = size;
+		if (size.x > 480) {
+			new_size.x = 480;
+		}
+		if (size.y > 272) {
+			new_size.y = 272;
+		}
+		return new_size;
+	#else
+		return size;
+	#endif
+}
+
 LP3_GFX_API
 Window::Window(gsl::not_null<gsl::czstring<>> title, const glm::ivec2 & size)
 :	_display_resolution(size),
@@ -65,7 +80,7 @@ void Window::render(SceneNodeFunc f) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	LP3_GL_ASSERT_NO_ERRORS();
 
-	// TODO: Cache all of this stuff and only calculate it when 
+	// TODO: Cache all of this stuff and only calculate it when
 	//       the display size is changed.
 	// Maintain aspect ratio:
 
@@ -77,14 +92,14 @@ void Window::render(SceneNodeFunc f) {
 	const GLfloat x_stretch = desired_ar / actual_ar;
 
 	const glm::mat4 scale = glm::scale(
-		glm::mat4(), 
+		glm::mat4(),
 		glm::vec3(x_stretch, 1.0f, 1.0f));
-	
+
 	const GLfloat visible_x_width = dr.x * x_stretch;
 	const GLfloat x_start = (dr.x - visible_x_width) / 2.0f;
-	
+
 	glEnable(GL_SCISSOR_TEST);
-	glScissor(0 + (GLsizei) x_start, 0, 
+	glScissor(0 + (GLsizei) x_start, 0,
 			  (GLsizei)visible_x_width, _display_resolution.y);
 
 	// Finally, call whatever will do the renderering

@@ -13,6 +13,7 @@
 //   LP3_COMPILE_TARGET_LINUX
 //   LP3_COMPILE_TARGET_PC
 //   LP3_COMPILE_TARGET_EMSCRIPTEN
+//   LP3_COMPILE_TARGET_POCKETCHIP
 //
 //   LP3_COMPILE_WITH_DEBUGGING
 //     If true, debug stuff is on, so feel free to take your time.
@@ -40,11 +41,6 @@
 #pragma once
 
 #include <boost/config.hpp>
-
-#define COMPILE_TARGET_WINDOWS syntax_error
-#define COMPILE_TARGET_DREAMCAST syntax_error
-#define COMPILE_TARGET_LINUX syntax_error
-#define COMPILE_TARGET_PC syntax_error
 
 
 #ifdef _WIN32

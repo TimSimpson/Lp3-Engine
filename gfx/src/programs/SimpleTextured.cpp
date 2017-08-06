@@ -12,7 +12,7 @@ namespace {
     constexpr char const s_texture[] = "s_texture";
 
     const GLchar * vertex_shader_source = R"GLSL_CODE(
-#version 100
+#version 120
 
 uniform mat4 u_mvp;
 attribute vec4 a_position;
@@ -27,9 +27,9 @@ void main()
 )GLSL_CODE";
 
 	const GLchar * fragment_shader_source = R"GLSL_CODE(
-#version 100
+#version 120
 
-precision mediump float;
+# precision mediump float;
 varying vec2 v_texCoord;
 uniform sampler2D s_texture;
 
@@ -126,7 +126,7 @@ void SimpleTextured::set_texture(const gl::TextureID & id) const {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
+
     glUniform1i(get_s_texture(), 0);
 }
 
