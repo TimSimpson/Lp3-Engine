@@ -22,7 +22,7 @@ void main()
 )GLSL_CODE";
 
 	const GLchar * fragment_shader_source = R"GLSL_CODE(
-#version 120
+#version 100
 
 #ifdef GL_ES
 precision mediump float;
