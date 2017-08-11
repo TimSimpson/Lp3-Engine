@@ -23,18 +23,20 @@ glm::ivec2 fudge_real_size(const glm::ivec2 & size) {
 
 LP3_GFX_API
 Window::Window(gsl::not_null<gsl::czstring<>> title, const glm::ivec2 & size)
-:	_display_resolution(size),
-	_virtual_resolution(size)
-{
-	this->_window = SDL_CreateWindow(
+:	gl_context(),
+	new_size(boost::none),
+	_virtual_resolution(size),
+	_window(SDL_CreateWindow(
 		title,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		size.x,
 		size.y,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
-	);
-	this->window_id = SDL_GetWindowID(_window);
+	)),
+	window_id(SDL_GetWindowID(_window)),
+	display(calculate_display_properties(size))
+{	
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetSwapInterval(0);
@@ -46,6 +48,39 @@ Window::Window(gsl::not_null<gsl::czstring<>> title, const glm::ivec2 & size)
 		LP3_LOG_ERROR("Error creating GL %s", SDL_GetError());
 	}
 	lp3::gl::initialize();
+}
+
+LP3_GFX_API
+Window::DisplayProperties Window::calculate_display_properties(
+	const glm::ivec2 & new_display_resolution)
+{
+	const glm::vec2 vr = this->_virtual_resolution;
+	const glm::vec2 dr = new_display_resolution;
+
+	const GLfloat desired_ar = vr.x / vr.y;
+	const GLfloat actual_ar = dr.x / dr.y;
+	const GLfloat x_stretch = desired_ar / actual_ar;
+
+	const glm::vec2 stretch =
+		x_stretch <= 1.0f
+		? glm::vec2{ x_stretch, 1.0f }
+	: glm::vec2{ 1.0f, 1.0f / x_stretch };
+
+	const glm::vec2 scissor_size = dr * stretch;
+
+	const glm::vec2 scissor_start = (dr - scissor_size) / 2.0f;
+
+	const glm::mat4 scale = glm::scale(
+		glm::mat4(),
+		glm::vec3(stretch.x, stretch.y, 1.0f));
+
+	DisplayProperties props;
+	// TODO: Check casts
+	props.resolution = new_display_resolution;
+	props.scale = scale;
+	props.scissor_start = scissor_start;
+	props.scissor_size = scissor_size;
+	return props;
 }
 
 LP3_GFX_API
@@ -71,8 +106,8 @@ void Window::render(SceneNodeFunc f) {
 	LP3_GL_ASSERT_NO_ERRORS();
 	if (this->new_size) {
 		glViewport(0, 0, this->new_size->x, this->new_size->y);
-		this->_display_resolution = *this->new_size;
-		this->new_size = boost::none;
+		this->display = calculate_display_properties(*this->new_size);
+		this->new_size = boost::none;		
 	}
 	LP3_GL_ASSERT_NO_ERRORS();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -80,31 +115,14 @@ void Window::render(SceneNodeFunc f) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	LP3_GL_ASSERT_NO_ERRORS();
 
-	// TODO: Cache all of this stuff and only calculate it when
-	//       the display size is changed.
-	// Maintain aspect ratio:
-
-	glm::vec2 vr = _virtual_resolution;
-	glm::vec2 dr = _display_resolution;
-
-	const GLfloat desired_ar = vr.x / vr.y;
-	const GLfloat actual_ar = dr.x / dr.y;
-	const GLfloat x_stretch = desired_ar / actual_ar;
-
-	const glm::mat4 scale = glm::scale(
-		glm::mat4(),
-		glm::vec3(x_stretch, 1.0f, 1.0f));
-
-	const GLfloat visible_x_width = dr.x * x_stretch;
-	const GLfloat x_start = (dr.x - visible_x_width) / 2.0f;
-
 	glEnable(GL_SCISSOR_TEST);
-	glScissor(0 + (GLsizei) x_start, 0,
-			  (GLsizei)visible_x_width, _display_resolution.y);
+	glScissor(display.scissor_start.x, display.scissor_start.y,
+		      display.scissor_size.x, display.scissor_size.y);
 
-	// Finally, call whatever will do the renderering
-	f(scale);
+	// Finally, call whatever will do the rendering
+	f(display.scale);
 	glDisable(GL_SCISSOR_TEST);
+
 	SDL_GL_SwapWindow(this->_window);
 }
 

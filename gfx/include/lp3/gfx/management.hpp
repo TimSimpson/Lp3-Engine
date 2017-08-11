@@ -29,7 +29,7 @@ public:
 	// How many pixels we're actually using. If this abstraction is successful
 	// this will rarely be used.
 	inline const glm::ivec2 & display_resolution() {
-		return _display_resolution;;
+		return display.resolution;
 	}
 
 	void handle_events(const SDL_WindowEvent & window_event);
@@ -47,19 +47,30 @@ public:
 
 	// The scaling factor - the actual over the virtual resolution.
 	inline glm::vec2 display_scale() {
-		return glm::vec2(_display_resolution) / glm::vec2(_virtual_resolution);
+		return glm::vec2(display.resolution) / glm::vec2(_virtual_resolution);
 	}
 
 	// Call this when you want to work with this OpenGL context outside of
 	// rendering (for example when creating textures or programs).
 	void work_with();
 private:
-	glm::ivec2 _display_resolution;
 	lp3::sdl::GLContext gl_context;
 	boost::optional<glm::ivec2> new_size;
 	glm::ivec2 _virtual_resolution;
 	lp3::sdl::Window _window;
 	Uint32 window_id;	
+	
+	struct DisplayProperties {
+		glm::ivec2 resolution;
+		glm::ivec2 scissor_size;
+		glm::ivec2 scissor_start;
+		glm::mat4 scale;
+	};
+	
+	DisplayProperties calculate_display_properties(
+		const glm::ivec2 & new_display_resolution);
+
+	DisplayProperties display;
 };
 
 // Creates an OpenGL texture from an SDL texture and has the ability to
