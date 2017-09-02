@@ -47,6 +47,12 @@ namespace {
 	};
 }
 
+ControlMemory::ControlMemory(std::array<float, max_button_count> _buttons)
+:   buttons(_buttons)
+{
+}
+
+
 // --------------------------------------------------------------------
 // class Control
 // --------------------------------------------------------------------
@@ -54,6 +60,26 @@ LP3_INPUT_API
 Control::Control()
 :   buttons{}
 {}
+
+LP3_INPUT_API
+ControlMemory Control::remember() const {
+    return ControlMemory{ buttons };
+}
+
+LP3_INPUT_API
+std::vector<ButtonEvent> Control::get_updates(const ControlMemory & memory) {
+    std::vector<ButtonEvent> events;
+    for (int i = 0; i < max_button_count; ++ i) {
+        if (buttons[i] != memory.buttons[i]) {
+            ButtonEvent e;
+            e.index = i;
+            e.value = buttons[i];
+            events.push_back(e);
+        }
+    }
+    return events;
+}
+
 
 // --------------------------------------------------------------------
 // class Controls::ControlsImpl
@@ -152,7 +178,7 @@ public:
 
     // Sets defaults to use a basic game pad (directions, face buttons, start)
 
-	
+
 	bool set_defaults(
 		const int control_index,
 		const gsl::span<PreferredButtonMapping> & button_mappings)
@@ -167,19 +193,19 @@ public:
         }
 
 		const auto find_device = [&](const PreferredDevice & dev_type) -> Device * {
-			for (auto i = 0; i < device_source.get_device_count(); ++i) {
+            for (auto i = 0; i < device_source.get_device_count(); ++i) {
 				auto pdt = device_source.get_device(i)->get_preferred_device_type();
-				if (pdt && dev_type == pdt.get()) {
+            	if (pdt && dev_type == pdt.get()) {
 					return device_source.get_device(i);
 				}
 			}
 			return nullptr;
 		};
-		
+
 		for (const PreferredButtonMapping & button_mapping : button_mappings) {
 			Device * dev = find_device(button_mapping.device);
 			if (dev) {
-				for (const PreferredKey & key : button_mapping.keys) {
+              	for (const PreferredKey & key : button_mapping.keys) {
 					configure_button(
 						control_index, key.key_index, dev->get_name(), key.key_name);
 				}

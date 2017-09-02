@@ -15,6 +15,30 @@ namespace lp3 { namespace input {
 
 constexpr int max_button_count = 22;
 
+class Control;
+
+// Captures state of Control
+LP3_INPUT_API
+struct ControlMemory {
+    friend class Control;
+public:
+    ControlMemory() = default;
+    ControlMemory(const ControlMemory & rhs) = default;
+    ControlMemory & operator=(const ControlMemory & rhs) = default;
+private:
+    ControlMemory(std::array<float, max_button_count>);
+
+    std::array<float, max_button_count> buttons;
+};
+
+
+// Button changes state
+LP3_INPUT_API
+struct ButtonEvent {
+    int index;
+    float value;
+};
+
 // --------------------------------------------------------------------
 // class Control
 // --------------------------------------------------------------------
@@ -44,6 +68,8 @@ public:
         return max_button_count;
     }
 
+    ControlMemory remember() const;
+
 	// Sets decent defaults that maps controller 0 like so:
 	//	up, down, left, right, a, b, x, y, LT, RT, start
 	void set_defaults();
@@ -53,9 +79,12 @@ public:
         return analog_state(index) != 0;
     }
 
+    std::vector<ButtonEvent> get_updates(const ControlMemory & memory);
 protected:
     std::array<float, max_button_count> buttons;
 };
+
+
 
 // --------------------------------------------------------------------
 // PreferedKey
@@ -63,7 +92,7 @@ protected:
 //     Helps set up initial control options.
 // --------------------------------------------------------------------
 LP3_INPUT_API
-struct PreferredKey {	
+struct PreferredKey {
 	int key_index;
 	const std::string key_name;
 };
@@ -77,7 +106,7 @@ enum class PreferredDevice {
 LP3_INPUT_API
 struct PreferredButtonMapping {
 	PreferredDevice device;
-	std::vector<PreferredKey> keys;	
+	std::vector<PreferredKey> keys;
 
 	inline void set_mapping(const char * key) {
 		keys.push_back({ lp3::narrow<int>(keys.size()), key });
@@ -87,7 +116,7 @@ struct PreferredButtonMapping {
 	void set_mapping(const char * key, P... rest_of_keys) {
 		keys.push_back({ lp3::narrow<int>(keys.size()), key });
 		set_mapping(rest_of_keys...);
-	}	
+	}
 };
 
 
@@ -127,7 +156,7 @@ public:
 
 	// Sets the virtual controls to the given key names. Returns false if no
 	// mapping could be achieved.
-	bool set_defaults(int control_index, 
+	bool set_defaults(int control_index,
 		              const gsl::span<PreferredButtonMapping> & button_mappings);
 
     // Call this once each frame.
