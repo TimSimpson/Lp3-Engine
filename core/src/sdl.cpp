@@ -24,9 +24,18 @@ LP3_CORE_API
 SdlAssertToExceptionConverter::SdlAssertToExceptionConverter()
 : old_handler(SDL_GetAssertionHandler(nullptr))
 {
-    auto throw_except = [](const SDL_AssertData *, void *) -> SDL_AssertState {
-        throw SdlAssertCalled();
-    };
+    #ifndef LP3_COMPILE_TARGET_POCKETCHIP
+        auto throw_except = [](const SDL_AssertData *, void *)
+        -> SDL_AssertState {
+            throw SdlAssertCalled();
+        };
+    #else
+        // Pocket Chip appears to be using an older SDL?
+        auto throw_except = [](const SDL_assert_data *, void *)
+        -> SDL_assert_state {
+            throw SdlAssertCalled();
+        };
+    #endif
     SDL_SetAssertionHandler(throw_except, nullptr);
 }
 

@@ -41,6 +41,7 @@ void throw_gl_error() {
 
 LP3_GL_API
 ShaderOwner compile_shader(const GLenum type, gsl::not_null<gsl::czstring<>> src) {
+    LP3_LOG_DEBUG("Compiling shader:\n%s", src);
 	ShaderOwner shader{ glCreateShader(type) };
     if (!shader) {
         throw_gl_error();
