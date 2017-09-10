@@ -38,6 +38,7 @@
 			_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);	\
 			int result; \
 			{	\
+				lp3::core::OnExitCleanUp clean_up; \
 				lp3::core::PlatformLoop loop(argc, argv); \
 				result = main_function(loop); \
 			}	\

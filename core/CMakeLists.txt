@@ -16,12 +16,14 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/exit.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/exception.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/exit.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sdl.cpp
@@ -57,6 +59,9 @@ else()
 endif()
 
 if (LP3_CORE_FULL)
+    add_executable(ExitDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/ExitDemo.cpp)
+    target_link_libraries(ExitDemo Lp3_Core)
+
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
     target_link_libraries(LogDemo Lp3_Core)
 
@@ -79,6 +84,7 @@ if (LP3_CORE_FULL)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (Lp3_Core PROPERTIES FOLDER core)
+        set_target_properties (ExitDemo PROPERTIES FOLDER core)
         set_target_properties (LogDemo PROPERTIES FOLDER core)
         set_target_properties (MainDemo PROPERTIES FOLDER core)
         set_target_properties (assert_tests PROPERTIES FOLDER core)
