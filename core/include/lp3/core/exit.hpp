@@ -2,6 +2,8 @@
 #define LP3_CORE_EXIT_HPP
 #pragma once
 
+#include <utility>
+
 namespace lp3 { namespace core {
 
 typedef void(*ExitCall)();
@@ -36,7 +38,7 @@ public:
 	}
 
     ~GlobalVar() {
-		// Handled elsewhere.        
+		// Handled elsewhere.
     }
 
     T & get() {
@@ -49,8 +51,8 @@ private:
 	struct GR : public GlobalResource {
 		T * ptr;
 
-		GR(T * ptr)
-		: ptr(ptr) 
+		GR(T * _ptr)
+		: ptr(_ptr)
 		{}
 
 		GR(GR && other)
