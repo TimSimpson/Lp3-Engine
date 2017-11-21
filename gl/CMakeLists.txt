@@ -5,6 +5,9 @@
 project(lp3_gl CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
+find_package(Lp3_Core 1.0.1)
+find_package(glm)
+
 add_library(Lp3_Gl
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl/config.hpp
@@ -24,7 +27,7 @@ target_include_directories(Lp3_Gl
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Gl lp3_deps::boost lp3_deps::gsl lp3_deps::sdl2 Lp3_Core lp3_deps::glm)
+target_link_libraries(Lp3_Gl lp3::core glm)
 
 install(TARGETS Lp3_Gl EXPORT Lp3_Gl_Config
     ARCHIVE  DESTINATION lib

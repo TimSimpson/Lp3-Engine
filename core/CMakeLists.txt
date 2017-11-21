@@ -4,6 +4,11 @@
 # *********************************************************************
 project(lp3_core CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+include(CMakePackageConfigHelpers)
+
+find_package(Boost REQUIRED)
+find_package(GSL)
+find_package(sdl2 2.0.7)
 
 add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
@@ -39,7 +44,7 @@ target_include_directories(Lp3_Core
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core lp3_deps::boost lp3_deps::gsl lp3_deps::sdl2 lp3_deps::sdl2_image)
+target_link_libraries(Lp3_Core Boost::boost GSL sdl2::sdl2 sdl2::image)
 
 install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
     ARCHIVE  DESTINATION lib
@@ -56,6 +61,11 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
 else()
     target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
+endif()
+
+get_directory_property(is_child PARENT_DIRECTORY)
+if (is_child)
+    set(LP3_CORE_FULL True)
 endif()
 
 if (LP3_CORE_FULL)
@@ -93,3 +103,42 @@ if (LP3_CORE_FULL)
         set_target_properties (MultipleWindows PROPERTIES FOLDER core)
     endif()
 endif()
+
+
+# Handle installation, find_package stuff
+
+install(DIRECTORY include/ DESTINATION include)
+
+install(TARGETS Lp3_Core EXPORT Lp3_Core-targets
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
+)
+
+add_library(lp3::core ALIAS Lp3_Core)
+install(EXPORT Lp3_Core-targets
+    FILE Lp3Core-targets.cmake
+    NAMESPACE lp3::
+    DESTINATION lib/cmake/Lp3_Core
+)
+
+file(WRITE "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake" "
+include(CMakeFindDependencyMacro)
+find_dependency(Boost)
+find_dependency(GSL)
+find_dependency(sdl2)
+include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_Core-targets.cmake\")
+")
+
+
+write_basic_package_version_file("${PROJECT_BINARY_DIR}/Lp3_Core-config-version.cmake"
+    VERSION 1.0.1
+    COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+    "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake"
+    "${PROJECT_BINARY_DIR}/Lp3_Core-config-version.cmake"
+    DESTINATION lib/cmake/Lp3_Core
+)
