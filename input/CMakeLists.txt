@@ -30,8 +30,9 @@ target_include_directories(input
 
 target_link_libraries(input PUBLIC lp3::core)
 
-
-# Handle installation, find_package stuff
+# *********************************************************************
+# Package / Install Stuff
+# *********************************************************************
 
 install(DIRECTORY include/ DESTINATION include)
 
@@ -67,8 +68,9 @@ install(FILES
     DESTINATION lib/cmake/Lp3_Input
 )
 
-
-# Tests and demos
+# *********************************************************************
+# Tests and Drivers / Demos
+# *********************************************************************
 
 get_directory_property(is_child PARENT_DIRECTORY)
 if (NOT is_child)

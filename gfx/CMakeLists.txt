@@ -85,8 +85,9 @@ install(FILES
     DESTINATION lib/cmake/Lp3_Gfx
 )
 
-
-# Tests and Demos
+# *********************************************************************
+# Tests and Drivers / Demos
+# *********************************************************************
 
 get_directory_property(is_child PARENT_DIRECTORY)
 if (NOT is_child)

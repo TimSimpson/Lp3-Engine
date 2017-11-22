@@ -34,8 +34,9 @@ target_include_directories(imgui
 
 target_link_libraries(imgui PUBLIC lp3::gfx)
 
-
-# Handle installation, find_package stuff
+# *********************************************************************
+# Package / Install Stuff
+# *********************************************************************
 
 install(DIRECTORY include/ DESTINATION include)
 install(FILES lib/imgui.h lib/imconfig.h DESTINATION include)
@@ -72,8 +73,9 @@ install(FILES
     DESTINATION lib/cmake/Lp3_ImGui
 )
 
-
-# Tests and demos
+# *********************************************************************
+# Tests and Drivers / Demos
+# *********************************************************************
 
 get_directory_property(is_child PARENT_DIRECTORY)
 if (NOT is_child)

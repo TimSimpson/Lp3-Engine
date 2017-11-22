@@ -32,8 +32,9 @@ target_include_directories(sims
 
 target_link_libraries(sims PUBLIC lp3::core)
 
-
-# Handle installation, find_package stuff
+# *********************************************************************
+# Package / Install Stuff
+# *********************************************************************
 
 install(DIRECTORY include/ DESTINATION include)
 
@@ -68,8 +69,9 @@ install(FILES
     DESTINATION lib/cmake/Lp3_Sims
 )
 
-
-# Tests and demos
+# *********************************************************************
+# Tests and Drivers / Demos
+# *********************************************************************
 
 if (LP3_SIMS_FULL)
     add_library(tests-main STATIC ${CMAKE_CURRENT_SOURCE_DIR}/tests/tests-main.cpp)

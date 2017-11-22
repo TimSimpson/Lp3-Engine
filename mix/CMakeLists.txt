@@ -25,8 +25,9 @@ target_include_directories(mix
 
 target_link_libraries(mix PUBLIC sdl2::mixer lp3::core )
 
-
-# Handle installation, find_package stuff
+# *********************************************************************
+# Package / Install Stuff
+# *********************************************************************
 
 install(DIRECTORY include/ DESTINATION include)
 
@@ -62,8 +63,9 @@ install(FILES
     DESTINATION lib/cmake/Lp3_Mix
 )
 
-
-# Tests and Demos
+# *********************************************************************
+# Tests and Drivers / Demos
+# *********************************************************************
 
 get_directory_property(is_child PARENT_DIRECTORY)
 if (NOT is_child)

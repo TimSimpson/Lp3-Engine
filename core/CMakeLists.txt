@@ -43,7 +43,7 @@ target_include_directories(core
     PRIVATE
         src)
 
-# Note: GSL is assumed and obtained from CMake.
+# Note: GSL is assumed and obtained from cget.
 target_link_libraries(core PUBLIC Boost::boost sdl2::sdl2 sdl2::image)
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
@@ -54,7 +54,9 @@ endif()
 
 
 
-# Handle installation, find_package stuff
+# *********************************************************************
+# Package / Install Stuff
+# *********************************************************************
 
 install(DIRECTORY include/ DESTINATION include)
 
@@ -90,8 +92,9 @@ install(FILES
     DESTINATION lib/cmake/Lp3_Core
 )
 
-
-# Tests and Demos
+# *********************************************************************
+# Tests and Drivers / Demos
+# *********************************************************************
 
 get_directory_property(is_child PARENT_DIRECTORY)
 if (NOT is_child)
