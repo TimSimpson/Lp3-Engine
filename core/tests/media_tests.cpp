@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #define CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#include <catch/catch.hpp>
 
 namespace core = lp3::core;
 

@@ -7,10 +7,9 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(Boost REQUIRED)
-find_package(GSL)
 find_package(sdl2 2.0.7)
 
-add_library(Lp3_Core
+add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/casts.hpp
@@ -35,65 +34,56 @@ add_library(Lp3_Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp
 )
+set_target_properties(core PROPERTIES OUTPUT_NAME "Lp3_Core")
 
 
-target_include_directories(Lp3_Core
+target_include_directories(core
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         src)
 
-target_link_libraries(Lp3_Core Boost::boost GSL sdl2::sdl2 sdl2::image)
-
-install(TARGETS Lp3_Core EXPORT Lp3_Core_Config
-    ARCHIVE  DESTINATION lib
-    LIBRARY  DESTINATION lib
-    RUNTIME  DESTINATION bin)  # This is for Windows
-install(DIRECTORY include/ DESTINATION include)
-
-install(EXPORT Lp3_Core_Config DESTINATION share/Lp3_Core/cmake)
-
-export(TARGETS Lp3_Core FILE Lp3_Core_Config.cmake)
-
+# Note: GSL is assumed and obtained from CMake.
+target_link_libraries(core Boost::boost sdl2::sdl2 sdl2::image)
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-    target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
+    target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
 else()
-    target_sources(Lp3_Core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
+    target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
 endif()
 
 get_directory_property(is_child PARENT_DIRECTORY)
-if (is_child)
+if (NOT is_child)
     set(LP3_CORE_FULL True)
 endif()
 
 if (LP3_CORE_FULL)
     add_executable(ExitDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/ExitDemo.cpp)
-    target_link_libraries(ExitDemo Lp3_Core)
+    target_link_libraries(ExitDemo core)
 
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
-    target_link_libraries(LogDemo Lp3_Core)
+    target_link_libraries(LogDemo core)
 
     add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
-    target_link_libraries(MainDemo Lp3_Core)
+    target_link_libraries(MainDemo core)
 
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
-    target_link_libraries(assert_tests Lp3_Core lp3_deps::catch)
+    target_link_libraries(assert_tests core)
     add_test(assert_tests assert_tests)
 
     add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-    target_link_libraries(media_tests Lp3_Core lp3_deps::catch)
+    target_link_libraries(media_tests core)
     add_test(media_tests media_tests)
 
     add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
-    target_link_libraries(Sdl2Simple Lp3_Core)
+    target_link_libraries(Sdl2Simple core)
 
     add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(MultipleWindows Lp3_Core)
+    target_link_libraries(MultipleWindows core)
 
     if (LP3_SETUP_FOLDERS)
-        set_target_properties (Lp3_Core PROPERTIES FOLDER core)
+        set_target_properties (core PROPERTIES FOLDER core)
         set_target_properties (ExitDemo PROPERTIES FOLDER core)
         set_target_properties (LogDemo PROPERTIES FOLDER core)
         set_target_properties (MainDemo PROPERTIES FOLDER core)
@@ -109,16 +99,16 @@ endif()
 
 install(DIRECTORY include/ DESTINATION include)
 
-install(TARGETS Lp3_Core EXPORT Lp3_Core-targets
+install(TARGETS core EXPORT Lp3_Core-targets
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     INCLUDES DESTINATION include
 )
 
-add_library(lp3::core ALIAS Lp3_Core)
+add_library(lp3::core ALIAS core)
 install(EXPORT Lp3_Core-targets
-    FILE Lp3Core-targets.cmake
+    FILE Lp3_Core-targets.cmake
     NAMESPACE lp3::
     DESTINATION lib/cmake/Lp3_Core
 )
@@ -126,7 +116,6 @@ install(EXPORT Lp3_Core-targets
 file(WRITE "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake" "
 include(CMakeFindDependencyMacro)
 find_dependency(Boost)
-find_dependency(GSL)
 find_dependency(sdl2)
 include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_Core-targets.cmake\")
 ")
