@@ -4,8 +4,11 @@
 # *********************************************************************
 project(lp3_gfx CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+include(CMakePackageConfigHelpers)
 
-add_library(Lp3_Gfx
+find_package(Lp3_Gl 1.0.1)
+
+add_library(gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/buffers.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx/config.hpp
@@ -36,51 +39,85 @@ add_library(Lp3_Gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/SimpleTextured.cpp
 )
 
-
-target_include_directories(Lp3_Gfx
+target_include_directories(gfx
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         src)
+target_link_libraries(gfx PUBLIC lp3::gl)
+set_target_properties(gfx PROPERTIES OUTPUT_NAME "Lp3_Gfx")
 
-target_link_libraries(Lp3_Gfx Lp3_Core Lp3_Gl)
 
-install(TARGETS Lp3_Gfx EXPORT Lp3_Gfx_Config
-    ARCHIVE  DESTINATION lib
-    LIBRARY  DESTINATION lib
-    RUNTIME  DESTINATION bin)  # This is for Windows
+# Handle installation, find_package stuff
+
 install(DIRECTORY include/ DESTINATION include)
 
-install(EXPORT Lp3_Gfx_Config DESTINATION share/Lp3_Gfx/cmake)
+install(TARGETS gfx EXPORT Lp3_Gfx-targets
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
+)
 
-export(TARGETS Lp3_Gfx FILE Lp3_Gfx_Config.cmake)
+add_library(lp3::gfx ALIAS gfx)
+install(EXPORT Lp3_Gfx-targets
+    FILE Lp3_Gfx-targets.cmake
+    NAMESPACE lp3::
+    DESTINATION lib/cmake/Lp3_Gfx
+)
+
+file(WRITE "${PROJECT_BINARY_DIR}/Lp3_Gfx-config.cmake" "
+include(CMakeFindDependencyMacro)
+find_dependency(Lp3_Gl)
+include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_Gfx-targets.cmake\")
+")
+
+
+write_basic_package_version_file("${PROJECT_BINARY_DIR}/Lp3_Gfx-config-version.cmake"
+    VERSION 1.0.1
+    COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+    "${PROJECT_BINARY_DIR}/Lp3_Gfx-config.cmake"
+    "${PROJECT_BINARY_DIR}/Lp3_Gfx-config-version.cmake"
+    DESTINATION lib/cmake/Lp3_Gfx
+)
+
+
+# Tests and Demos
+
+get_directory_property(is_child PARENT_DIRECTORY)
+if (NOT is_child)
+    set(LP3_GFX_FULL True)
+endif()
 
 if (LP3_GFX_FULL)
     add_executable(Lp3_Gfx_MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(Lp3_Gfx_MultipleWindows Lp3_Gfx)
+    target_link_libraries(Lp3_Gfx_MultipleWindows gfx)
 
     add_executable(SimpleGfx ${CMAKE_CURRENT_SOURCE_DIR}/demos/SimpleGfx.cpp)
-    target_link_libraries(SimpleGfx Lp3_Gfx)
+    target_link_libraries(SimpleGfx gfx)
 
     add_executable(CPaperDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/CPaperDemo.cpp)
-    target_link_libraries(CPaperDemo Lp3_Gfx)
+    target_link_libraries(CPaperDemo gfx)
 
     add_executable(TextureDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/TextureDemo.cpp)
-    target_link_libraries(TextureDemo Lp3_Gfx Lp3_Sims)
+    target_link_libraries(TextureDemo gfx lp3::sims)
 
     add_executable(DrawTiles ${CMAKE_CURRENT_SOURCE_DIR}/demos/DrawTiles.cpp)
-    target_link_libraries(DrawTiles Lp3_Gfx Lp3_Sims)
+    target_link_libraries(DrawTiles gfx lp3::sims)
 
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
-    target_link_libraries(font_saver Lp3_Gfx Lp3_Sims lp3_deps::sdl2_ttf)
+    target_link_libraries(font_saver gfx lp3::sims lp3_deps::sdl2_ttf)
 
     add_executable(show_font ${CMAKE_CURRENT_SOURCE_DIR}/demos/show_font.cpp)
-    target_link_libraries(show_font Lp3_Gfx Lp3_Sims)
+    target_link_libraries(show_font gfx lp3::sims)
 
     if (LP3_SETUP_FOLDERS)
-        set_target_properties (Lp3_Gfx PROPERTIES FOLDER gfx)
+        set_target_properties (gfx PROPERTIES FOLDER gfx)
         set_target_properties (CPaperDemo PROPERTIES FOLDER gfx)
         set_target_properties (DrawTiles PROPERTIES FOLDER gfx)
         set_target_properties (font_saver PROPERTIES FOLDER gfx)

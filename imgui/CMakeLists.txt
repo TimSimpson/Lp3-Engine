@@ -4,8 +4,11 @@
 # *********************************************************************
 project(lp3_imgui CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+include(CMakePackageConfigHelpers)
 
-add_library(Lp3_ImGui
+find_package(Lp3_Gfx 1.0.1)
+
+add_library(imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/imgui.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ImGuiApp.cpp
 
@@ -19,9 +22,9 @@ add_library(Lp3_ImGui
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb_textedit.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb_truetype.h
 )
+set_target_properties(imgui PROPERTIES OUTPUT_NAME "Lp3_ImGui")
 
-
-target_include_directories(Lp3_ImGui
+target_include_directories(imgui
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -29,24 +32,60 @@ target_include_directories(Lp3_ImGui
     PRIVATE
         src)
 
-target_link_libraries(Lp3_ImGui Lp3_Core Lp3_Gfx)
+target_link_libraries(imgui PUBLIC lp3::gfx)
 
-install(TARGETS Lp3_ImGui EXPORT Lp3_ImGui_Config
-    ARCHIVE  DESTINATION lib
-    LIBRARY  DESTINATION lib
-    RUNTIME  DESTINATION bin)  # This is for Windows
+
+# Handle installation, find_package stuff
+
 install(DIRECTORY include/ DESTINATION include)
+install(FILES lib/imgui.h lib/imconfig.h DESTINATION include)
 
-install(EXPORT Lp3_ImGui_Config DESTINATION share/Lp3_ImGui/cmake)
+install(TARGETS imgui EXPORT Lp3_ImGui-targets
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
+)
 
-export(TARGETS Lp3_ImGui FILE Lp3_ImGui_Config.cmake)
+add_library(lp3::imgui ALIAS imgui)
+install(EXPORT Lp3_ImGui-targets
+    FILE Lp3_ImGui-targets.cmake
+    NAMESPACE lp3::
+    DESTINATION lib/cmake/Lp3_ImGui
+)
+
+file(WRITE "${PROJECT_BINARY_DIR}/Lp3_ImGui-config.cmake" "
+include(CMakeFindDependencyMacro)
+find_package(Lp3_Core 1.0.1)
+include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_ImGui-targets.cmake\")
+")
+
+
+write_basic_package_version_file("${PROJECT_BINARY_DIR}/Lp3_ImGui-config-version.cmake"
+    VERSION 1.0.1
+    COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+    "${PROJECT_BINARY_DIR}/Lp3_ImGui-config.cmake"
+    "${PROJECT_BINARY_DIR}/Lp3_ImGui-config-version.cmake"
+    DESTINATION lib/cmake/Lp3_ImGui
+)
+
+
+# Tests and demos
+
+get_directory_property(is_child PARENT_DIRECTORY)
+if (NOT is_child)
+    set(LP3_IMGUI_FULL True)
+endif()
 
 if (LP3_IMGUI_FULL)
     add_executable(ImGuiDemo ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
-    target_link_libraries(ImGuiDemo Lp3_ImGui ${LP3_LIBS})
+    target_link_libraries(ImGuiDemo imgui ${LP3_LIBS})
 
     if (LP3_SETUP_FOLDERS)
-        set_target_properties (Lp3_ImGui PROPERTIES FOLDER imgui)
+        set_target_properties (imgui PROPERTIES FOLDER imgui)
         set_target_properties (ImGuiDemo PROPERTIES FOLDER imgui)
     endif()
 endif()

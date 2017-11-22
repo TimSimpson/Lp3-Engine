@@ -36,7 +36,6 @@ add_library(core
 )
 set_target_properties(core PROPERTIES OUTPUT_NAME "Lp3_Core")
 
-
 target_include_directories(core
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -45,13 +44,54 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from CMake.
-target_link_libraries(core Boost::boost sdl2::sdl2 sdl2::image)
+target_link_libraries(core PUBLIC Boost::boost sdl2::sdl2 sdl2::image)
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
 else()
     target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
 endif()
+
+
+
+# Handle installation, find_package stuff
+
+install(DIRECTORY include/ DESTINATION include)
+
+install(TARGETS core EXPORT Lp3_Core-targets
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
+)
+
+add_library(lp3::core ALIAS core)
+install(EXPORT Lp3_Core-targets
+    FILE Lp3_Core-targets.cmake
+    NAMESPACE lp3::
+    DESTINATION lib/cmake/Lp3_Core
+)
+
+file(WRITE "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake" "
+include(CMakeFindDependencyMacro)
+find_dependency(Boost)
+find_dependency(sdl2)
+include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_Core-targets.cmake\")
+")
+
+write_basic_package_version_file("${PROJECT_BINARY_DIR}/Lp3_Core-config-version.cmake"
+    VERSION 1.0.1
+    COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+    "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake"
+    "${PROJECT_BINARY_DIR}/Lp3_Core-config-version.cmake"
+    DESTINATION lib/cmake/Lp3_Core
+)
+
+
+# Tests and Demos
 
 get_directory_property(is_child PARENT_DIRECTORY)
 if (NOT is_child)
@@ -94,40 +134,3 @@ if (LP3_CORE_FULL)
     endif()
 endif()
 
-
-# Handle installation, find_package stuff
-
-install(DIRECTORY include/ DESTINATION include)
-
-install(TARGETS core EXPORT Lp3_Core-targets
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    INCLUDES DESTINATION include
-)
-
-add_library(lp3::core ALIAS core)
-install(EXPORT Lp3_Core-targets
-    FILE Lp3_Core-targets.cmake
-    NAMESPACE lp3::
-    DESTINATION lib/cmake/Lp3_Core
-)
-
-file(WRITE "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake" "
-include(CMakeFindDependencyMacro)
-find_dependency(Boost)
-find_dependency(sdl2)
-include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_Core-targets.cmake\")
-")
-
-
-write_basic_package_version_file("${PROJECT_BINARY_DIR}/Lp3_Core-config-version.cmake"
-    VERSION 1.0.1
-    COMPATIBILITY AnyNewerVersion
-)
-
-install(FILES
-    "${PROJECT_BINARY_DIR}/Lp3_Core-config.cmake"
-    "${PROJECT_BINARY_DIR}/Lp3_Core-config-version.cmake"
-    DESTINATION lib/cmake/Lp3_Core
-)
