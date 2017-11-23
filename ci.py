@@ -29,7 +29,7 @@ def from_root(path):
 
 BUILD_DIR = from_root('build')
 DEPS_DIR = from_root('build/deps')
-SRC_DIR = from_root('standalone')
+SRC_DIR = from_root("""standalone""")
 
 
 def github_check_call(*args, **kwargs):

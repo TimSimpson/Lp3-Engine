@@ -25,7 +25,7 @@ namespace {
 
         std::uint64_t glyph_count;
         file.read(glyph_count);
-        glyphs.reserve(glyph_count);
+        glyphs.reserve(lp3::narrow<const unsigned int>(glyph_count));
         for(std::size_t i = 0; i < glyph_count; ++ i) {
             Glyph g;
             file.read(g.x);

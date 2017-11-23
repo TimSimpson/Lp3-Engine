@@ -9,7 +9,7 @@
 # Note that you will need to define the libraries below as seen here yourself.
 
 project(lp3_engine-Parent CXX)
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
 
 if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -35,116 +35,20 @@ enable_testing()
 
 include(ExternalProject)
 
-###############################################################################
-#  Third Party libraries
-###############################################################################
-
-# If you are using this as a subproject, your super project CMakeLists.txt
-# must define the following interface import libraries as seen here.
-
-set(DEPS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../build/deps")
-
-### Guidelines Support Library
-
-add_library(lp3_deps::gsl INTERFACE IMPORTED)
-set_property(TARGET lp3_deps::gsl PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES
-    "${DEPS_PATH}/gsl/include")
-
-
-### Boost
-
-find_package(Boost REQUIRED)
-add_library(lp3_deps::boost INTERFACE IMPORTED)
-set_property(TARGET lp3_deps::boost PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}")
-
-
-### SDL2
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPS_PATH}/cmake")
-
-set(SDL2 "${DEPS_PATH}/sdl2")
-find_package(SDL2 REQUIRED)
-if (NOT "${SDL2_FOUND}")
-    message(FATAL_ERROR "Could not find SDL libraries.")
-endif()
-add_library(lp3_deps::sdl2 INTERFACE IMPORTED)
-set_property(TARGET lp3_deps::sdl2 PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES
-    "${SDL2_INCLUDE_DIR}")
-set_property(TARGET lp3_deps::sdl2 PROPERTY
-    INTERFACE_LINK_LIBRARIES
-    "${SDL2_LIBRARY}")
-
-
-### SDL2_IMAGE
-
-# Add SDL2 image library, then add it to SDL2
-find_library(SDL2_image NAMES "SDL2_image"
-    PATHS
-    "${DEPS_PATH}/sdl2/lib"
-    "/usr/lib/x86_64-linux-gnu")
-
-add_library(lp3_deps::sdl2_image INTERFACE IMPORTED)
-
-set_property(TARGET lp3_deps::sdl2_image PROPERTY
-    INTERFACE_LINK_LIBRARIES
-    "${SDL2_image}")
-
-
-### SDL2_TTF
-
-# Add SDL2 ttf library, then add it to SDL2
-find_library(SDL2_ttf NAMES "SDL2_ttf"
-    PATHS
-    "${DEPS_PATH}/sdl2/lib"
-    "/usr/lib/x86_64-linux-gnu")
-
-add_library(lp3_deps::sdl2_ttf INTERFACE IMPORTED)
-
-set_property(TARGET lp3_deps::sdl2_ttf PROPERTY
-    INTERFACE_LINK_LIBRARIES
-    "${SDL2_ttf}")
-
-
-### SDL2_MIXER
-
-if("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-    add_library(sdlx_mixer INTERFACE IMPORTED)
-else()
-    find_library(SDL2_mixer NAMES "SDL2_mixer"
-        PATHS
-        "${DEPS_PATH}/sdl2/lib"
-        "/usr/lib/x86_64-linux-gnu")
-
-    add_library(lp3_deps::sdlx_mixer INTERFACE IMPORTED)
-
-    set_property(TARGET lp3_deps::sdlx_mixer PROPERTY
-        INTERFACE_LINK_LIBRARIES
-        "${SDL2_mixer}")
-endif()
-
-
-
-### Catch
-
-add_library(lp3_deps::catch INTERFACE IMPORTED)
-set_property(TARGET lp3_deps::catch PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES
-    "${DEPS_PATH}/Catch/single_include")
-
-
-### GLM
-
-add_library(lp3_deps::glm INTERFACE IMPORTED)
-set_property(TARGET lp3_deps::glm PROPERTY
-    INTERFACE_INCLUDE_DIRECTORIES
-    "${DEPS_PATH}/glm")
 
 ###############################################################################
 #  Subproject
 ###############################################################################
+
+set(subprojects Lp3_Core Lp3_Sims Lp3_Gl Lp3_Gfx Lp3_ImGui Lp3_Input Lp3_Mix)
+
+macro(find_package )
+    if(NOT ${ARGV0} IN_LIST subprojects)
+        _find_package(${ARGV})
+    endif()
+endmacro()
+
+set(LP3_SETUP_FOLDERS TRUE)  # Organizes VS folders
 
 set(LP3_CORE_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core

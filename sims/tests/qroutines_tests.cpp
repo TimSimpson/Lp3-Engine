@@ -1,7 +1,7 @@
 #include <lp3/core.hpp>
 #include <lp3/sims/coroutine.hpp>
 #include <lp3/sims/qroutines.hpp>
-#include <catch.hpp>
+#include <catch/catch.hpp>
 
 namespace core = lp3::core;
 namespace sims = lp3::sims;

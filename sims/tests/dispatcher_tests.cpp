@@ -1,6 +1,6 @@
 #include <lp3/core.hpp>
 #include <lp3/sims/dispatcher.hpp>
-#include <catch.hpp>
+#include <catch/catch.hpp>
 
 namespace sims = lp3::sims;
 

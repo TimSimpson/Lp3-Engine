@@ -9,7 +9,7 @@
 # Note that you will need to define the libraries below as seen here yourself.
 
 project(lp3_engine-Parent CXX)
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
 
 if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -35,20 +35,20 @@ enable_testing()
 
 include(ExternalProject)
 
-###############################################################################
-#  Third Party libraries
-###############################################################################
-
-# If you are using this as a subproject, your super project CMakeLists.txt
-# must define the following interface import libraries as seen here.
-
-set(DEPS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../build/deps")
-
-{{ cmake_deps }}
 
 ###############################################################################
 #  Subproject
 ###############################################################################
+
+set(subprojects Lp3_Core Lp3_Sims Lp3_Gl Lp3_Gfx Lp3_ImGui Lp3_Input Lp3_Mix)
+
+macro(find_package )
+    if(NOT ${ARGV0} IN_LIST subprojects)
+        _find_package(${ARGV})
+    endif()
+endmacro()
+
+set(LP3_SETUP_FOLDERS TRUE)  # Organizes VS folders
 
 set(LP3_CORE_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core

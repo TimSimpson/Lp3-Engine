@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#include <catch/catch.hpp>
 
 //int main(int argc, char * argv[]) {
 // 	int result = Catch::Session().run(argc, argv);

@@ -1,7 +1,7 @@
 #include <lp3/core.hpp>
 #include <lp3/sims/EventSimulator.hpp>
 #include <lp3/sims/coroutine.hpp>
-#include <catch.hpp>
+#include <catch/catch.hpp>
 
 namespace sims = lp3::sims;
 

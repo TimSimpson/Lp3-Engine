@@ -1,2 +1,2 @@
-g-truc/glm
+g-truc/glm@0.9.8.5
 ../core

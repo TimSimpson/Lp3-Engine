@@ -95,6 +95,8 @@ if (NOT is_child)
 endif()
 
 if (LP3_GFX_FULL)
+    find_package(sdl2 2.0.7)
+
     add_executable(Lp3_Gfx_MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
     target_link_libraries(Lp3_Gfx_MultipleWindows gfx)
 
@@ -112,7 +114,7 @@ if (LP3_GFX_FULL)
 
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
-    target_link_libraries(font_saver gfx lp3::sims lp3_deps::sdl2_ttf)
+    target_link_libraries(font_saver gfx lp3::sims sdl2::ttf)
 
     add_executable(show_font ${CMAKE_CURRENT_SOURCE_DIR}/demos/show_font.cpp)
     target_link_libraries(show_font gfx lp3::sims)
