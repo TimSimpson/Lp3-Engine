@@ -229,7 +229,7 @@ def windows(args):
                 shell=True,
                 cwd=wb_dir,
                 )
-            subprocess.call(
+            or subprocess.call(
                 'cmake -G "Visual Studio 14 2015{bits}" -H{src_dir} -B{build_dir}'
                     .format(src_dir=SRC_DIR, build_dir=wb_dir, bits=bit_str),
                 shell=True,
