@@ -1,11 +1,9 @@
 
 language: cpp
 
-compiler:
-  - gcc
-
 dist: trusty
 sudo: false
+
 
 addons:
   apt:
@@ -13,25 +11,73 @@ addons:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise
     packages:
-      - gcc-6
-      - g++-6
-      - clang-3.8
-      - clang-format-3.8
-      - clang-tidy-3.8
+      # - clang-3.8
+      # - clang-format-3.8
+      # - clang-tidy-3.8
       - libstdc++6
       - ninja-build
-      - python-pip
+      # - python-pip
       - libboost-dev
       - libsdl2-dev
       - libsdl2-image-dev
       - libsdl2-ttf-dev
       - libsdl2-mixer-dev
-env: COMPILER=g++-6
+
+matrix:
+  include:
+    - os: linux
+      sudo: false
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - zoogie/sdl2-snapshots
+          packages:
+            - gcc-6
+            - g++-6
+            - ninja-build
+            - libboost-dev
+            - libsdl2-dev
+            - libsdl2-image-dev
+            - libsdl2-ttf-dev
+            - libsdl2-mixer-dev
+      env:
+        - CENV_NAME=gcc64r
+          CI_C=gcc-6
+          CI_CXX=g++-6
+          CI_BUILD_TYPE=Release
+    - os: linux
+      sudo: false
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - zoogie/sdl2-snapshots
+          packages:
+            - gcc-6
+            - g++-6
+            - ninja-build
+            - libboost-dev
+            - libsdl2-dev
+            - libsdl2-image-dev
+            - libsdl2-ttf-dev
+            - libsdl2-mixer-dev
+      env:
+        - CENV_NAME=gcc64d
+          CI_C=gcc-6
+          CI_CXX=g++-6
+          CI_BUILD_TYPE=Debug
 
 
 install:
   - |
+    set -e
     pushd /tmp
+    travis_retry wget http://libsdl.org/release/SDL2-2.0.4.tar.gz -O - | tar xz
+- cd SDL2-2.0.4 && ./configure && make -j && sudo make install
+
     travis_retry wget --quiet --no-check-certificate https://cmake.org/files/v3.8/cmake-3.8.0-rc2-Linux-x86_64.tar.gz
     tar -xf cmake-3.8.0-rc2-Linux-x86_64.tar.gz
     git clone https://github.com/TimSimpson/cenv.git
@@ -40,11 +86,24 @@ install:
     pushd cenv-master
     ./install.sh
     popd
+    popd
+
+# before_script:
+#   - export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:${PATH}
+#   - source /tmp/cenv-master/resources/bash-support.sh
 
 script:
   - |
-    export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:${PATH}
+    set -e
+    export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:/tmp/cenv-master/output/bvenv/bin/:${PATH}
+    echo Hai
+    echo '^__^'
     cmake --version
-    source /tmp/cenv-master/resources/bash-support.sh
     git submodule update --init --recursive
-    python ci.py travis
+    cget init -DCMAKE_C_COMPILER=${CI_C} -DCMAKE_CXX_COMPILER=${CI_CXX} -DCMAKE_BUILD_TYPE=${CI_BUILD_TYPE}
+    cget install -f requirements.txt
+    mkdir build
+    cd build
+    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake -H../standalone -B./
+    cmake --build ./
+    ctest
