@@ -22,15 +22,11 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      # addons:
-      #   apt:
-      #     sources:
-      #       - ubuntu-toolchain-r-test
-      #     packages:
-      #       - gcc-6
-      #       - g++-6
-      #       - ninja-build
-      #       - libboost-dev
+      addons:
+        apt:
+          packages:
+            - gcc-6
+            - g++-6
       env:
         - CENV_NAME=gcc64r
           CI_C=gcc-6
@@ -38,15 +34,11 @@ matrix:
           CI_BUILD_TYPE=Release
     - os: linux
       compiler: gcc
-      # addons:
-      #   apt:
-      #     sources:
-      #       - ubuntu-toolchain-r-test
-      #     packages:
-      #       - gcc-6
-      #       - g++-6
-      #       - ninja-build
-      #       - libboost-dev
+      addons:
+        apt:
+          packages:
+            - gcc-6
+            - g++-6
       env:
         - CENV_NAME=gcc64d
           CI_C=gcc-6
