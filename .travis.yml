@@ -29,6 +29,7 @@ matrix:
           packages:
             - gcc-6
             - g++-6
+            - libfreetype6-dev
       env:
         - CENV_NAME=gcc64r
           CI_C=gcc-6
@@ -43,6 +44,7 @@ matrix:
           packages:
             - gcc-6
             - g++-6
+            - libfreetype6-dev
       env:
         - CENV_NAME=gcc64d
           CI_C=gcc-6
