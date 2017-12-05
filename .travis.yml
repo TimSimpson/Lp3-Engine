@@ -81,7 +81,7 @@ script:
     cmake --version
     git submodule update --init --recursive
     cget init -DCMAKE_C_COMPILER=${CI_C} -DCMAKE_CXX_COMPILER=${CI_CXX} -DCMAKE_BUILD_TYPE=${CI_BUILD_TYPE}
-    cget install pfultz2/cget-recipes
+    cget install TimSimpson/cget-recipes
     cget install libpng
     cget install -f requirements.txt
     mkdir build
