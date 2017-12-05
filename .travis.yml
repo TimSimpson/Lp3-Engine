@@ -30,7 +30,7 @@ matrix:
             - gcc-6
             - g++-6
             - libfreetype6-dev
-            - libpng-dev
+            #- libpng-dev
       env:
         - CENV_NAME=gcc64r
           CI_C=gcc-6
@@ -46,7 +46,7 @@ matrix:
             - gcc-6
             - g++-6
             - libfreetype6-dev
-            - libpng-dev
+            # - libpng-dev
       env:
         - CENV_NAME=gcc64d
           CI_C=gcc-6
@@ -81,6 +81,8 @@ script:
     cmake --version
     git submodule update --init --recursive
     cget init -DCMAKE_C_COMPILER=${CI_C} -DCMAKE_CXX_COMPILER=${CI_CXX} -DCMAKE_BUILD_TYPE=${CI_BUILD_TYPE}
+    cget install pfultz2/cget-recipes
+    cget install libpng
     cget install -f requirements.txt
     mkdir build
     cd build
