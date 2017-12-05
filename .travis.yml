@@ -98,4 +98,5 @@ script:
     export CTEST_OUTPUT_ON_FAILURE=1
     export PATH=$(pwd)/cget/lib:${PATH}
     export LD_LIBRARY_PATH=$(pwd)/cget/lib:${LD_LIBRARY_PATH}
+    export
     ctest
