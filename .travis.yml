@@ -29,6 +29,7 @@ matrix:
           packages:
             - gcc-6
             - g++-6
+            - ninja-build
             - libfreetype6-dev
             #- libpng-dev
       env:
@@ -45,6 +46,7 @@ matrix:
           packages:
             - gcc-6
             - g++-6
+            - ninja-build
             - libfreetype6-dev
             # - libpng-dev
       env:
@@ -80,7 +82,7 @@ script:
     echo '^__^'
     cmake --version
     git submodule update --init --recursive
-    cget init -DCMAKE_C_COMPILER=${CI_C} -DCMAKE_CXX_COMPILER=${CI_CXX} -DCMAKE_BUILD_TYPE=${CI_BUILD_TYPE}
+    cget init -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE}
     cget install TimSimpson/cget-recipes
     cget install libpng
     cget install -f requirements.txt
