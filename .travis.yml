@@ -3,21 +3,6 @@ language: cpp
 dist: trusty
 sudo: false
 
-
-# addons:
-#   apt:
-#     sources:
-#       - ubuntu-toolchain-r-test
-#       - llvm-toolchain-precise
-#     packages:
-#       # - clang-3.8
-#       # - clang-format-3.8
-#       # - clang-tidy-3.8
-#       - libstdc++6
-#       - ninja-build
-#       # - python-pip
-#       - libboost-dev
-
 matrix:
   include:
     - os: linux
@@ -70,16 +55,10 @@ install:
     popd
     popd
 
-# before_script:
-#   - export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:${PATH}
-#   - source /tmp/cenv-master/resources/bash-support.sh
-
 script:
   - |
     set -e
     export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:/tmp/cenv-master/output/bvenv/bin/:${PATH}
-    echo Hai
-    echo '^__^'
     cmake --version
     git submodule update --init --recursive
     cget init -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE}
@@ -90,14 +69,7 @@ script:
     cd build
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake -H../standalone -B./
     cmake --build ./
-    echo cget/lib
-    ls -la ../cget/lib
-    echo ...
-    echo
-    ls -la ../cget/cget/pkg/TimSimpson__download-sdl2/install/lib
     export CTEST_OUTPUT_ON_FAILURE=1
     export PATH=$(pwd)/../cget/lib:${PATH}
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/cget/lib:$(pwd)/../cget/cget/pkg/TimSimpson__download-sdl2/install/lib/
     export LP3_ROOT_PATH=$(pwd)/../standalone/media
-    export
     ctest
