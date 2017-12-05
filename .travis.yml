@@ -100,7 +100,7 @@ script:
     export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:/tmp/cenv-master/output/bvenv/bin/:${PATH}
     cmake --version
     git submodule update --init --recursive
-    cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE}
+    cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=14
     cget install TimSimpson/cget-recipes
     cget install libpng
     cget install -f requirements.txt
