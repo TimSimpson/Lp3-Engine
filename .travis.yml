@@ -4,19 +4,19 @@ dist: trusty
 sudo: false
 
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise
-    packages:
-      # - clang-3.8
-      # - clang-format-3.8
-      # - clang-tidy-3.8
-      - libstdc++6
-      - ninja-build
-      # - python-pip
-      - libboost-dev
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#       - llvm-toolchain-precise
+#     packages:
+#       # - clang-3.8
+#       # - clang-format-3.8
+#       # - clang-tidy-3.8
+#       - libstdc++6
+#       - ninja-build
+#       # - python-pip
+#       - libboost-dev
 
 matrix:
   include:
@@ -31,7 +31,7 @@ matrix:
             - g++-6
             - ninja-build
             - libfreetype6-dev
-            #- libpng-dev
+            - libboost-dev
       env:
         - CENV_NAME=gcc64r
           CI_C=gcc-6
@@ -48,7 +48,7 @@ matrix:
             - g++-6
             - ninja-build
             - libfreetype6-dev
-            # - libpng-dev
+            - libboost-dev
       env:
         - CENV_NAME=gcc64d
           CI_C=gcc-6
