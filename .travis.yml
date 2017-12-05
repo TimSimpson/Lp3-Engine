@@ -39,7 +39,46 @@ matrix:
           CI_C=gcc-6
           CI_CXX=g++-6
           CI_BUILD_TYPE=Debug
-
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise
+          packages:
+            - clang-3.8
+            - clang-format-3.8
+            - clang-tidy-3.8
+            - libstdc++6
+            - ninja-build
+            - libfreetype6-dev
+            - libboost-dev
+      env:
+        - CENV_NAME=clang64r
+          CI_C=clang-3.8
+          CI_CXX=clang++-3.8
+          CI_BUILD_TYPE=Release
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise
+          packages:
+            - clang-3.8
+            - clang-format-3.8
+            - clang-tidy-3.8
+            - libstdc++6
+            - ninja-build
+            - libfreetype6-dev
+            - libboost-dev
+      env:
+        - CENV_NAME=clang64d
+          CI_C=clang-3.8
+          CI_CXX=clang++-3.8
+          CI_BUILD_TYPE=Debug
 
 install:
   - |
