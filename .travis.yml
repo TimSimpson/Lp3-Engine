@@ -90,7 +90,12 @@ script:
     cd build
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake -H../standalone -B./
     cmake --build ./
+    echo cget/lib
     ls -la ../cget/lib
+    echo ...
+    echo
+    ls -la ../cget/cget/pkg/TimSimpson__download-sdl2/install/lib
     export CTEST_OUTPUT_ON_FAILURE=1
     export PATH=$(pwd)/cget/lib:${PATH}
+    export LD_LIBRARY_PATH=$(pwd)/cget/lib:${LD_LIBRARY_PATH}
     ctest
