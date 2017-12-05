@@ -71,5 +71,6 @@ script:
     cmake --build ./
     export CTEST_OUTPUT_ON_FAILURE=1
     export PATH=$(pwd)/../cget/lib:${PATH}
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/../cget/lib
     export LP3_ROOT_PATH=$(pwd)/../standalone/media
     ctest
