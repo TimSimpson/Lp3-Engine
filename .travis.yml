@@ -91,4 +91,5 @@ script:
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake -H../standalone -B./
     cmake --build ./
     export CTEST_OUTPUT_ON_FAILURE=1
+    export PATH=../cget/lib:${PATH}
     ctest
