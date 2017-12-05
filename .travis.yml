@@ -98,5 +98,6 @@ script:
     export CTEST_OUTPUT_ON_FAILURE=1
     export PATH=$(pwd)/../cget/lib:${PATH}
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/cget/lib:$(pwd)/../cget/cget/pkg/TimSimpson__download-sdl2/install/lib/
+    export LP3_ROOT_PATH=$(pwd)/../standalone/media
     export
     ctest
