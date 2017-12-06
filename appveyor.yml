@@ -5,7 +5,7 @@ os: Visual Studio 2015
 
 environment:
   BOOST_ROOT: C:\Libraries\boost_1_62_0
-  PYTHON: "C:\\Python35"
+  PYTHON: "C:\\Python36"
 
 build_script:
   - cmd: >-
@@ -13,10 +13,38 @@ build_script:
 
       SET PATH=%PATH%;%PYTHON%\Scripts\
 
-      pip install cget
+      curl -fsSL -o cenv.zip https://github.com/TimSimpson/cenv/archive/master.zip
 
-      python ci.py clean
+      7z x cenv.zip
 
-      python ci.py deps
+      cd cenv-master
 
-      python ci.py windows build-all
+      CALL install.bat
+
+      SET PATH=%CD%\output\wvenv\Scripts;%PATH%
+
+      cenv create win64-debug -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
+
+      cenv create win64-release -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
+
+      cenv activate win64-debug
+
+      cget install -f ../requirements.txt --debug
+
+      mkdir build-debug && cd build-debug
+
+      cmake -G "Visual Studio 15 2017 Win64" -H../standalone -B./
+
+      cmake --build ./ --config debug
+
+      cd ..
+
+      cenv activate win64-release
+
+      cget install -f ../requirements.txt --release
+
+      mkdir build-release && cd build-release
+
+      cmake -G "Visual Studio 15 2017 Win64" -H../standalone -B./
+
+      cmake --build ./ --config release
