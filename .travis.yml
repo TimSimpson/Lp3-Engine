@@ -47,6 +47,8 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise
           packages:
+            - gcc-6
+            - g++-6
             - clang-3.8
             - clang-format-3.8
             - clang-tidy-3.8
@@ -67,6 +69,8 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise
           packages:
+            - gcc-6
+            - g++-6
             - clang-3.8
             - clang-format-3.8
             - clang-tidy-3.8
