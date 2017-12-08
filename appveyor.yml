@@ -23,11 +23,11 @@ build_script:
 
       SET PATH=%CD%\output\wvenv\Scripts;%PATH%
 
-      cenv create win64-debug -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
+      cenv init win64-debug -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
 
-      cenv create win64-release -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
+      cenv init win64-release -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
 
-      cenv activate win64-debug
+      cenv set win64-debug
 
       cget install -f ../requirements.txt --debug
 
@@ -39,7 +39,7 @@ build_script:
 
       cd ..
 
-      cenv activate win64-release
+      cenv set win64-release
 
       cget install -f ../requirements.txt --release
 
