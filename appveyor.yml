@@ -13,38 +13,42 @@ build_script:
 
       SET PATH=%PATH%;%PYTHON%\Scripts\
 
-      curl -fsSL -o cenv.zip https://github.com/TimSimpson/cenv/archive/master.zip
+      SET LP3_ROOT_PATH=%CD%\standalone\media
 
-      7z x cenv.zip
+      pip install cget
 
-      cd cenv-master
+      set OLD_PATH=%PATH%
 
-      CALL install.bat
+      mkdir debug
 
-      SET PATH=%CD%\output\wvenv\Scripts;%PATH%
+      cd debug
 
-      cenv init win64-debug -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
+      cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
 
-      cenv init win64-release -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
-
-      cenv set win64-debug
+      set PATH=%CD%\cget\lib;%OLD_PATH%
 
       cget install -f ../requirements.txt --debug
 
-      mkdir build-debug && cd build-debug
+      cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
 
-      cmake -G "Visual Studio 15 2017 Win64" -H../standalone -B./
+      cmake --build ./ --config Debug
 
-      cmake --build ./ --config debug
+      ctest --output-on-failure
 
       cd ..
 
-      cenv set win64-release
+      mkdir release
+
+      cd release
+
+      cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
+
+      set PATH=%CD%\cget\lib;%OLD_PATH%
 
       cget install -f ../requirements.txt --release
 
-      mkdir build-release && cd build-release
+      cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
 
-      cmake -G "Visual Studio 15 2017 Win64" -H../standalone -B./
+      cmake --build ./ --config Release
 
-      cmake --build ./ --config release
+      ctest --output-on-failure
