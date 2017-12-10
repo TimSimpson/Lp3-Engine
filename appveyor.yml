@@ -31,9 +31,9 @@ build_script:
 
       cget install Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 -X header
 
-      cget install TimSimpson/download-sdl2 --debug
-
       cget install g-truc/glm@0.9.8.5
+
+      cget install TimSimpson/download-sdl2 --debug
 
       cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
 
