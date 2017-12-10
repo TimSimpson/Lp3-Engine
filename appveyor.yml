@@ -25,13 +25,7 @@ build_script:
 
       cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
 
-      cget install catchorg/Catch2@v1.11.0 --define NO_SELFTEST=True
-
-      cget install Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 -X header
-
-      cget install g-truc/glm@0.9.8.5
-
-      cget install TimSimpson/download-sdl2 --debug
+      cget install -f ../requirements.txt --debug
 
       cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
 
@@ -41,9 +35,9 @@ build_script:
 
       ctest --output-on-failure
 
-      cd ..
+      set PATH=%OLD_PATH%
 
-      set PATH=%CD%\cget\lib;%OLD_PATH%
+      cd ..
 
       mkdir release
 
@@ -57,4 +51,8 @@ build_script:
 
       cmake --build ./ --config Release
 
+      set PATH=%CD%\cget\lib;%OLD_PATH%
+
       ctest --output-on-failure
+
+      set PATH=%OLD_PATH%
