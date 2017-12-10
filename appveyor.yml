@@ -27,6 +27,8 @@ build_script:
 
       set PATH=%CD%\cget\lib;%OLD_PATH%
 
+      cget install Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 -X header
+
       cget install -f ../requirements.txt --debug
 
       cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
