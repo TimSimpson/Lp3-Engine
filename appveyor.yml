@@ -27,11 +27,11 @@ build_script:
 
       set PATH=%CD%\cget\lib;%OLD_PATH%
 
+      cget install catchorg/Catch2@v1.11.0 --define NO_SELFTEST=True
+
       cget install Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 -X header
 
       cget install TimSimpson/download-sdl2 --debug
-
-      cget install catchorg/Catch2@v1.11.0 --define NO_SELFTEST=True
 
       cget install g-truc/glm@0.9.8.5
 
