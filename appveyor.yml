@@ -25,8 +25,6 @@ build_script:
 
       cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
 
-      set PATH=%CD%\cget\lib;%OLD_PATH%
-
       cget install catchorg/Catch2@v1.11.0 --define NO_SELFTEST=True
 
       cget install Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 -X header
@@ -39,17 +37,19 @@ build_script:
 
       cmake --build ./ --config Debug
 
+      set PATH=%CD%\cget\lib;%OLD_PATH%
+
       ctest --output-on-failure
 
       cd ..
+
+      set PATH=%CD%\cget\lib;%OLD_PATH%
 
       mkdir release
 
       cd release
 
       cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
-
-      set PATH=%CD%\cget\lib;%OLD_PATH%
 
       cget install -f ../requirements.txt --release
 
