@@ -14,6 +14,7 @@ Init::Init(const int flags) {
 	const int result = Mix_Init(flags);
 	if (flags != (result&flags)) {
 		LP3_LOG_ERROR("One or more flags invalid!");
+		LP3_LOG_ERROR("SDL error: %s", SDL_GetError());
 		LP3_THROW2(lp3::core::Exception, "Error initializing SDL Mixer.");
 	}	
 	++init_count;
