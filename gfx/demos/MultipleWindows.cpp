@@ -34,7 +34,9 @@ int _main(core::PlatformLoop & loop) {
             }
         }
         gfx::SceneNodeFunc do_nothing = [](const glm::mat4 &) {};
+        window.work_with();
         window.render(do_nothing);
+        window2.work_with();
         window2.render(do_nothing);
         return !quit;
     });
