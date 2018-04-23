@@ -4,6 +4,7 @@
 //      This shows using `<lp3/main.hpp>` to quickly create a simple
 //      app.
 // --------------------------------------------------------------------
+//MDOC-BEGIN example
 #include <iostream>
 
 #include <lp3/log.hpp>
@@ -36,3 +37,4 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+//MDOC-END example

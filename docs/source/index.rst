@@ -10,7 +10,8 @@ Welcome to Lp3-Engine's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. include:: ../../README.md
+.. include:: readme.mrst
+.. include:: core.mrst
 
 Indices and tables
 ==================

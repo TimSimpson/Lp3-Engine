@@ -18,7 +18,38 @@ This is a base library used by other components of LP3. On it's own, it's pretty
 
 Here's an example of the simplest possible Lp3 app. It sets up the logging system, prints some stuff out, and quits:
 
-!INCLUDE ""
+    #include <iostream>
+
+    #include <lp3/log.hpp>
+    #include <lp3/core.hpp>
+    #include <lp3/main.hpp>
+
+    namespace core = lp3::core;
+
+
+    int _main(core::PlatformLoop & loop) {
+        lp3::core::LogSystem log;
+
+        LP3_LOG_DEBUG("Greetings from the MicroMain Demo.");
+        int index = 0;
+        for(const std::string & element : loop.command_line_args()) {
+            LP3_LOG_ERROR("%d. %s", index, element);
+            ++ index;
+            #ifdef LP3_COMPILE_LOG_DISABLE
+                std::cout << element << "\n";
+            #endif
+        }
+
+        const auto result = loop.run([&]() {
+            // This gets called each frame.
+            return false;
+        });
+
+        LP3_LOG_DEBUG("Good bye.");
+        return result;
+    }
+
+    LP3_MAIN(_main)
 
 For examples of how to use this stuff, see [the demos directory](demos).
 
@@ -37,26 +68,3 @@ If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It 
     <dd>If set, disables logging even in debug mode. Good if you don't wish to use the built-in logging utilities.</dd>
 </dl>
 
-## Using the Code
-
-Most code should include `<lp3/core.hpp>` to get access to everything.
-
-Most functionality is defined in the `lp3::core`, though several bits are defined in plain `lp3` instead.
-
-Here's an example which creates a
-### namespace lp3
-
-!INCLUDE "../core/include/lp3/le.hpp", 4
-!INCLUDE "../core/include/lp3/assert.hpp", 4
-!INCLUDE "../core/include/lp3/casts.hpp", 4
-!INCLUDE "../core/include/lp3/main.hpp", 4
-
-### namespace lp3::core
-
-!INCLUDE "../core/include/lp3/log.hpp", 4
-!INCLUDE "../core/include/lp3/core/Exception.hpp", 4
-!INCLUDE "../core/include/lp3/core/utils.hpp", 4
-
-### namespace lp3::sdl
-
-!INCLUDE "../core/include/lp3/sdl.hpp", 4
