@@ -7,7 +7,7 @@
 //  updated as time goes by.
 //
 //  Flags
-//  -----
+//  ~~~~~
 //
 //  LP3_COMPILE_TARGET_WINDOWS
 //  LP3_COMPILE_TARGET_DREAMCAST
@@ -17,25 +17,25 @@
 //  LP3_COMPILE_TARGET_POCKETCHIP
 //
 //  LP3_COMPILE_WITH_DEBUGGING
-//     If true, debug stuff is on, so feel free to take your time.
+//      If true, debug stuff is on, so feel free to take your time.
 //
 //  LP3_COMPILE_LOG_DISABLE
-//     If true, don't use logging even if in debug mode.
+//      If true, don't use logging even if in debug mode.
 //
 //  LP3_COMPILE_WITH_PCH
-//     If true, try to use precompiled headers.
+//      If true, try to use precompiled headers.
 //
 //  LP3_SYMBOL_EXPORT
-//     The compiler specific trick to make a library export (only needed for MS).
+//      The compiler specific trick to make a library export (only needed for MS).
 //
 //  LP3_SYMBOL_IMPORT
-//     The inverse of the above.
+//      The inverse of the above.
 //
 //  LP3_COMPILE_DYNAMIC
-//     If true, tries to build as dynamic or shared libraries.
+//      If true, tries to build as dynamic or shared libraries.
 //
 //  LP3_THROW
-//     Use this to throw exceptions.
+//      Use this to throw exceptions.
 // ---------------------------------------------------------------------------/
 #ifndef LE_H
 #define LE_H

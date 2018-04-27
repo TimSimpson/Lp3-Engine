@@ -4,17 +4,18 @@
    contain the root `toctree` directive.
 
 LP3 Engine vII
-~~~~~~~~~~~~~~
+<<<<<<<<<<<<<<
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-.. include:: readme.mrst
-.. include:: core.mrst
+   ./readme.mrst
+   ./core.mrst
+
 
 Indices and tables
-~~~~~~~~~~~~~~~~~~
+<<<<<<<<<<<<<<<<<<
 
 * :ref:`genindex`
 * :ref:`modindex`

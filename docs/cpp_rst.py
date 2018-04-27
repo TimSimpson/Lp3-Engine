@@ -141,7 +141,7 @@ class Tokenizer(object):
                 self._section_text_max_dedent = \
                     min(spaces, self._section_text_max_dedent)
 
-            self._text.append(s_text + '\n')
+            self._text.append(s_text)
             return None
 
     def _case_unknown_code(self, l: Line) -> Optional[Token]:
@@ -186,6 +186,7 @@ def read_source(lines: List[str]) -> List[Token]:
     tokenizer = Tokenizer()
 
     for line in lines:
+        line = line.rstrip()
         result = tokenizer.read(Line(line))
         if result:
             tokens.append(result)
@@ -214,9 +215,8 @@ def translate_cpp_file(lines: List[str]) -> List[str]:
                 raise ValueError('Section header starting at line {} was '
                                  'malformed.'.format(token.line_number))
             header_char = HEADERS[header_depth % len(HEADERS)]
-            output.append(token.text[0] + '\n')
+            output.append(token.text[0])
             output.append(header_char * len(token.text[0]))
-            output.append('\n')
             if token.type == TokenType.BIG_HEADER:
                 header_depth += 1
         elif token.type == TokenType.SECTION_TEXT:

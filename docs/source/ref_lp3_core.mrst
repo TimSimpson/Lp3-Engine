@@ -1,0 +1,6 @@
+
+~dumpfile "../../core/include/lp3/log.hpp", 4
+
+~dumpfile "../../core/include/lp3/core/Exception.hpp", 4
+
+~dumpfile "../../core/include/lp3/core/utils.hpp", 4
