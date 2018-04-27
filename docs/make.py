@@ -50,7 +50,7 @@ def make_temp_rst_from_md(lines):
 
         convert_md_to_rst(md_file, rst_file)
         with open(rst_file) as r:
-            return [l.strip() for l in r.readlines()]
+            return [l.rstrip() for l in r.readlines()]
 
 
 def parse_cpp_file(lines):
@@ -75,10 +75,10 @@ def dump_file(input_file, start, end, indent, write_stream) -> None:
     if input_file.endswith('.md'):
         final_lines = make_temp_rst_from_md(subset)
     elif input_file.endswith('.hpp'):  #  or input_file.endswith('.cpp'):
-        cpp_md = cpp_rst.translate_cpp_file(subset)
-        final_lines = make_temp_rst_from_md(cpp_md)
+        final_lines = cpp_rst.translate_cpp_file(subset)
+        # final_lines = make_temp_rst_from_md(cpp_md)
     else:
-        final_lines = [prefix + l.strip() for l in subset]
+        final_lines = [prefix + l.rstrip() for l in subset]
 
     write_stream.write('\n'.join(final_lines))
 

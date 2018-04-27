@@ -194,6 +194,15 @@ def read_source(lines: List[str]) -> List[Token]:
     return tokens
 
 
+HEADERS = [
+    '=',
+    '-',
+    '~',
+    '^',
+    '\'',
+    '`',
+]
+
 def translate_cpp_file(lines: List[str]) -> List[str]:
     header_depth = 1
     tokens = read_source(lines)
@@ -204,7 +213,9 @@ def translate_cpp_file(lines: List[str]) -> List[str]:
                 # Looked like a section header, but it wasn't!
                 raise ValueError('Section header starting at line {} was '
                                  'malformed.'.format(token.line_number))
-            output.append('#' * header_depth + ' ' + token.text[0] +'\n')
+            header_char = HEADERS[header_depth % len(HEADERS)]
+            output.append(token.text[0] + '\n')
+            output.append(header_char * len(token.text[0]))
             output.append('\n')
             if token.type == TokenType.BIG_HEADER:
                 header_depth += 1
@@ -212,11 +223,13 @@ def translate_cpp_file(lines: List[str]) -> List[str]:
             output += token.text
             output.append('\n')
         elif token.type == TokenType.CODE:
-            output.append('```c++\n')
-            output.append('\n')
-            output += token.text
-            output.append('```\n')
-            output.append('\n')
+            output.append('.. code-block:: c++\n')
+
+            for cl in token.text:
+                cl_lines = cl.split('\n')
+                for cl_line in cl_lines:
+                    output.append('    ' + cl_line)
+
         elif token.type == TokenType.EOF:
             header_depth -= 1
         else:
