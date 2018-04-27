@@ -69,7 +69,7 @@ def dump_file(input_file, start, end, indent, section, write_stream) -> None:
 
     if input_file.endswith('.md'):
         final_lines = make_temp_rst_from_md(subset)
-    elif input_file.endswith('.hpp'):  #  or input_file.endswith('.cpp'):
+    elif input_file.endswith('.hpp') or input_file.endswith('.cpp'):
         final_lines = cpp_rst.translate_cpp_file(subset, section)
         # final_lines = make_temp_rst_from_md(cpp_md)
     else:

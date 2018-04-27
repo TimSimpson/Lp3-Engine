@@ -18,14 +18,15 @@ namespace lp3 { namespace core {
 // class PlatformLoop
 // --------------------------------------------------------------------
 //     Contains code to run the main loop on any given platform.
-//	   While it's possible to create this yourself, you should instead
-//	   use the macro LP3_MAIN from main.hpp which creates this for you.
+//     While it's possible to create this yourself, you should instead
+//     use the macro LP3_MAIN from <lp3/main.hpp> which creates this
+//     for you.
 // --------------------------------------------------------------------
 class
 LP3_CORE_API
 PlatformLoop {
 public:
-	PlatformLoop(int argc, char ** argv);
+    PlatformLoop(int argc, char ** argv);
 
     PlatformLoop(const PlatformLoop & other) = delete;
     PlatformLoop & operator=(const PlatformLoop & other) = delete;
@@ -41,7 +42,7 @@ private:
 // --------------------------------------------------------------------
 // get_env_var
 // --------------------------------------------------------------------
-//	   Returns an environment variable.
+//     Returns an environment variable.
 // --------------------------------------------------------------------
 LP3_CORE_API
 boost::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
@@ -50,8 +51,8 @@ boost::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
 // class MediaManager
 // ----------------------------------------------------------------------------
 //     A factory for the stream classes, manages where to find media files.
-//	   Currently this just forwards to SDL's calls to open a file; the premise
-//	   is that in the future it could be something more complex, such as a
+//     Currently this just forwards to SDL's calls to open a file; the premise
+//     is that in the future it could be something more complex, such as a
 //     file which is a collection of resources.
 // ----------------------------------------------------------------------------
 class

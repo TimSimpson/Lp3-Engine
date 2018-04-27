@@ -14,7 +14,7 @@
 //      For example "LP3_LOG_LEVEL=info" would cause messages with a LogLevel
 //      of Info to be printed, but messages with a level of Debug to be
 //      ignored.
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------/
 #ifndef FILE_LP3_LOG_HPP
 #define FILE_LP3_LOG_HPP
 #pragma once

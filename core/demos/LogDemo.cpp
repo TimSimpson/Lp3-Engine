@@ -1,3 +1,8 @@
+// --------------------------------------------------------------------
+// Log Demo
+// --------------------------------------------------------------------
+//      This example shows how to use the logging system.
+// --------------------------------------------------------------------
 #define SDL_MAIN_HANDLED
 #include <lp3/log.hpp>
 #include <lp3/core.hpp>
@@ -21,3 +26,4 @@ int main() {
     LP3_LOG_DEBUG("These macros use Boost::Format.");
     LP3_LOG_DEBUG("%s=%d", "The Answer", 42);
 }
+// end-doc

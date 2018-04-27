@@ -22,11 +22,22 @@ struct GlobalResource {
 
 void on_exit_clean_up(GlobalResource *);
 
-// So you know how in C++11 and over, you can simply declare a global variable
-// and know it won't have a race condition in it's initialization and will
-// simply work? Ha, I remember those days too. Unfortunately if you want the
-// VC++ leak detector to be worth anything to you, you'll have to use this
-// from now on. Yay!?
+// --------------------------------------------------------------------
+// class GlobalVar
+// --------------------------------------------------------------------
+// In C++11 and above you can declare certain global variables and be
+// certain it will be initialized correctly without suffering from
+// race conditions or other historical problems.
+//
+// Unfortunately if you want to use Visual C++'s otherwise excellent
+// leak detector it's not that easy, as it will wrongly flag data that
+// is created before the ``main`` is called.
+//
+// ``GlobalVar`` works in conjunction with the LP3_MAIN macro to get
+// around this problem by storing a pointer to global data which is
+// then deleted right before ``main`` exits, allowing you to use the
+// leak detector without triggering false negatives.
+// --------------------------------------------------------------------
 template<typename T>
 class GlobalVar {
 public:
@@ -67,6 +78,7 @@ private:
 		}
 	};
 };
+// end-doc
 
 }   }
 

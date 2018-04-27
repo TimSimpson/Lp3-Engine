@@ -1,3 +1,17 @@
+// ---------------------------------------------------------------------------
+// GlobalVar example
+// ---------------------------------------------------------------------------
+// Everyone knows that global variables are bad, but they also allow us to
+// do neato reflection type things as the "RegisterData" struct in this
+// example shows.
+//
+// Unfortunately Microsoft Visual C++'s leak detector is triggered if any
+// global variables are added to the program (supposedly it's not that severe
+// and has to do with config options but I haven't been able to make it work).
+//
+// So I've written a few custom things to create globals using pointers and
+// make sure they are deleted, as shown here.
+// ---------------------------------------------------------------------------
 #include <iostream>
 #include <map>
 #include <string>
@@ -6,15 +20,6 @@
 #include <lp3/main.hpp>
 
 namespace core = lp3::core;
-
-// Everyone knows that global variables are bad, but they also allow us to
-// do neato reflection type things.
-// Unfortunately Microsoft Visual C++'s leak detector is triggered if any
-// global variables are added to the program (supposedly it's not that severe
-// and has to do with config options but I haven't been able to make it work).
-//
-// So I've written a few custom things to create globals using pointers and
-// make sure they are deleted, as shown here.
 
 struct Data {
     const char * name;
@@ -49,3 +54,4 @@ int _main(core::PlatformLoop &) {
 }
 
 LP3_MAIN(_main)
+// end-doc

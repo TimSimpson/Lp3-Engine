@@ -11,7 +11,7 @@ namespace lp3 {
 // ----------------------------------------------------------------------------
 // narrow - Narrow Conversion Cast
 // ----------------------------------------------------------------------------
-//     These macros and functions help with narrowing conversions by casting
+//     This function helps with narrowing conversions by casting
 //     them correctly. They also have checks to ensure no data is lost in
 //     debug builds.
 // ----------------------------------------------------------------------------
@@ -25,6 +25,7 @@ inline R narrow(A number) {
 	// Make sure this always runs.
 	return static_cast<R>(number);
 }
+// end-doc
 
 }
 

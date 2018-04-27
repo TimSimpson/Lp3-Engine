@@ -19,7 +19,7 @@
 //            Additionally there are asserts to ensure the non-default
 //            constructor is not passed nullptr, making it possible to directly
 //            pass the result of SDL calls that return null on failures.
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------/
 #ifndef FILE_LP3_SDL_HPP
 #define FILE_LP3_SDL_HPP
 #pragma once

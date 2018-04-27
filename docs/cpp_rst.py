@@ -195,6 +195,9 @@ def read_source(lines: List[str]) -> List[Token]:
     return tokens
 
 
+# In rst, you can pick whatever char you want for section headers.
+# but this list is what appeared in the docs, and is what pandoc uses when
+# converting from MarkDown, so it looks like it has to be the standard.
 HEADERS = [
     '=',
     '-',

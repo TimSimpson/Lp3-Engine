@@ -72,9 +72,10 @@ Alternatively, it's possible to make the translator scoop up actual C++ code as 
 
 The C++ code below the comment will be taken until either:
 
-* the end of the file
 * the next special comment section
 * the line `// end-doc` appears
+
+Note: if neither one of those things happens, it won't read in the snippet.
 
 Here's an example of a class being included in rst:
 

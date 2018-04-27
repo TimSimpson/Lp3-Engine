@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// main.hpp
+// <lp3/main.hpp>
 // ----------------------------------------------------------------------------
 //      Contains a helper macro which defines the main function of a program
 //      and calls a method provided by you which accepts a reference to
@@ -7,7 +7,15 @@
 //      particularly wrt Emscripten.
 //
 //      This file should only be included once.
+// ---------------------------------------------------------------------------/
+
 // ----------------------------------------------------------------------------
+// LP3_MAIN(main_function)
+// ----------------------------------------------------------------------------
+//		Use this to generate the appropriate main function that will invoke
+//      the given ``main_function`` argument, which is expected to be a
+//      function accepting ``lp3::core::PlatformLoop``.
+// ---------------------------------------------------------------------------/
 #ifdef FILE_LP3_MAIN_HPP
     #error "This file should only be included once."
 #endif
@@ -19,7 +27,7 @@
 #if defined(LP3_COMPILE_TARGET_WINDOWS) && defined(LP3_COMPILE_WITH_DEBUGGING)
 	#define _CRTDBG_MAP_ALLOC
 	#include <stdlib.h>
-	#pragma warning(push, 0)       
+	#pragma warning(push, 0)
 		#include <crtdbg.h>
 	#pragma warning(pop)
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -32,7 +40,7 @@
 
 
 #if defined(LP3_COMPILE_TARGET_WINDOWS) && defined(LP3_COMPILE_WITH_DEBUGGING)
-	
+
 	#define LP3_MAIN(main_function) \
 		int main(int argc, char* argv[]) { \
 			_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);	\

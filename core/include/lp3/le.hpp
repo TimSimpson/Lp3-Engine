@@ -7,7 +7,7 @@
 //  updated as time goes by.
 //
 //  Configuration Flags
-//  ^^^^^^^^^^^^^^^^^^^
+//  '''''''''''''''''''
 //
 //  These flags will be set depending on the platform and configuration of the
 //  build. In practice they're useful mainly to internal LP3 code, though
@@ -147,7 +147,7 @@
 // .. code-block:: c++
 //
 //    LP3_THROW(lp3::Exception)
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------/
 
 // ----------------------------------------------------------------------------
 // LP3_THROW2(t, ...)
@@ -165,7 +165,7 @@
 //    };
 //
 //    LP3_THROW2(FileNotFoundError, "somefile.txt")
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------/
 #ifndef LP3_COMPILE_TARGET_DREAMCAST
   #define LP3_THROW(t) { throw t{}; }
   #define LP3_THROW2(t, ...) { throw t(__VA_ARGS__); }
