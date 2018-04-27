@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Lp3-Engine's documentation!
-======================================
+LP3 Engine vII
+~~~~~~~~~~~~~~
 
 .. toctree::
    :maxdepth: 2
@@ -14,7 +14,7 @@ Welcome to Lp3-Engine's documentation!
 .. include:: core.mrst
 
 Indices and tables
-==================
+~~~~~~~~~~~~~~~~~~
 
 * :ref:`genindex`
 * :ref:`modindex`

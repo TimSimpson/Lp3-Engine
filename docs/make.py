@@ -17,22 +17,12 @@ GEN_SOURCE_DIR = os.path.join(OUTPUT_DIR, 'gen')
 BUILD_DIR = os.path.join(OUTPUT_DIR, 'build')
 
 DUMPFILE_RE = re.compile('~dumpfile "([^"]*)"')
-DUMPFILE_RE_2 = re.compile('~dumpfile "([^"]*)" ?([0-9]*)? ?([0-9]*)?')
+DUMPFILE_RE_2 = re.compile(
+    '~dumpfile "([^"]*)" ?([0-9]*)? ?([0-9~]*)? ?([0-9]*)?')
 
 REGISTRY = frontdoor.CommandRegistry('fd-ci')
 cmd = REGISTRY.decorate
 
-
-# m = DUMPFILE_RE_2.match('~dumpfile "poo" 1 2')
-# print(m)
-# print(m.groups)
-# print(f'POO={m.groups(0)[0]}')
-# print(f'POO={m.groups(0)[1]}')
-# print(f'POO={m.groups(0)[2]}')
-# print(f'POO={m.groups(0)[3]}')
-# print(f'___={m.groups(0)}')
-# print(':)')
-# sys.exit(1)
 
 
 def from_root(path: str) -> str:
@@ -45,7 +35,7 @@ def from_root(path: str) -> str:
 def convert_md_to_rst(mark_down_abs_path: str, rst_file_rel_path: str) -> None:
     rst_abs_path = os.path.join(GEN_SOURCE_DIR, rst_file_rel_path)
     cmd = (f'pandoc {mark_down_abs_path} --from markdown '
-           f'--to rst -s -o {rst_abs_path}')
+           f'--to rst -s -o {rst_abs_path} --wrap=none')
     subprocess.check_call(cmd, shell=True)
 
 
@@ -61,12 +51,13 @@ def make_temp_rst_from_md(lines):
             for line in lines:
                 w.write(line)
 
+        subprocess.check_call(f'cat {md_file}', shell=True)
         convert_md_to_rst(md_file, rst_file)
         with open(rst_file) as r:
-            return r.readlines()
+            return [l.strip() for l in r.readlines()]
 
 
-def dump_file(input_file, start, end, write_stream) -> None:
+def dump_file(input_file, start, end, indent, write_stream) -> None:
     print(f' ^---- dumpfile {input_file}')
     with open(input_file, 'r') as r:
         lines = r.readlines()
@@ -78,10 +69,15 @@ def dump_file(input_file, start, end, write_stream) -> None:
     else:
         subset = lines
 
-    if input_file.endswith('.md'):
-        lines = make_temp_rst_from_md(lines)
 
-    write_stream.write('\n'.join(lines))
+    prefix = ' ' * indent
+
+    if input_file.endswith('.md'):
+        final_lines = make_temp_rst_from_md(subset)
+    else:
+        final_lines = [prefix + l.strip() for l in subset]
+
+    write_stream.write('\n'.join(final_lines))
 
 
 def parse_m_rst(source, dst):
@@ -90,10 +86,21 @@ def parse_m_rst(source, dst):
             for line in f.readlines():
                 matches = DUMPFILE_RE_2.match(line)
                 if matches:
-                    input_file, start, end = matches.groups(0)
+                    input_file, start, end, indent = matches.groups(0)
+                    if start:
+                        start = int(start)
+                    if end == '~':
+                        end = None
+                    elif end:
+                        end = int(end)
+                    if indent:
+                        indent = int(indent)
+                    else:
+                        indent = 0
+
                     full_input_file = os.path.join(
                         os.path.dirname(source), input_file)
-                    dump_file(full_input_file, start, end, w)
+                    dump_file(full_input_file, start, end, indent, w)
                 else:
                     w.write(f'{line}')
 

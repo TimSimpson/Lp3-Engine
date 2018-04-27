@@ -1,7 +1,35 @@
 ~dumpfile "../../core/README.md"
 
-Using the Code
-==============
+Example
+=======
+
+This example shows the basics of setting up a program loop and logging using Lp3::Core:
+
+.. code-block:: c++
+~dumpfile "../../core/demos/MainDemo.cpp" 7 ~ 4
+
+Build Info and Options
+======================
+
+If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It will export the library Lp3_Core.
+
+Library Options
+---------------
+
+LP3_CORE_API_DYNAMIC
+    If set, forces library functions to be defined as `__declspec(dllexport)` on Windows. Is set automatically when BUILD_SHARED_LIBS is set.
+
+LP3_COMPILE_LOG_DISABLE
+    If set, disables logging even in debug mode. Good if you don't wish to use the built-in logging utilities.
+
+
+Reference
+=========
+
+namespace lp3
+-------------
+
+
 
 Most code should include `<lp3/core.hpp>` to get access to everything.
 
