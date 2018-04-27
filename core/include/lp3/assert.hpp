@@ -3,8 +3,8 @@
 // ----------------------------------------------------------------------------
 //      Defines LP3_ASSERT, which is almost identical to SDL_assert, but can
 //      be configured to raise exceptions which allows for testing that
-//      asserts are triggered; see below.
-// ----------------------------------------------------------------------------
+//      asserts are triggered.
+// ---------------------------------------------------------------------------/
 #ifndef FILE_LP3_ASSERT_H
 #define FILE_LP3_ASSERT_H
 #pragma once
@@ -50,8 +50,8 @@ public:
 // ----------------------------------------------------------------------------
 // LP3_ASSERT
 // ----------------------------------------------------------------------------
-//      this defers almost entirely to SDL_assert to the point that
-//      it is nearly equivalent, except can be configured to throw
+//      This defers almost entirely to SDL_assert to the point that
+//      it is nearly equivalent, except it can be configured to throw
 //      exceptions on assertion failure, making it possible to write
 //      test cases that negative code paths are properly terminated
 //      in debug mode. Basically, the only reason to use this over
@@ -68,7 +68,7 @@ public:
         } \
         SDL_assert(condition)
 
-//;
+// end-doc
 
 // ----------------------------------------------------------------------------
 // LP3_REQUIRE_ASSERT_FAILURE
