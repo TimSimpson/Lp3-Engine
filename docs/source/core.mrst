@@ -40,14 +40,19 @@ namespace lp3
 
 
 ~dumpfile "../../core/include/lp3/le.hpp", 4
+
 ~dumpfile "../../core/include/lp3/assert.hpp", 4
+
 ~dumpfile "../../core/include/lp3/casts.hpp", 4
+
 ~dumpfile "../../core/include/lp3/main.hpp", 4
 
 ### namespace lp3::core
 
 ~dumpfile "../../core/include/lp3/log.hpp", 4
+
 ~dumpfile "../../core/include/lp3/core/Exception.hpp", 4
+
 ~dumpfile "../../core/include/lp3/core/utils.hpp", 4
 
 ### namespace lp3::sdl

@@ -8,6 +8,7 @@ import tempfile
 import typing as t
 
 import frontdoor
+import cpp_rst
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
 PROJECT = 'Lp3-Engine'
@@ -39,10 +40,6 @@ def convert_md_to_rst(mark_down_abs_path: str, rst_file_rel_path: str) -> None:
     subprocess.check_call(cmd, shell=True)
 
 
-# def parse_cpp_file(source, write_stream):
-#     lines = cpp_rst.translate_cpp_file(file)
-#     for l in lines:
-
 def make_temp_rst_from_md(lines):
     with tempfile.TemporaryDirectory() as tmpdir:
         md_file = os.path.join(tmpdir, 'input.md')
@@ -51,10 +48,13 @@ def make_temp_rst_from_md(lines):
             for line in lines:
                 w.write(line)
 
-        subprocess.check_call(f'cat {md_file}', shell=True)
         convert_md_to_rst(md_file, rst_file)
         with open(rst_file) as r:
             return [l.strip() for l in r.readlines()]
+
+
+def parse_cpp_file(lines):
+    return cpp_rst.translate_cpp_file(lines)
 
 
 def dump_file(input_file, start, end, indent, write_stream) -> None:
@@ -74,6 +74,9 @@ def dump_file(input_file, start, end, indent, write_stream) -> None:
 
     if input_file.endswith('.md'):
         final_lines = make_temp_rst_from_md(subset)
+    elif input_file.endswith('.hpp'):  #  or input_file.endswith('.cpp'):
+        cpp_md = cpp_rst.translate_cpp_file(subset)
+        final_lines = make_temp_rst_from_md(cpp_md)
     else:
         final_lines = [prefix + l.strip() for l in subset]
 
