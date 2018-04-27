@@ -204,8 +204,12 @@ HEADERS = [
     '`',
 ]
 
-def translate_cpp_file(lines: List[str]) -> List[str]:
-    header_depth = 1
+def translate_cpp_file(lines: List[str], section: Optional[str]) -> List[str]:
+    if not section:
+        header_depth = 1
+    else:
+        header_depth = HEADERS.index(section) + 1
+
     tokens = read_source(lines)
     output = []
     for token in tokens:

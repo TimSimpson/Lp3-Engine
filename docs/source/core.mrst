@@ -6,6 +6,7 @@ Example
 This example shows the basics of setting up a program loop and logging using Lp3::Core:
 
 .. code-block:: c++
+
 ~dumpfile "../../core/demos/MainDemo.cpp" 7 ~ 4
 
 Build Info and Options
@@ -36,21 +37,26 @@ What follows is a list of the relevant namespaces, followed by the relevant head
 namespace lp3
 -------------
 
-~dumpfile "../../core/include/lp3/le.hpp"
+~dumpfile "../../core/include/lp3/le.hpp" section=-
 
-~dumpfile "../../core/include/lp3/assert.hpp"
+~dumpfile "../../core/include/lp3/assert.hpp" section=-
 
-~dumpfile "../../core/include/lp3/casts.hpp"
+~dumpfile "../../core/include/lp3/casts.hpp" section=-
 
-~dumpfile "../../core/include/lp3/main.hpp"
+~dumpfile "../../core/include/lp3/main.hpp" section=-
 
 
 namespace lp3::core
 -------------------
 
-.. include:: ref_lp3_core.mrst
+~dumpfile "../../core/include/lp3/log.hpp" section=-
+
+~dumpfile "../../core/include/lp3/core/Exception.hpp" section=-
+
+NOT YET ~dumpfile "../../core/include/lp3/core/utils.hpp" 4
+
 
 namespace lp3::sdl
 ------------------
 
-.. include:: ref_lp3_sdl.mrst
+NOT YET ~dumpfile "../../core/include/lp3/sdl.hpp" 4

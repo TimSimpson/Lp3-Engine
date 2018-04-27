@@ -18,8 +18,7 @@ GEN_SOURCE_DIR = os.path.join(OUTPUT_DIR, 'gen')
 BUILD_DIR = os.path.join(OUTPUT_DIR, 'build')
 
 DUMPFILE_RE = re.compile('~dumpfile "([^"]*)"')
-DUMPFILE_RE_2 = re.compile(
-    '~dumpfile "([^"]*)" ?([0-9]*)? ?([0-9~]*)? ?([0-9]*)?')
+DUMPFILE_RE_2 = re.compile('~dumpfile "([^"]*)" ?(.*)$')
 
 REGISTRY = frontdoor.CommandRegistry('fd-ci')
 cmd = REGISTRY.decorate
@@ -53,12 +52,8 @@ def make_temp_rst_from_md(lines):
             return [l.rstrip() for l in r.readlines()]
 
 
-def parse_cpp_file(lines):
-    return cpp_rst.translate_cpp_file(lines)
-
-
-def dump_file(input_file, start, end, indent, write_stream) -> None:
-    print(f' ^---- dumpfile {input_file}')
+def dump_file(input_file, start, end, indent, section, write_stream) -> None:
+    print(f' ^---- dumpfile {input_file} {start} {end} {indent} {section}')
     with open(input_file, 'r') as r:
         lines = r.readlines()
 
@@ -75,12 +70,59 @@ def dump_file(input_file, start, end, indent, write_stream) -> None:
     if input_file.endswith('.md'):
         final_lines = make_temp_rst_from_md(subset)
     elif input_file.endswith('.hpp'):  #  or input_file.endswith('.cpp'):
-        final_lines = cpp_rst.translate_cpp_file(subset)
+        final_lines = cpp_rst.translate_cpp_file(subset, section)
         # final_lines = make_temp_rst_from_md(cpp_md)
     else:
         final_lines = [prefix + l.rstrip() for l in subset]
 
     write_stream.write('\n'.join(final_lines))
+
+
+def dumpfile_directive(current_source, matches, write_stream):
+    input_file, rest = matches.groups(0)
+    args = rest.split(' ')
+    kwargs = {
+        'start': None,
+        'end': None,
+        'indent': None,
+        'section': None,
+    }
+    pos_arg_indices = ['start', 'end', 'indent']
+    pos_arg_index = 0
+    for arg in args:
+        if '=' in arg:
+            name, value = arg.split('=', 1)
+        else:
+            name = pos_arg_indices[pos_arg_index]
+            pos_arg_index +=1
+            value = arg
+
+        if name not in kwargs:
+            raise RuntimeError(
+                f'Unknown dumpfile arg: {name}')
+        if kwargs[name] is not None:
+            raise RuntimeError(
+                f'dumpfile arg {name} set twice')
+
+        kwargs[name] = value
+
+    if kwargs['end'] == '~':
+        kwargs['end'] = None
+
+    def intify(arg_name):
+        if kwargs[arg_name]:
+            kwargs[arg_name] = int(kwargs[arg_name])
+        else:
+            kwargs[arg_name] = 0
+
+    intify('start')
+    intify('end')
+    intify('indent')
+
+    full_input_file = os.path.join(
+        os.path.dirname(current_source), input_file)
+    print(kwargs)
+    dump_file(full_input_file, write_stream=write_stream, **kwargs)
 
 
 def parse_m_rst(source, dst):
@@ -89,21 +131,7 @@ def parse_m_rst(source, dst):
             for line in f.readlines():
                 matches = DUMPFILE_RE_2.match(line)
                 if matches:
-                    input_file, start, end, indent = matches.groups(0)
-                    if start:
-                        start = int(start)
-                    if end == '~':
-                        end = None
-                    elif end:
-                        end = int(end)
-                    if indent:
-                        indent = int(indent)
-                    else:
-                        indent = 0
-
-                    full_input_file = os.path.join(
-                        os.path.dirname(source), input_file)
-                    dump_file(full_input_file, start, end, indent, w)
+                    dumpfile_directive(source, matches, w)
                 else:
                     w.write(f'{line}')
 
@@ -126,8 +154,6 @@ def copy_rst_files(source, dst):
             elif file.endswith('.mrst'):
                 print(f'parse {file} -> {to_path}')
                 parse_m_rst(file, to_path)
-            # elif file.endswith('.cpp') or file.endswith('.hpp'):
-            #     parse_cpp_file(file, to_path)
 
 
 def sphinx_build(op: str='html') -> int:
