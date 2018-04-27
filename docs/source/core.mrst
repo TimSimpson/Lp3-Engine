@@ -27,36 +27,44 @@ What follows is a list of the relevant namespaces, followed by the relevant head
 Macros and Preprocessor Definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~dumpfile "../../core/include/lp3/main.hpp" section=-
-~dumpfile "../../core/demos/MainDemo.cpp" section=~
+~dumpfile "../../core/include/lp3/main.hpp" section=~
+~dumpfile "../../core/demos/MainDemo.cpp" section=^
 
-~dumpfile "../../core/include/lp3/le.hpp" section=-
 
-~dumpfile "../../core/include/lp3/assert.hpp" section=-
+~dumpfile "../../core/include/lp3/le.hpp" section=~
+
+~dumpfile "../../core/include/lp3/assert.hpp" section=~
 
 
 namespace lp3
 ~~~~~~~~~~~~~
 
-~dumpfile "../../core/include/lp3/casts.hpp" section=-
+~dumpfile "../../core/include/lp3/casts.hpp" section=~
 
 namespace lp3::core
 ~~~~~~~~~~~~~~~~~~~
 
-~dumpfile "../../core/include/lp3/core/Exception.hpp" section=-
+~dumpfile "../../core/include/lp3/core/Exception.hpp" section=~
 
-~dumpfile "../../core/include/lp3/log.hpp" section=-
-~dumpfile "../../core/demos/LogDemo.cpp" section=~
 
-~dumpfile "../../core/include/lp3/core/utils.hpp" section=-
+~dumpfile "../../core/include/lp3/log.hpp" section=~
 
-~dumpfile "../../core/include/lp3/core/exit.hpp" section=-
 
-~dumpfile "../../core/demos/ExitDemo.cpp" section=~
+~dumpfile "../../core/demos/LogDemo.cpp" section=^
+
+
+~dumpfile "../../core/include/lp3/core/utils.hpp" section=~
+
+
+~dumpfile "../../core/include/lp3/core/exit.hpp" section=~
+
+
+~dumpfile "../../core/demos/ExitDemo.cpp" section=^
 
 namespace lp3::sdl
 ~~~~~~~~~~~~~~~~~~
 
-~dumpfile "../../core/include/lp3/sdl.hpp" section=-
+~dumpfile "../../core/include/lp3/sdl.hpp" section=~
 
-~dumpfile "../../core/demos/Sdl2Simple.cpp" section=~
+
+~dumpfile "../../core/demos/Sdl2Simple.cpp" section=^

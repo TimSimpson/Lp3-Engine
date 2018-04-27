@@ -12,7 +12,7 @@
 // ----------------------------------------------------------------------------
 // LP3_MAIN(main_function)
 // ----------------------------------------------------------------------------
-//		Use this to generate the appropriate main function that will invoke
+//      Use this to generate the appropriate main function that will invoke
 //      the given ``main_function`` argument, which is expected to be a
 //      function accepting ``lp3::core::PlatformLoop``.
 // ---------------------------------------------------------------------------/
