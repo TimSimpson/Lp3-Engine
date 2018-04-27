@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// log.hpp
+// <lp3/log.hpp>
 // ----------------------------------------------------------------------------
 //      Rudimentary logging system. This is disabled for non-debug builds,
 //      and can be disabled for all builds by setting LP3_COMPILE_LOG_DISABLE.

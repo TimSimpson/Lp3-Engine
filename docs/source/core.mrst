@@ -24,8 +24,8 @@ Most functionality is defined in the `lp3::core`, though several bits are define
 
 What follows is a list of the relevant namespaces, followed by the relevant header files and a list of what they declare.
 
-Macros and Preprocessor Definitions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Macros
+~~~~~~
 
 ~dumpfile "../../core/include/lp3/main.hpp" section=~
 ~dumpfile "../../core/demos/MainDemo.cpp" section=^
@@ -36,13 +36,13 @@ Macros and Preprocessor Definitions
 ~dumpfile "../../core/include/lp3/assert.hpp" section=~
 
 
-namespace lp3
-~~~~~~~~~~~~~
+::lp3
+~~~~~
 
 ~dumpfile "../../core/include/lp3/casts.hpp" section=~
 
-namespace lp3::core
-~~~~~~~~~~~~~~~~~~~
+::lp3::core
+~~~~~~~~~~~
 
 ~dumpfile "../../core/include/lp3/core/Exception.hpp" section=~
 
@@ -61,10 +61,10 @@ namespace lp3::core
 
 ~dumpfile "../../core/demos/ExitDemo.cpp" section=^
 
-namespace lp3::sdl
-~~~~~~~~~~~~~~~~~~
+..
+    the file below starts ::lp3::sdl , so the section is up a level
 
-~dumpfile "../../core/include/lp3/sdl.hpp" section=~
+~dumpfile "../../core/include/lp3/sdl.hpp" section=-
 
 
-~dumpfile "../../core/demos/Sdl2Simple.cpp" section=^
+~dumpfile "../../core/demos/Sdl2Simple.cpp" section=~

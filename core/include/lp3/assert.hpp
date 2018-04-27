@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// assert.hpp
+// <lp3/assert.hpp>
 // ----------------------------------------------------------------------------
 //      Defines LP3_ASSERT, which is almost identical to SDL_assert, but can
 //      be configured to raise exceptions which allows for testing that
