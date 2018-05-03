@@ -19,6 +19,8 @@
 //            Additionally there are asserts to ensure the non-default
 //            constructor is not passed nullptr, making it possible to directly
 //            pass the result of SDL calls that return null on failures.
+//
+// ~see-file "../../demos/Sdl2Simple.cpp"
 // ---------------------------------------------------------------------------/
 #ifndef FILE_LP3_SDL_HPP
 #define FILE_LP3_SDL_HPP
@@ -115,7 +117,7 @@ using Renderer = SdlAutoDeletedResource<SDL_Renderer *, SDL_DestroyRenderer>;
 using Surface = SdlAutoDeletedResource<SDL_Surface *, SDL_FreeSurface>;
 using Texture = SdlAutoDeletedResource<SDL_Texture *, SDL_DestroyTexture>;
 using GLContext = SdlAutoDeletedResource<SDL_GLContext, SDL_GL_DeleteContext>;
-// -/
+// ~end-doc
 
 
 // Use these two classes to make the SDL_assert calls throw exceptions
@@ -176,7 +178,6 @@ public:
 
 	RWops & operator=(RWops && rvalue);
 
-	// No copy ctor
 	RWops & operator=(const RWops & other) = delete;
 
 	// Implicitly convert to SDL_RWops
@@ -247,7 +248,7 @@ private:
 	gsl::owner<SDL_RWops *> ops;
 };
 
-// -/
+// ~end-doc
 
 } }
 

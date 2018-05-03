@@ -63,6 +63,3 @@ The following components live in the ``::lp3::sdl`` namespace.
 They can be brought in by including ``lp3/sdl.hpp``.
 
 ~dumpfile "../../core/include/lp3/sdl.hpp" section==
-
-
-~dumpfile "../../core/demos/Sdl2Simple.cpp" section=-

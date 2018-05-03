@@ -1,8 +1,6 @@
 // --------------------------------------------------------------------
-// lp3::sdl example
-// --------------------------------------------------------------------
-//      This shows using `lp3::sdl`'s helper classes to create a
-//      simple app.
+// This example shows using `lp3::sdl`'s helper classes to create
+// a simple app.
 // --------------------------------------------------------------------
 #include <fstream>
 #include <iostream>
@@ -41,8 +39,14 @@ int _main(core::PlatformLoop & loop) {
         = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     LP3_LOG_DEBUG("Loading texture...");
-    const auto bmp_file = media.path("Engine/Gfx/Earth.bmp");
-    sdl::Surface bitmap = SDL_LoadBMP(bmp_file.c_str());
+
+    sdl::RWops bmp_file = media.load("Engine/Gfx/Earth.bmp");
+    sdl::Surface bitmap = SDL_LoadBMP_RW(bmp_file, 0);
+
+    // Here's an alternative way to load the bitmap:
+    // const auto bmp_file = media.path("Engine/Gfx/Earth.bmp");
+    // sdl::Surface bitmap = SDL_LoadBMP(bmp_file.c_str());
+
     sdl::Texture tex = SDL_CreateTextureFromSurface(renderer, bitmap);
 
     LP3_LOG_DEBUG("start itr");
