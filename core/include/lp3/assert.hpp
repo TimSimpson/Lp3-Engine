@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// <lp3/assert.hpp>
-// ----------------------------------------------------------------------------
+// Asserts (<lp3/assert.hpp>)
+// ===========================================================================
 //      Defines LP3_ASSERT, which is almost identical to SDL_assert, but can
 //      be configured to raise exceptions which allows for testing that
 //      asserts are triggered.
@@ -68,7 +68,6 @@ public:
         } \
         SDL_assert(condition)
 
-// end-doc
 
 // ----------------------------------------------------------------------------
 // LP3_REQUIRE_ASSERT_FAILURE
@@ -83,7 +82,7 @@ public:
             ::lp3::core::AssertListener listener; \
             REQUIRE_THROWS_AS(code, ::lp3::core::AssertFailed); \
         }
-// end-doc
+// ~end-doc
 
 #else
     #define LP3_ASSERT(condition)   \

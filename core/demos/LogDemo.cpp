@@ -26,4 +26,4 @@ int main() {
     LP3_LOG_DEBUG("These macros use Boost::Format.");
     LP3_LOG_DEBUG("%s=%d", "The Answer", 42);
 }
-// end-doc
+// ~end-doc

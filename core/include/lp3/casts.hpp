@@ -25,7 +25,7 @@ inline R narrow(A number) {
 	// Make sure this always runs.
 	return static_cast<R>(number);
 }
-// end-doc
+// ~end-doc
 
 }
 

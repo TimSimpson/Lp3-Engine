@@ -64,4 +64,4 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
-// end-doc
+// ~end-doc

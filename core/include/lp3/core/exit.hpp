@@ -78,7 +78,7 @@ private:
 		}
 	};
 };
-// end-doc
+// ~end-doc
 
 }   }
 

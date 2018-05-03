@@ -1,16 +1,16 @@
 // ----------------------------------------------------------------------------
 // <lp3/main.hpp>
-// ----------------------------------------------------------------------------
+// ============================================================================
 //      Contains a helper macro which defines the main function of a program
 //      and calls a method provided by you which accepts a reference to
-//      a PlatformLoop. This slightly eases writing portable programs,
-//      particularly wrt Emscripten.
+//      an instance of lp3::core::PlatformLoop . This slightly eases writing
+//      portable programs, particularly in Emscripten.
 //
 //      This file should only be included once.
 // ---------------------------------------------------------------------------/
 
 // ----------------------------------------------------------------------------
-// LP3_MAIN(main_function)
+// macro LP3_MAIN(main_function)
 // ----------------------------------------------------------------------------
 //      Use this to generate the appropriate main function that will invoke
 //      the given ``main_function`` argument, which is expected to be a
@@ -64,4 +64,5 @@
 		}
 #endif
 
+// ~see-file "../../demos/MainDemo.cpp"
 
