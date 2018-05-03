@@ -33,7 +33,7 @@ void on_exit_clean_up(GlobalResource *);
 // leak detector it's not that easy, as it will wrongly flag data that
 // is created before the ``main`` is called.
 //
-// ``GlobalVar`` works in conjunction with the LP3_MAIN macro to get
+// GlobalVar works in conjunction with the LP3_MAIN macro to get
 // around this problem by storing a pointer to global data which is
 // then deleted right before ``main`` exits, allowing you to use the
 // leak detector without triggering false negatives.

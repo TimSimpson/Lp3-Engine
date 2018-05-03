@@ -1,7 +1,5 @@
 // --------------------------------------------------------------------
-// Log Demo
-// --------------------------------------------------------------------
-//      This example shows how to use the logging system.
+//      The following example shows how to use the logging system:
 // --------------------------------------------------------------------
 #define SDL_MAIN_HANDLED
 #include <lp3/log.hpp>

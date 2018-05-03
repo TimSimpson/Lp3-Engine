@@ -2,19 +2,23 @@
 // <lp3/main.hpp>
 // ============================================================================
 //      Contains a helper macro which defines the main function of a program
-//      and calls a method provided by you which accepts a reference to
-//      an instance of lp3::core::PlatformLoop . This slightly eases writing
-//      portable programs, particularly in Emscripten.
+//      for you, which slightly eases writing portable programs (particularly
+//      for Emscripten).
 //
 //      This file should only be included once.
-// ---------------------------------------------------------------------------/
-
-// ----------------------------------------------------------------------------
+//
 // macro LP3_MAIN(main_function)
-// ----------------------------------------------------------------------------
-//      Use this to generate the appropriate main function that will invoke
-//      the given ``main_function`` argument, which is expected to be a
-//      function accepting ``lp3::core::PlatformLoop``.
+// -----------------------------
+//      Given a function that accepts ``lp3::core::PlatformLoop`` and
+//      returns ``int``, this will generate the appropriate main function
+//      for you.
+//
+//      As you might expect, this should only be used once for any program
+//      you plan on building.
+//
+//      Other than easing development a bit, this also sets up the leak
+//      detector stuff for Visual C++ automatically (see
+//      ``lp3::core::GlobalVar`` for more info).
 // ---------------------------------------------------------------------------/
 #ifdef FILE_LP3_MAIN_HPP
     #error "This file should only be included once."

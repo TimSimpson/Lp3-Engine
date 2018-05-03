@@ -1,3 +1,6 @@
+// ---------------------------------------------------------------------------
+// The following test shows how to read from MediaManger.
+// ---------------------------------------------------------------------------
 #include <gsl/gsl>
 #include <lp3/core.hpp>
 #include <string>
@@ -5,10 +8,8 @@
 #define CATCH_CONFIG_MAIN
 #include <catch/catch.hpp>
 
-namespace core = lp3::core;
-
 TEST_CASE("Read file", "[read_a_file]") {
-    core::MediaManager media{};
+    lp3::core::MediaManager media{};
 	auto story = media.load("Engine/Resources/story.txt");
 
     char content[16];
@@ -19,3 +20,4 @@ TEST_CASE("Read file", "[read_a_file]") {
     std::string contents(content, read_size);
     REQUIRE(contents == "Romulus and Remu");
 }
+// ~end-doc

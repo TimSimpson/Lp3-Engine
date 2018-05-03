@@ -50,17 +50,13 @@ public:
 // ----------------------------------------------------------------------------
 // LP3_ASSERT
 // ----------------------------------------------------------------------------
-//      This defers almost entirely to SDL_assert to the point that
-//      it is nearly equivalent, except it can be configured to throw
-//      exceptions on assertion failure, making it possible to write
-//      test cases that negative code paths are properly terminated
-//      in debug mode. Basically, the only reason to use this over
-//      SDL_assert is to make code more testable (and theoretically
-//      if an assert is triggered in debug it means the calling code is
-//      not honoring a contract, making it undefined behavior and not
-//      a part of the code's interface; personally I still want to
-//      verify these asserts are triggered even if it's only in debug
-//      mode).
+//      This defers almost entirely to SDL_assert, except it can be
+//      configured to throw exceptions on assertion failure, making it
+//      possible to write test cases that negative code paths are properly terminated
+//      in debug mode.
+//
+//      The only reason to use this over SDL_assert is to test
+//      unhappy paths using asserts.
 // ----------------------------------------------------------------------------
     #define LP3_ASSERT(condition)   \
         if (!(condition)) { \

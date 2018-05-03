@@ -1,13 +1,11 @@
 // ----------------------------------------------------------------------------
 // <lp3/le.hpp>
 // ===========================================================================
-//  Defines symbols used to determine configurations.
-//
-//  Note that the tricks below which determine the platform may need to be
-//  updated as time goes by.
+//  Defines symbols used to determine configurations, and a helper macro to
+//  throw exceptions.
 //
 // Configuration Flags
-// ----------------------------------------------------------------------------
+// -------------------
 //
 //  These flags will be set depending on the platform and configuration of the
 //  build. In practice they're useful mainly to internal LP3 code, though
@@ -146,7 +144,7 @@
 //
 // .. code-block:: c++
 //
-//    LP3_THROW(lp3::Exception)
+//    LP3_THROW(lp3::Exception)  // constructs lp3::Exception and throws it
 // ---------------------------------------------------------------------------/
 
 // ----------------------------------------------------------------------------

@@ -5,8 +5,8 @@ Build Info and Options
 
 If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It will export the library Lp3_Core.
 
-Library Options
-~~~~~~~~~~~~~~~
+Build Options
+~~~~~~~~~~~~~
 
 LP3_CORE_API_DYNAMIC
     If set, forces library functions to be defined as `__declspec(dllexport)` on Windows. Is set automatically when BUILD_SHARED_LIBS is set.
@@ -15,46 +15,54 @@ LP3_COMPILE_LOG_DISABLE
     If set, disables logging even in debug mode. Good if you don't wish to use the built-in logging utilities.
 
 
-Library Components
-------------------
-
-~dumpfile "../../core/include/lp3/main.hpp" section=-
+~dumpfile "../../core/include/lp3/main.hpp" section==
 
 
-~dumpfile "../../core/include/lp3/le.hpp" section=-
+~dumpfile "../../core/include/lp3/le.hpp" section==
 
-~dumpfile "../../core/include/lp3/assert.hpp" section=-
+~dumpfile "../../core/include/lp3/assert.hpp" section==
+
+.. ::lp3::core
+.. ~~~~~~~~~~~
+
+
+~dumpfile "../../core/include/lp3/log.hpp" section==
 
 
 ::lp3
-~~~~~
+-----
 
-~dumpfile "../../core/include/lp3/casts.hpp" section=~
+The following components live in the ``::lp3`` namespace.
+They can be brought in by including ``lp3/core.hpp``.
+
+~dumpfile "../../core/include/lp3/core/Exception.hpp" section==
+
+
+~dumpfile "../../core/include/lp3/casts.hpp" section==
+
 
 ::lp3::core
-~~~~~~~~~~~
+------------
 
-~dumpfile "../../core/include/lp3/core/Exception.hpp" section=~
+The following components live in the ``::lp3::core`` namespace.
+They can be brought in by including ``lp3/core.hpp``.
 
-
-~dumpfile "../../core/include/lp3/log.hpp" section=~
-
-
-~dumpfile "../../core/demos/LogDemo.cpp" section=^
+~dumpfile "../../core/include/lp3/core/utils.hpp" section==
 
 
-~dumpfile "../../core/include/lp3/core/utils.hpp" section=~
+~dumpfile "../../core/include/lp3/core/exit.hpp" section=-
 
 
-~dumpfile "../../core/include/lp3/core/exit.hpp" section=~
+~dumpfile "../../core/demos/ExitDemo.cpp" section=~
 
 
-~dumpfile "../../core/demos/ExitDemo.cpp" section=^
+::lp3::sdl
+------------
 
-..
-    the file below starts ::lp3::sdl , so the section is up a level
+The following components live in the ``::lp3::sdl`` namespace.
+They can be brought in by including ``lp3/sdl.hpp``.
 
-~dumpfile "../../core/include/lp3/sdl.hpp" section=-
+~dumpfile "../../core/include/lp3/sdl.hpp" section==
 
 
-~dumpfile "../../core/demos/Sdl2Simple.cpp" section=~
+~dumpfile "../../core/demos/Sdl2Simple.cpp" section=-

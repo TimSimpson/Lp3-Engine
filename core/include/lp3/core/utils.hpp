@@ -84,12 +84,13 @@ private:
     const std::string base_directory;
 };
 
+// ~see-file "../../../tests/media_tests.cpp"
 
 // --------------------------------------------------------------------
 // class WCharToCharConverter
 // --------------------------------------------------------------------
 //     Converts wchar_t to simple const char *. Owns the converted
-//     char buffer.
+//     char buffer. Good for some bits of Windows code.
 // --------------------------------------------------------------------
 class
 LP3_CORE_API
