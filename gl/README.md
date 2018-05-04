@@ -23,16 +23,3 @@ I have made the following minor modifications to the file `gles2.cpp`:
 
 * Defines are made to force the use of SDL2 loader functions
 * Macros are created to avoid warnings about the strcpy functions in Windows
-
-## Code
-
-Include `<lp3/gl.hpp>` to get access to everything.
-
-Traditional OpenGL functions are put in the global namespace (following the
-standard) while helper types and functions are defiend in the namespace `lp3::gl`.
-
-!INCLUDE "../gl/demos/glDemo.cpp", 3
-
-### Reference
-
-!INCLUDE "../gl/include/lp3/gl/extras.hpp", 3

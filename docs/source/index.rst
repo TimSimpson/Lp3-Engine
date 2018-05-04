@@ -13,6 +13,7 @@ LP3 Engine vII
    ./readme.mrst
    ./core.mrst
    ./sims.mrst
+   ./gl.mrst
 
 
 Indices and tables

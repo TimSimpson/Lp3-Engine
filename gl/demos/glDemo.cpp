@@ -1,7 +1,6 @@
 // --------------------------------------------------------------------
-// lp3::gl example
-// --------------------------------------------------------------------
-//      This shows using lp3::gl to create a simple app.
+// This example shows how to use lp3::gl and lp3::sdl to create a
+// simple app.
 // --------------------------------------------------------------------
 #include <fstream>
 #include <iostream>
@@ -109,4 +108,4 @@ int _main(core::PlatformLoop & loop) {
 
 LP3_MAIN(_main)
 
-// -/
+// ~end-doc
