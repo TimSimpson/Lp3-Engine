@@ -7,6 +7,17 @@
 
 namespace lp3 { namespace sims {
 
+// ---------------------------------------------------------------------------
+// Clocks and Timers
+// -----------------
+//
+// The following code can be used to measure real world time as well and to
+// run logic in simulated time.
+//
+// ~see-file "../../../demos/TimersDemo.cpp"
+// --------------------------------------------------------------------------/
+
+
 using clock_time_int = std::int64_t;
 
 // ----------------------------------------------------------------------------
@@ -120,19 +131,22 @@ struct GameClockRemainder {
 //
 //     This implies your code has a structure like this:
 //
-//     StopWatch w(16);
-//     while(true) {
-//         input.update();
-//         auto r = w.run_updates([&](std::int64_t ms) {  // ms is always 16
-//             move_characters(ms);
-//             view.animate(ms);
+//      .. code-block:: c++
+//
+//         StopWatch w(16);
+//         while(true) {
+//             input.update();
+//             auto r = w.run_updates([&](std::int64_t ms) {  // ms is always 16
+//                 move_characters(ms);
+//                 view.animate(ms);
+//             }
+//             old_state = gfx.animation
+//             gfx.animate(r.ms);  // Update the animation by the tiny extra bit
+//             gfx.update();
+//             gfx.animation = old_state  // restore so we can update the animation
+//                                        // again in run_updates.
 //         }
-//         old_state = gfx.animation
-//         gfx.animate(r.ms);  // Update the animation by the tiny extra bit
-//         gfx.update();
-//         gfx.animation = old_state  // restore so we can update the animation
-//                                    // again in run_updates.
-//     }
+//
 // ----------------------------------------------------------------------------
 LP3_SIMS_API
 class GameClock {
@@ -173,6 +187,7 @@ private:
     std::int64_t previous_time;
     Timer timer;
 };
+// ~end-doc
 
 }   }
 

@@ -6,29 +6,35 @@
 
 namespace lp3 { namespace sims {
 
-/*
- * Simple Coroutines
- * -----------------
- *
- * This code allows for coroutines that are crappier than Lua (and Boost)
- * coroutines, but about as good as Python's and portable.
- *
- * Rules for using coroutines:
- *
- *  - Function variables will not retain values in between calls, so always
- *    use class variables instead.
- *  - Use independent CoroutineState variables for each coroutine. Don't muck
- *    with the internal variables of CoroutineState.
- *  - Only use one pair of begin / end coroutine macros per function.
- *
- * See the unit tests for examples.
- *
- * The ideas which led to this are fairly well known and based on independent
- * research; however I feel the need to credit Simon Tatham for writing a paper
- * that details a method nearly identical to what is used here.
- *
- * http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html
- */
+// ---------------------------------------------------------------------------
+// Simple Coroutines
+// -----------------
+//
+// The following code allows for coroutines that are crappier than Lua (and
+// Boost) coroutines, but about as good as Python's and portable.
+//
+// Rules for using coroutines:
+//
+//  - Function variables will not retain values in between calls, so always
+//    use class variables instead.
+//  - Use independent CoroutineState variables for each coroutine. Don't muck
+//    with the internal variables of CoroutineState.
+//  - Only use one pair of begin / end coroutine macros per function.
+//
+// The ideas which led to this are fairly well known and based on independent
+// research; however I feel the need to credit Simon Tatham for writing a paper
+// that details a method nearly identical to what is used here.
+//
+// http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html
+//
+// ~see-file "../../../tests/coroutine_tests.cpp"
+// --------------------------------------------------------------------------/
+
+// ---------------------------------------------------------------------------
+// class CoroutineState
+// ---------------------------------------------------------------------------
+//      Stores a code pointer used to implement the coroutine.
+// ---------------------------------------------------------------------------
 class
 LP3_SIMS_API
 CoroutineState
@@ -76,11 +82,37 @@ public:
 } }
 
 
+// ---------------------------------------------------------------------------
+// LP3_COROUTINE_BEGIN(coroutine_state)
+// ---------------------------------------------------------------------------
+//      Pass this an instance of the CoroutineState class at the top of your
+//      function.
+// ---------------------------------------------------------------------------
 #define LP3_COROUTINE_BEGIN(variable_name) \
     int & _lp3_coroutine_code_pointer = variable_name.code_pointer; \
     switch(_lp3_coroutine_code_pointer) \
     { \
         case(0):
+
+// ---------------------------------------------------------------------------
+// LP3_COROUTINE_END()
+// ---------------------------------------------------------------------------
+//      Put this at the bottom of your coroutine function.
+// ---------------------------------------------------------------------------
+#define LP3_COROUTINE_END() \
+            _lp3_coroutine_code_pointer = -1; \
+            break; \
+        case(-1): \
+            LP3_LOG_ERROR("Coroutine has already ended!"); \
+            LP3_THROW(::lp3::sims::CoroutineFinishedException); \
+            break; \
+        default: \
+            LP3_LOG_ERROR("Coroutine is in an invalid state!"); \
+            LP3_THROW(::lp3::sims::CoroutineInvalidStateException); \
+            break; \
+    }
+
+// ~end-doc
 
 #define LP3_LABELL(LABEL_NAME, VALUE) \
         LABEL_NAME: \
@@ -94,20 +126,21 @@ public:
         case(VALUE):
 
 
-#define LP3_LABEL(LABEL_NAME) LP3_LABELL(LABEL_NAME, __LINE__)
+// ---------------------------------------------------------------------------
+// LP3_YIELD(...)
+// ---------------------------------------------------------------------------
+//      Suspends the coroutine and (optionally) returns a value to the
+//      caller.
+// ---------------------------------------------------------------------------
 #define LP3_YIELD(...) LP3_YIELDL(__LINE__, __VA_ARGS__)
 
-#define LP3_COROUTINE_END() \
-            _lp3_coroutine_code_pointer = -1; \
-            break; \
-        case(-1): \
-            LP3_LOG_ERROR("Coroutine has already ended!"); \
-            LP3_THROW(::lp3::sims::CoroutineFinishedException); \
-            break; \
-        default: \
-            LP3_LOG_ERROR("Coroutine is in an invalid state!"); \
-            LP3_THROW(::lp3::sims::CoroutineInvalidStateException); \
-            break; \
-    }
+// ---------------------------------------------------------------------------
+// LP3_LABEL(label_name)
+// ---------------------------------------------------------------------------
+//      Creates a label that will work in conjunction with the coroutine's
+//      yield statement. That's right: GOTO is back baby! And better than ever.
+// ---------------------------------------------------------------------------
+#define LP3_LABEL(LABEL_NAME) LP3_LABELL(LABEL_NAME, __LINE__)
+// ~end-doc
 
 #endif
