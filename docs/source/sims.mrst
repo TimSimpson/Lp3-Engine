@@ -6,12 +6,17 @@ Build Info and Options
 If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It will export the library Lp3_Sims.
 
 
-::lp3::sims
------------
+~dumpfile "../../sims/include/lp3/sims/coroutine.hpp" section = "=" end_before = "// ~end-doc summary"
+
+~dumpfile "../../sims/include/lp3/sims/Clock.hpp" section = "=" end_before = "// ~end-doc summary"
+
+
+::lp3::sims reference
+---------------------
 
 The following components live in the ``::lp3::sims`` namespace.
 They can be brought in by including ``lp3/sims.hpp``.
 
-~dumpfile "../../sims/include/lp3/sims/coroutine.hpp" section==
+~dumpfile "../../sims/include/lp3/sims/coroutine.hpp" section = "=" start_after = "// ~end-doc summary"
 
-~dumpfile "../../sims/include/lp3/sims/Clock.hpp" section==
+~dumpfile "../../sims/include/lp3/sims/Clock.hpp" section = "=" start_after = "// ~end-doc summary"

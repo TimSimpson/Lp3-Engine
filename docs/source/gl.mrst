@@ -5,7 +5,6 @@ An Example
 
 ~dumpfile "../../gl/demos/glDemo.cpp" section==
 
-
 ::lp3::gl
 ---------
 

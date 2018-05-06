@@ -9,13 +9,24 @@ namespace lp3 { namespace sims {
 
 // ---------------------------------------------------------------------------
 // Clocks and Timers
-// -----------------
+// =================
 //
-// The following code can be used to measure real world time as well and to
-// run logic in simulated time.
+// One of the trickiest elements of writing a game is dealing with time.
+// lp3::sims has code that can be used ot measure real world time as well as
+// a GameClock class which can run logic in slices of simulated time,
+// avoiding issues that arise from varying hardware speed while keeping the
+// game logic deterministic (in other words, because the logic always runs
+// with the same slice of time it's possible to replay it and always get the
+// same results).
+//
+// The ideas behind the GameClock class come from the book `"Game Programming
+// Patterns" <https://www.amazon.com/Game-Programming-Patterns-Robert-Nystrom/dp/0990582906/ref=sr_1_2?ie=UTF8&qid=1525622892&sr=8-2&keywords=game+programming+patterns>`_
+// by Robert Nystorm (the web form is `available here <http://gameprogrammingpatterns.com/game-loop.html>`_).
 //
 // ~see-file "../../../demos/TimersDemo.cpp"
 // --------------------------------------------------------------------------/
+
+// ~end-doc summary
 
 
 using clock_time_int = std::int64_t;

@@ -8,10 +8,13 @@ namespace lp3 { namespace sims {
 
 // ---------------------------------------------------------------------------
 // Simple Coroutines
-// -----------------
+// =================
 //
-// The following code allows for coroutines that are crappier than Lua (and
-// Boost) coroutines, but about as good as Python's and portable.
+// lp3::sims coroutines are stateless coroutines which don't persist the values
+// of local variables between invocations (like Lua or Boost coroutines) but
+// are much cheaper are portable. They work by using a macro to create a
+// simple state machine with switch statements. The result is nicer than the
+// you might expect.
 //
 // Rules for using coroutines:
 //
@@ -21,14 +24,17 @@ namespace lp3 { namespace sims {
 //    with the internal variables of CoroutineState.
 //  - Only use one pair of begin / end coroutine macros per function.
 //
-// The ideas which led to this are fairly well known and based on independent
-// research; however I feel the need to credit Simon Tatham for writing a paper
-// that details a method nearly identical to what is used here.
+// The ideas which led to this are fairly well known and I wrote this
+// implementation based this on my own research. However I feel the need to
+// credit Simon Tatham for writing a paper that details a method nearly
+// identical to what is used here.
 //
 // http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html
 //
 // ~see-file "../../../tests/coroutine_tests.cpp"
 // --------------------------------------------------------------------------/
+
+// ~end-doc summary
 
 // ---------------------------------------------------------------------------
 // class CoroutineState
