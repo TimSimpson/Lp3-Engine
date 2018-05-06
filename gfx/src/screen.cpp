@@ -8,6 +8,8 @@ namespace lp3 { namespace gfx {
 namespace {
 
 	const GLchar * vertex_shader_source = R"GLSL_CODE(
+#version 100
+
 uniform mat4 u_ortho;
 attribute vec4 a_position;
 attribute vec4 a_color;

@@ -1,3 +1,7 @@
+// ----------------------------------------------------------------------------
+// This example shows how a TileMap can be used to write some text to the
+// screen.
+// ----------------------------------------------------------------------------
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/main.hpp>
@@ -20,14 +24,11 @@ int _main(core::PlatformLoop & loop) {
 
     glEnable(GL_DEPTH_TEST);
 
-
     gfx::Texture texture_text{IMG_Load_RW(media.load("Engine/text.bmp"), 0)};
-
 
     gfx::ElementWriter<gfx::TexVert> elements{ (640/16 * 480/16) * 4 };
 
     gfx::programs::SimpleTextured program;
-
 
     // Now make our construction paper with a resolution of 64 by 64.
     const glm::ivec2 res2d(640, 480);
@@ -36,7 +37,6 @@ int _main(core::PlatformLoop & loop) {
     sims::FrameTimer frame_timer;
 
 	gfx::TileMap tm{ {16.0f, 16.0f}, {256.0f / 16.0f, 128.0f / 16.05f} };
-
 
 	tm.write({ 0, 0 },
 		"And ye, I say,\n"
@@ -47,7 +47,6 @@ int _main(core::PlatformLoop & loop) {
 	tm.write({ 15.0f, 6.0f }, 97);
 
 	auto quads = tm.create_quads(elements);
-
 
     auto drawer = [&](const glm::mat4 & previous) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -73,7 +72,6 @@ int _main(core::PlatformLoop & loop) {
                 break;
             }
         }
-
 		tm.set_quads({ 16.0f, 16.0f }, 0.0f, quads, { 16.0f, 16.0f },
 			         texture_text.size());
 
@@ -89,3 +87,4 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+// ~end-doc
