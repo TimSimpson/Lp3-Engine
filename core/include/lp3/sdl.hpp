@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
-// ::lp3::sdl
-// ----------------------------------------------------------------------------
-//      This contains RAII enabled types for working with the SDL2 library.
+// SDL C++ RAII Wrappers and Helpers
+// ============================================================================
+//      Lp3 contains RAII enabled types for working with the SDL2 library.
 //
 //      The expectation is that code will use the C functions provided by
 //      the SDL library but use the types found here to manage the resources
@@ -22,6 +22,8 @@
 //
 // ~see-file "../../demos/Sdl2Simple.cpp"
 // ---------------------------------------------------------------------------/
+// ~end-doc summary
+
 #ifndef FILE_LP3_SDL_HPP
 #define FILE_LP3_SDL_HPP
 #pragma once

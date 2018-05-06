@@ -1,11 +1,20 @@
 // ----------------------------------------------------------------------------
-// <lp3/le.hpp>
+// How Lp3 Handles Exceptions
 // ===========================================================================
-//  Defines symbols used to determine configurations, and a helper macro to
-//  throw exceptions.
+// The Lp3 rigorously throws exceptions only in exceptional cases, except for
+// all the places I forgot to do that and throw them in stupid cases that
+// can happen all the time. J/K! (I think)
+//
+// Because Exceptions are expected to never happen, on some platforms Lp3
+// may disble them entirely (this was mainly for the Dreamcast which is no
+// longer fully supported).
+//
+// Because of that, LP3 only throws exceptions using the ``LP3_THROW`` macro.
+// On platforms with exceptions, this does what you'd expect, while on
+// exceptionless platforms it calls std::abort.
 //
 // Configuration Flags
-// -------------------
+// ===================
 //
 //  These flags will be set depending on the platform and configuration of the
 //  build. In practice they're useful mainly to internal LP3 code, though
@@ -48,6 +57,8 @@
 //  LP3_COMPILE_DYNAMIC
 //      If true, tries to build as dynamic or shared libraries.
 // ---------------------------------------------------------------------------/
+// ~end-doc summary
+
 #ifndef LE_H
 #define LE_H
 #pragma once

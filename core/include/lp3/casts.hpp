@@ -9,7 +9,7 @@
 namespace lp3 {
 
 // ----------------------------------------------------------------------------
-// narrow - Narrow Conversion Cast
+// narrow(number) - Narrow Conversion Cast
 // ----------------------------------------------------------------------------
 //     This function helps with narrowing conversions by casting
 //     them correctly. They also have checks to ensure no data is lost in
