@@ -1,0 +1,20 @@
+~dumpfile "../../input/README.md"
+
+
+Build Info and Options
+----------------------
+
+If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It will export the library Lp3_Sims.
+
+~dumpfile "../../input/include/lp3/input.hpp" section = "=" end_before = "// ~end-doc summary"
+
+Reference
+---------
+
+::lp3::input
+~~~~~~~~~~
+
+The following components live in the ``::lp3::input`` namespace.
+They can be brought in by including ``lp3/input.hpp``.
+
+~dumpfile "../../input/include/lp3/input.hpp" section = "-" start_after = "// ~end-doc summary"

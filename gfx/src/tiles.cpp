@@ -28,7 +28,7 @@ void TileMap::fill(const glm::ivec2 & from, const glm::ivec2 & size,
     LP3_ASSERT(0 <= size.y);
     LP3_ASSERT(0 <= from.y);
     LP3_ASSERT(from.y < map_size.y);
-    LP3_ASSERT(from.y + size.x <= map_size.y);
+    LP3_ASSERT(from.y + size.y <= map_size.y);
 
     if (size.x == map_size.x) {
         LP3_ASSERT(from.x == 0);

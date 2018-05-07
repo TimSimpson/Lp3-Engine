@@ -1,3 +1,30 @@
+// ----------------------------------------------------------------------------
+// Virtual Controller System
+// ============================================================================
+//     This defines a set of virtual controllers which can be reconfigured
+//     easily.
+//
+//     Each controller has a series of buttons, which can be queried for a
+//     boolean (digital) or float (analog) state. The index of the buttons
+//     used is arbitrary and can be left up to the application.
+//
+//     Behind the scenes, each controller button is in fact mapped to a
+//     real "key" on a physical device. For example, the keyboard is one
+//     device while an SDL Joystick or Gamepad is another.
+//
+//     An application can give a controller a list of preferred default
+//     device and key names along with a series of fall back options. For
+//     example, an app can default to using an SDL gamepad but fall back to
+//     the keyboard if not controller is plugged in.
+//
+//     Each app needs to create the manager class ``Controls`` and call
+//     the ``update`` method once for each iteration of the platform loop in
+//     order to query for new events.
+//
+// ~see-file "../../demos/pokey.cpp"
+// ----------------------------------------------------------------------------
+// ~end-doc summary
+
 #ifndef FILE_LP3_INPUT_HPP
 #define FILE_LP3_INPUT_HPP
 
@@ -86,23 +113,29 @@ protected:
 
 
 
-// --------------------------------------------------------------------
-// PreferedKey
-// --------------------------------------------------------------------
-//     Helps set up initial control options.
-// --------------------------------------------------------------------
 LP3_INPUT_API
 struct PreferredKey {
 	int key_index;
 	const std::string key_name;
 };
 
+// --------------------------------------------------------------------
+// enum class PreferredDevice
+// --------------------------------------------------------------------
+//     Refers to a device type to be queried for.
+// --------------------------------------------------------------------
 LP3_INPUT_API
 enum class PreferredDevice {
 	GAME_PAD = 0,
 	KEYBOARD = 1
 };
 
+// --------------------------------------------------------------------
+// struct PreferredButtonMapping
+// --------------------------------------------------------------------
+//     Defines a possible controller configuration option that the app
+//     would like to use, if available.
+// --------------------------------------------------------------------
 LP3_INPUT_API
 struct PreferredButtonMapping {
 	PreferredDevice device;
@@ -146,6 +179,10 @@ public:
     void configure_button_to_current_pressed_key(int control_index,
                                                  int button_index);
 
+    // Returns the device name and key name assigned to the Controller button.
+    std::pair<std::string, std::string> get_button_configuration(
+            int control_index, int button_index);
+
 	// Returns a reference to a Control. Should not be used after this
 	// class is deleted!
 	Control & get_control(int control);
@@ -165,6 +202,7 @@ private:
     class ControlsImpl;
     std::unique_ptr<ControlsImpl> impl;
 };
+// ~end-doc
 
 } }
 

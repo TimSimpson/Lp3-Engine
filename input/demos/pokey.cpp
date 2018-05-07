@@ -1,14 +1,16 @@
-#include <sstream>
+// ---------------------------------------------------------------------------
+// This shows a simple application that uses an lp3::input::Controller to
+// move a face around the screen. It also shows all device keys that being
+// pressed.
+// ---------------------------------------------------------------------------
 #include <lp3/gfx.hpp>
 #include <lp3/input.hpp>
-#include <lp3/sims.hpp>
 #include <lp3/main.hpp>
 
 namespace core = lp3::core;
 namespace gfx = lp3::gfx;
 namespace input = lp3::input;
 namespace sdl = lp3::sdl;
-namespace sims = lp3::sims;
 
 void set_default_controls(lp3::input::Controls & controls) {
     // Tell the input system that, if it's available, we'd love to use a
@@ -16,15 +18,18 @@ void set_default_controls(lp3::input::Controls & controls) {
     input::PreferredButtonMapping game_pad_mapping;
     game_pad_mapping.device = input::PreferredDevice::GAME_PAD;
 
+    // Set the mapping. The names of the keys for each device are in the order
+    // of the virtual control buttons we wish to assign.
     game_pad_mapping.set_mapping(
         "Left Analog Up", "Left Analog Down", "Left Analog Left",
-        "Left Analog Right", "A");
+        "Left Analog Right", "A", "B", "X");
 
     // Tell the input system that our second choice is for keyboard controls.
     input::PreferredButtonMapping kb_mapping;
     kb_mapping.device = input::PreferredDevice::KEYBOARD;
+    // Ditto.
     kb_mapping.set_mapping(
-        "Up", "Down", "Left", "Right", "Spacebar");
+        "Up", "Down", "Left", "Right", "X", "C", "Z");
 
     std::vector<input::PreferredButtonMapping> preferred_mappings = {
         game_pad_mapping, kb_mapping
@@ -43,11 +48,11 @@ int _main(core::PlatformLoop & loop) {
 
     core::MediaManager media;
 
-    const glm::ivec2 screen_size(640, 480);
-    const glm::ivec2 tile_size(16, 16);
-    const glm::ivec2 map_size = screen_size / tile_size;
+    const glm::vec2 screen_size(1280, 720);
+    const glm::vec2 tile_size(16, 16);
+    const glm::vec2 map_size = screen_size / tile_size;
 
-    gfx::Window window("The Adventures of Pokey", screen_size);
+    gfx::Window window("Lp3::Input Example", screen_size);
     glEnable(GL_DEPTH_TEST);
     gfx::Texture texture_text{IMG_Load_RW(media.load("Engine/text.bmp"), 0)};
     gfx::ElementWriter<gfx::TexVert> elements((map_size.x * map_size.y + 1) * 4);
@@ -57,10 +62,25 @@ int _main(core::PlatformLoop & loop) {
     auto pokey_quad = elements.add_quad();
     auto quads = tm.create_quads(elements);
 
-    tm.write({ 1, 1 }, "The Adventures of Pokey", true);
-    glm::vec2 pokey_position(320, 240);
+    tm.write({20, 1}, "~ INSTRUCTIONS ~", true);
+    int tm_y = 2;
+    auto write_text = [&](const char * msg, int button_index) {
+        // Find out what the virtual button is set to now.
+        auto button_config = controls.get_button_configuration(0, button_index);
+        auto text = str(boost::format(
+            "%s: %s %s") % msg % button_config.first % button_config.second);
+        tm.write({ 1, tm_y }, text.c_str(), true);
+        ++ tm_y;
+    };
+    write_text("Up", 0);
+    write_text("Down", 1);
+    write_text("Left", 2);
+    write_text("Right", 3);
+    write_text("Face", 4);
+    write_text("Snail", 5);
+    write_text("Cat", 6);
 
-    sims::FrameTimer frame_timer;
+    glm::vec2 pokey_position = screen_size / glm::vec2(2.0, 2.0);
 
     auto drawer = [&](const glm::mat4 & previous) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -72,6 +92,15 @@ int _main(core::PlatformLoop & loop) {
         program.set_texture(texture_text.gl_id());
         program.draw(elements);
     };
+
+    const glm::vec2 faces[] = {
+        {1, 6},   // smiley face
+        {12, 6},  // snail
+        {13, 6}   // cat
+    };
+    const glm::vec2 texture_resolution(256.0f, 128.0f);
+
+    glm::vec2 current_avatar = faces[0];
 
     return loop.run([&]() {
         bool quit = false;
@@ -87,16 +116,34 @@ int _main(core::PlatformLoop & loop) {
             }
         }
 
+        // Must be called each frame
         controls.update();
 
+        // Print out currently pressed keys
+        tm.write({ 1, 19 }, "Currently pressed keys:", true);
+        int row = 20;
+        tm.fill({0, 20}, {map_size.x, map_size.y - 20});  // clear text
+        for (const auto & key : controls.get_current_pressed_keys()) {
+            auto text = str(boost::format("%s %s") % key.first % key.second);
+            tm.write({ 1, row }, text.c_str(), true);
+            row += 1;
+        }
+
         input::Control & controller = controls.get_control(0);
+
+        // Move avatar
         pokey_position.y +=
             (controller.analog_state(0) * -1.0f) + controller.analog_state(1);
         pokey_position.x +=
             (controller.analog_state(2) * -1.0f) + controller.analog_state(3);
 
+        // Change faces
         if (controller.state(4)) {
-            quit = true;
+            current_avatar = faces[0];
+        } else if (controller.state(5)) {
+            current_avatar = faces[1];
+        } else if (controller.state(6)) {
+            current_avatar = faces[2];
         }
 
         glm::vec2 half_pokey(8, 8);
@@ -105,19 +152,14 @@ int _main(core::PlatformLoop & loop) {
             pokey_position - half_pokey,
             pokey_position + half_pokey,
             0.0f,
-            glm::vec2(16, 6 * 16) / glm::vec2(256.0f, 128.0f),
-            glm::vec2(32, 7 * 16) / glm::vec2(256.0f, 128.0f));
-
+            (glm::vec2(16, 16) * current_avatar) / texture_resolution,
+            (glm::vec2(16, 16) * (current_avatar + glm::vec2(1, 1)))
+                / texture_resolution);
 
         tm.set_quads({ 16.0f, 16.0f }, 0.0f, quads, { 16.0f, 16.0f },
                      texture_text.size());
 
         window.render(drawer);
-
-        LP3_LOG_DEBUG("FPS: %d\tAvg FPS: %d",
-                      frame_timer.get_fps(),
-                      frame_timer.get_average_fps());
-        frame_timer.next_frame();
 
         return !quit;
     });
@@ -125,3 +167,4 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+// ~end-doc

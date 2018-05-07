@@ -15,6 +15,7 @@ LP3 Engine vII
    ./sims.mrst
    ./gl.mrst
    ./gfx.mrst
+   ./input.mrst
 
 
 Indices and tables

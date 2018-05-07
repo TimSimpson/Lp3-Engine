@@ -176,6 +176,22 @@ public:
 		return result;
 	}
 
+    std::pair<std::string, std::string> get_button_configuration(
+            int control_index, int button_index) {
+        LP3_ASSERT(control_index >= 0 && control_index < controller_count);
+        LP3_ASSERT(button_index >= 0 && button_index < max_button_count);
+        ButtonMapping & bm = mapping[control_index].buttons[button_index];
+        std::pair<std::string, std::string> config;
+        if (bm) {
+            config.first = bm.device_name;
+            config.second = bm.device->get_key_name(bm.key_index);
+        } else {
+            config.first = "<not set>";
+            config.second = "";
+        }
+        return config;
+    }
+
     // Sets defaults to use a basic game pad (directions, face buttons, start)
 
 
@@ -264,6 +280,13 @@ void Controls::configure_button_to_current_pressed_key(
         int control_index, int button_index) {
     impl->configure_button_to_current_pressed_key(control_index, button_index);
 }
+
+LP3_INPUT_API
+std::pair<std::string, std::string> Controls::get_button_configuration(
+            int control_index, int button_index) {
+    return impl->get_button_configuration(control_index, button_index);
+}
+
 
 LP3_INPUT_API
 Control & Controls::get_control(int control) {
