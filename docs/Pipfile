@@ -8,7 +8,7 @@ name = 'pypi'
 
 [packages]
 frontdoor = "*"
-mrst = { version = "==0.4.1" }
+mrst = { version = "==0.4.2" }
 pandoc = { version = "==1.0.2" }
 Sphinx = "*"
 typing = "*"

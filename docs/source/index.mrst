@@ -19,10 +19,15 @@ LP3 Engine vII
    ./imgui.mrst
    ./mix.mrst
 
+:ref:`search`
 
-Indices and tables
-<<<<<<<<<<<<<<<<<<
+.. code-block:: c++
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    Built  ~~current-time~~
+    Commit ~~git-commit~~
+
+.. Indices and tables
+.. <<<<<<<<<<<<<<<<<<
+.. * :ref:`genindex`
+.. remove: * :ref:`modindex`
+.. * :ref:`search`
