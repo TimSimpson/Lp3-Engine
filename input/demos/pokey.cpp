@@ -55,7 +55,8 @@ int _main(core::PlatformLoop & loop) {
     gfx::Window window("Lp3::Input Example", screen_size);
     glEnable(GL_DEPTH_TEST);
     gfx::Texture texture_text{IMG_Load_RW(media.load("Engine/text.bmp"), 0)};
-    gfx::ElementWriter<gfx::TexVert> elements((map_size.x * map_size.y + 1) * 4);
+    gfx::ElementWriter<gfx::TexVert> elements(
+        lp3::narrow<std::size_t>((map_size.x * map_size.y + 1) * 4));
     gfx::programs::SimpleTextured program;
     gfx::TileMap tm{ tile_size, map_size };
 
