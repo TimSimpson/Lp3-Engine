@@ -94,7 +94,7 @@ TEST_CASE("example", "[example]") {
 
         void operator() (const std::int64_t elapsed_ms) {
             // we want to move at 100 of whatever units x is in a second
-            const int speed = 100 * (elapsed_ms / 1000.0);
+            const int speed = lp3::narrow<int>(100 * (elapsed_ms / 1000.0));
             LP3_LOG_ERROR("speed = %d", speed);
             LP3_COROUTINE_BEGIN(state);
                 while(true) {
