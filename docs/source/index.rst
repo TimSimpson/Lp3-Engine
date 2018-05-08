@@ -16,6 +16,8 @@ LP3 Engine vII
    ./gl.mrst
    ./gfx.mrst
    ./input.mrst
+   ./imgui.mrst
+   ./mix.mrst
 
 
 Indices and tables

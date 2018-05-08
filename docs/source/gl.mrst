@@ -1,5 +1,10 @@
 ~dumpfile "../../gl/README.md"
 
+Build Info and Options
+----------------------
+
+If you're using CMake, just include gl directory's CMakeLists.txt as a subdirectory. It will export the library ``Lp3_Gl``.
+
 An Example
 ----------
 

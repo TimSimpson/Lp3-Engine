@@ -14,8 +14,11 @@ LP3_IMGUI_API bool        ImGui_ImplSdl_CreateDeviceObjects();
 
 namespace lp3 { namespace imgui {
 
-// Handles global start up / shut down.
-
+// ---------------------------------------------------------------------------
+// class ImGuiApp
+// ---------------------------------------------------------------------------
+//     Handles global start up / shut down of ImGui stuff.
+// ---------------------------------------------------------------------------
 LP3_IMGUI_API
 class ImGuiApp {
 public:
@@ -28,12 +31,18 @@ public:
     static bool process_event(SDL_Event & event);
 
 };
+// ~end-doc
 
-// Translates a glm or other style vector to ImVec2.
+// ---------------------------------------------------------------------------
+// make_imvec2
+// ---------------------------------------------------------------------------
+//     Translates a glm or other style vector to ImVec2.
+// ---------------------------------------------------------------------------
 template<typename Vec>
 ImVec2 make_imvec2(const Vec & v) {
     return ImVec2(lp3::narrow<float>(v.x), lp3::narrow<float>(v.y));
 }
+// ~end-doc
 
 }   }
 

@@ -4,7 +4,7 @@
 Build Info and Options
 ----------------------
 
-If you're using CMake, just include core's CMakeLists.txt as a subdirectory. It will export the library Lp3_Sims.
+If you're using CMake, just include input directory's CMakeLists.txt as a subdirectory. It will export the library ``Lp3_Input``.
 
 ~dumpfile "../../input/include/lp3/input.hpp" section = "=" end_before = "// ~end-doc summary"
 

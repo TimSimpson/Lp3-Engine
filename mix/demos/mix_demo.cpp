@@ -1,3 +1,4 @@
+// ~begin-doc
 #include <sstream>
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
@@ -32,7 +33,6 @@ int _main(core::PlatformLoop & loop) {
 	const auto ogg_path = media.path("Engine/Sfx/test.ogg");
 	mix::Music ogg = Mix_LoadMUS(ogg_path.c_str());
 
-
     auto hello_wav = media.path("Engine/Sfx/Hello.wav");
     mix::Chunk hello_chunk = Mix_LoadWAV(hello_wav.c_str());
 
@@ -47,17 +47,12 @@ int _main(core::PlatformLoop & loop) {
 
     sims::FrameTimer frame_timer;
 
-    //std::size_t letter_count = 0;   // Last letters written, represents how many
-    //                                // quads we must clear.
-
     if(!mix::Music::is_playing()) { //Play the music
 		music.play();
-		//ogg.play();
     }
 
     {
-        //auto r = Mix_PlayChannel(-1, hello_chunk, 0 );
-		auto r = Mix_FadeInChannelTimed(-1, hello_chunk, -1, 2000, 8000);
+        auto r = Mix_FadeInChannelTimed(-1, hello_chunk, -1, 2000, 8000);
         LP3_ASSERT(r != -1);
     }
 
@@ -83,18 +78,6 @@ int _main(core::PlatformLoop & loop) {
             }
         }
 
-		// const auto cb = [](void * udata, uint8_t * stream, int len) {
-		// 	int & pos = *((int*)udata);
-		// 	// SDL_MixAudioFormat
-		// 	for (int i = 0; i < len; ++i) {
-		// 		stream[i] = i % 0xff;
-		// 	}
-
-		// 	pos += len;
-		// };
-		// int music_pos = 0;
-		// Mix_HookMusic(cb, &music_pos);
-
 		controls.update();
 
 		clock.run_updates([&time_to_play, &music, &ogg, &play_state](std::int64_t ms) {
@@ -110,16 +93,11 @@ int _main(core::PlatformLoop & loop) {
 			else if (play_state == 1) {
 				if (time_to_play > 1000) {
 					play_state = 2;
-				//	Mix_FadeOutMusic(100);
-
 				}
 			}
 		});
 
         imgui_app.new_frame(window);
-
-
-
 
         ImGui::Begin("Listen to the Beautiful Music");
         std::string zero(500, '0');
@@ -136,3 +114,4 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+// ~end-doc
