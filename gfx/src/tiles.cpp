@@ -6,9 +6,8 @@
 namespace lp3 { namespace gfx {
 
 LP3_GFX_API
-TileMap::TileMap(const glm::ivec2 & tile_size_, const glm::ivec2 & map_size_)
-:   tile_size(tile_size_),
-    map_size(map_size_),
+TileMap::TileMap(const glm::ivec2 & map_size_)
+:   map_size(map_size_),
 	tiles(map_size_.x * map_size_.y, 0)
 {
 }
@@ -69,18 +68,21 @@ void TileMap::write(const glm::ivec2 & pos,
 
 
     glm::ivec2 itr = pos;
-    for (auto i = 0; i < text.size(); ++ i) {
-        if (itr.x >= map_size.x) {
-            if (!word_wrap) {
-                return;
-            }
+    for (auto i = 0; i < text.size(); ++ i) {		
+        if (text[i] == '\n' || (itr.x >= map_size.x && word_wrap)) {            			
             itr.x = pos.x;
             ++ itr.y;
             if (itr.y >= map_size.y) {
                 return;
             }
+			if (text[i] == '\n') {
+				// Don't draw this.
+				continue;
+			}
         }
-		tiles[(itr.y * map_size.x) + itr.x] = text[i] + index_adjust;
+		if (itr.x < map_size.x) {  // don't draw if not word wrapping
+			tiles[(itr.y * map_size.x) + itr.x] = text[i] + index_adjust;
+		}
 		++ itr.x;
     }
 }

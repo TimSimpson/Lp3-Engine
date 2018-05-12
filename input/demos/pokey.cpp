@@ -59,11 +59,11 @@ int _main(core::PlatformLoop & loop) {
     gfx::ElementWriter<gfx::TexVert> elements(
         lp3::narrow<std::size_t>((map_size.x * map_size.y + 1) * 4));
     gfx::programs::SimpleTextured program;
-    gfx::TileMap tm{ tile_size, map_size };
+    gfx::TileMap tm{ map_size };
 
     auto pokey_quad = elements.add_quad();
     auto quads = tm.create_quads(elements);
-
+	
     tm.write({20, 1}, "~ INSTRUCTIONS ~", true);
     int tm_y = 2;
     auto write_text = [&](const char * msg, int button_index) {
@@ -158,7 +158,7 @@ int _main(core::PlatformLoop & loop) {
             (glm::vec2(16, 16) * (current_avatar + glm::vec2(1, 1)))
                 / texture_resolution);
 
-        tm.set_quads({ 16.0f, 16.0f }, 0.0f, quads, { 16.0f, 16.0f },
+		tm.set_quads({ 32.0f, 0.0f }, 0.0f, tile_size, quads, tile_size,
                      texture_text.size());
 
         window.render(drawer);

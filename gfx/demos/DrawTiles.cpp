@@ -36,7 +36,7 @@ int _main(core::PlatformLoop & loop) {
     // Make the render list. This will store what to render and do it later
     sims::FrameTimer frame_timer;
 
-	gfx::TileMap tm{ {16.0f, 16.0f}, {256.0f / 16.0f, 128.0f / 16.05f} };
+	gfx::TileMap tm{ {256.0f / 16.0f, 128.0f / 16.05f} };
 
 	tm.write({ 0, 0 },
 		"And ye, I say,\n"
@@ -44,7 +44,7 @@ int _main(core::PlatformLoop & loop) {
 		"for I shall rise in the night\n"
 		"to drag away your dreams.", true);
 
-	tm.write({ 15.0f, 6.0f }, 97);
+	tm.write({ 9.0f, 6.0f }, 97);
 
 	auto quads = tm.create_quads(elements);
 
@@ -72,7 +72,12 @@ int _main(core::PlatformLoop & loop) {
                 break;
             }
         }
-		tm.set_quads({ 16.0f, 16.0f }, 0.0f, quads, { 16.0f, 16.0f },
+		const glm::vec2 draw_at(16.0f, 16.0f); // where to start drawing the map
+		const float z = 0.0f;  // z coordinate to render map at
+		const glm::vec2 draw_tile_size(32.0f, 32.0f);  // size when we draw it
+		const glm::ivec2 src_tile_size(16, 16); // size in the source texture
+		tm.set_quads(draw_at, z, draw_tile_size, 
+			         quads, src_tile_size,
 			         texture_text.size());
 
         window.render(drawer);
