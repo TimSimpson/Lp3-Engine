@@ -1,0 +1,23 @@
+~dumpfile "../../mix/README.md"
+
+
+Build Info and Options
+----------------------
+
+If you're using CMake, just include mix directory's CMakeLists.txt as a subdirectory. It will export the library ``Lp3_Mix``.
+
+Example
+-------
+
+~dumpfile "../../mix/demos/mix_demo.cpp"
+
+Reference
+---------
+
+::lp3::mix
+~~~~~~~~~~
+
+The following components live in the ``::lp3::mix`` namespace.
+They can be brought in by including ``lp3/mix.hpp``.
+
+~dumpfile "../../mix/include/lp3/mix.hpp" section = "-"

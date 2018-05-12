@@ -10,11 +10,16 @@
 
 namespace lp3 { namespace gfx {
 
-//
-// # Glyph
-//
-// Represents the location of a single element from a texture or surface of a
-// font.
+// todo: this needs a better doc
+// ~end-doc summary
+
+// ---------------------------------------------------------------------------
+// struct Glyph
+// ---------------------------------------------------------------------------
+//     Represents the texture coordinates, size and advance (how many pixels
+//     to pad between the next letter) of a single letter from a variable
+//     width font.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 struct Glyph {
     // Normalized texture cordinates, upper left corner.
@@ -41,9 +46,11 @@ struct Glyph {
 
 
 
-// # Font
-//
-// Contains everything you need to render quads of letters to the screen.
+// ---------------------------------------------------------------------------
+// class Font
+// ---------------------------------------------------------------------------
+//     Represents a texture and the associated variable width font data.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class Font {
 public:
@@ -84,6 +91,12 @@ private:
 };
 
 
+// ---------------------------------------------------------------------------
+// write_letter
+// ---------------------------------------------------------------------------
+//     Given a font, and a character, modifies a quad (which is expected to
+//     already point to the appropriate texture) to show the character.
+// ---------------------------------------------------------------------------
 template<typename Quad>
 GLfloat write_letter(Quad && quad, const Font & font,
                       const glm::vec2 position, const GLfloat z,
@@ -94,6 +107,13 @@ GLfloat write_letter(Quad && quad, const Font & font,
     return g.advance;
 }
 
+// ---------------------------------------------------------------------------
+// write_string
+// ---------------------------------------------------------------------------
+//     Given an array of quads to modify, a font, a starting position and z
+//     coordinate, changes each quad to a letter in the array. Tries to word
+//     wrap at the given ``width`` argument.
+// ---------------------------------------------------------------------------
 template<typename QuadArray>
 std::size_t write_string(QuadArray && quads, const Font & font, glm::vec2 pos,
                          GLfloat z, GLfloat width,
@@ -111,6 +131,7 @@ std::size_t write_string(QuadArray && quads, const Font & font, glm::vec2 pos,
     }
 	return letters.size();
 }
+// ~end-doc
 
 } }
 

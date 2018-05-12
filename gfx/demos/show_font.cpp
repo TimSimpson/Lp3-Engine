@@ -36,7 +36,7 @@ int _main(core::PlatformLoop & loop) {
     auto font_quads = font_elements.add_quads(80 * 7);
 
     std::string big_text{
-        "pICKELE jUICE bROS\n"
+        "pICKLE jUICE bROS!!\n"
         "* ABCDEFGHIJKLMNOPQRSTUVWXYZ\n"
         "* abcdefghijklmnopqrstuvwxyz\n"
         "* 0123456789\n"
@@ -75,7 +75,6 @@ int _main(core::PlatformLoop & loop) {
                 break;
             }
         }
-
 
         for (std::size_t i = 0; i < letter_count; ++i) {
             gfx::upright_quad(font_quads[i], glm::vec2(0, 0), glm::vec2(0, 0), 0.0f, glm::vec2(0.0f, 0.0), glm::vec2(0, 0));

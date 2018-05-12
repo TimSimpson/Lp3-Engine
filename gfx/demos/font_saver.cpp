@@ -205,7 +205,7 @@ int load(core::PlatformLoop & loop,
 	GLfloat w = 400;
 
 	std::size_t c;
-    c = gfx::write_string(quads, font, glm::vec2(0, 160), z, w, "I IJ dreamed I saw a wacker wicky");
+    c = gfx::write_string(quads, font, glm::vec2(0, 160), z, w, "The quick brown fox jumped over the lazy dog.");
 
 	c = gfx::write_string(quads.subset(c), font, glm::vec2(0, 195), z, w, "III   I I I ! !");
 

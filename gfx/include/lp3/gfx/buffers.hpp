@@ -31,6 +31,20 @@ public:
 };
 
 
+// ---------------------------------------------------------------------------
+// class FloatBuffer
+// ---------------------------------------------------------------------------
+//     A buffer of GLfloat data paired with an attribute name and
+//     a helper method (``transfer``) to shuffle it to the GPU.
+//
+//     The attribute can be used as an argument to a GL program, while this
+//     buffer can be used for a variety of code that needs to output to the
+//     screen. An example would be code which needed to draw a series of
+//     glyphs- it would call the ``claim`` method to grab a set of GLfloat's.
+//
+//     When there is no more space left, calls to claim will trigger an error,
+//     so code will need to make sure the FloatBuffer is large enough.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class FloatBuffer {
 public:
@@ -63,6 +77,16 @@ private:
 };
 
 
+// ---------------------------------------------------------------------------
+// class ElementBuffer
+// ---------------------------------------------------------------------------
+//     A buffer of GLushort data with a helper method (``transfer``) to
+//     shuffle it to the GPU.
+//
+//     This class maintains a buffer object name which is generated on creation
+//     and used for transfarence. Code can use this by pushing back new
+//     values- there is no way to make views over element data.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class ElementBuffer {
 public:
@@ -88,6 +112,17 @@ private:
 };
 
 
+// ---------------------------------------------------------------------------
+// class ElementWriter
+// ---------------------------------------------------------------------------
+//     Combines a FloatBuffer and ElementBuffer with some useful helper
+//     methods that make it easy to create views to things such as triangles
+//     and quads.
+//
+//     Code using this can simply call the ``add_blah`` series of methods to
+//     create various shape types, then use ``transfar`` to transfer them to
+//     the GPU before rendering.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 template<typename Vertex>
 class ElementWriter {
@@ -175,6 +210,8 @@ private:
     FloatBuffer vertices;
     ElementBuffer elements;
 };
+// ~end-doc
+
 } }
 
 #endif

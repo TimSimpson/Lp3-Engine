@@ -55,7 +55,7 @@ If you're the kind of person who likes super repos that pull in Git modules and 
 
 ### Dependencies / Requirements
 
-Again, [cget](http://cget.readthedocs.io) installs all this stuff automatically if you just run `cget install -f requirements.txt` (note: except for Boost, which you'll need to install with ).
+Again, [cget](http://cget.readthedocs.io) installs all this stuff automatically if you just run `cget install -f requirements.txt` (note: except for Boost, which you'll download yourself. Don't worry, Lp3 only uses the header only libraries).
 
 * The [Guideline Support Library](https://github.com/Microsoft/GSL), defined as the imported interface library `gsl`.
 * [The Boost libraries](http://www.boost.org/) (header only) must be defined as the imported interface library `boost`.

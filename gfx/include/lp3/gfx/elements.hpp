@@ -9,6 +9,13 @@
 namespace lp3 { namespace gfx {
 
 
+// ---------------------------------------------------------------------------
+// class TexVert
+// ---------------------------------------------------------------------------
+//     Represents a 3D position and a 2d texture coordinate.
+//
+//     Works as a view over five GLfloat's of data.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class TexVert {
 public:
@@ -70,6 +77,14 @@ protected:
     GLfloat * data;
 };
 
+// ---------------------------------------------------------------------------
+// class TexCVert
+// ---------------------------------------------------------------------------
+//     Represents a 3D position, a 2D texture coordinate and four floats of
+//     color data.
+//
+//     Points to nine GLfloat's of data.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class TexCVert : public TexVert {
 public:
@@ -141,6 +156,15 @@ public:
 };
 
 
+// ---------------------------------------------------------------------------
+// class Triangle
+// ---------------------------------------------------------------------------
+//     Represents three of the vertex view types one after the other.
+//
+//     This is a view type and accepts an array of GLfloat's in its
+//     constructor. It offers properties for three vertices, each of which
+//     return a ViewType (like TexVert or TexCVert).
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 template<typename Vertex>
 class Triangle {
@@ -171,6 +195,12 @@ private:
     GLfloat * data;
 };
 
+// ---------------------------------------------------------------------------
+// upright_triangle
+// ---------------------------------------------------------------------------
+//     Helper function which allows an upright triangle to be expressed as
+//     two points.
+// ---------------------------------------------------------------------------
 template<typename T>
 void upright_triangle(T & triangle, glm::vec2 a, glm::vec2 b, GLfloat z,
                       glm::vec2 u, glm::vec2 v) {
@@ -188,6 +218,15 @@ void upright_triangle(T && triangle, glm::vec2 a, glm::vec2 b, GLfloat z,
     upright_triangle(triangle, a, b, z, u, v);
 }
 
+// ---------------------------------------------------------------------------
+// class Quad
+// ---------------------------------------------------------------------------
+//     Represents four of the vertex view types one after the other.
+//
+//     This is a view type and accepts an array of GLfloat's in its
+//     constructor. It offers properties for four vertices, each of which
+//     return a ViewType (like TexVert or TexCVert).
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 template<typename Vertex>
 class Quad {
@@ -223,11 +262,17 @@ private:
 
 
 // --------------------------------------------------------------------
-// QuadArray
+// class QuadArray
 // --------------------------------------------------------------------
 //		References GLfloat data in such a way that it can be treated
 //		as an array of quads.
-//		NOTE: This is a view- it does now own the memory it points to!
+//     Represents an array of Quad types, one after the other.
+//
+//     This is a view type and accepts an array of GLfloat's in its
+//     constructor. It's ``operator []`` method offers access to Quads
+//     for each offset, allowing you to treat it like an array. However
+//     like the other types this is simply a view and does not own the
+//     GLfloat data it points to.
 // --------------------------------------------------------------------
 LP3_GFX_API
 template<typename Vertex>
@@ -281,8 +326,12 @@ private:
 };
 
 
-// Given the upper left and lower right vertices of a right angled quad, sets
-// the other vertices.
+// ---------------------------------------------------------------------------
+// upright_quad
+// ---------------------------------------------------------------------------
+//     Given the upper left and lower right vertices of a right angled quad,
+//     sets the other vertices.
+// ---------------------------------------------------------------------------
 template<typename Quad>
 void upright_quad(Quad && quad, const glm::vec2 & a, const glm::vec2 & b,
                   const GLfloat z, const glm::vec2 & ta, const glm::vec2 & tb) {
@@ -301,6 +350,8 @@ void upright_quad(Quad && quad, const glm::vec2 & a, const glm::vec2 & b,
     quad.dr().set(b.x, b.y, z, tb.x, tb.y, color.r, color.g, color.b, color.a);
     quad.ur().set(b.x, a.y, z, tb.x, ta.y, color.r, color.g, color.b, color.a);
 }
+
+// ~end-doc
 
 } }
 

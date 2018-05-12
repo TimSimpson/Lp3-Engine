@@ -7,6 +7,28 @@
 
 namespace lp3 { namespace sims {
 
+// ---------------------------------------------------------------------------
+// Clocks and Timers
+// =================
+//
+// One of the trickiest elements of writing a game is dealing with time.
+// lp3::sims has code that can be used ot measure real world time as well as
+// a GameClock class which can run logic in slices of simulated time,
+// avoiding issues that arise from varying hardware speed while keeping the
+// game logic deterministic (in other words, because the logic always runs
+// with the same slice of time it's possible to replay it and always get the
+// same results).
+//
+// The ideas behind the GameClock class come from the book `"Game Programming
+// Patterns" <https://www.amazon.com/Game-Programming-Patterns-Robert-Nystrom/dp/0990582906/ref=sr_1_2?ie=UTF8&qid=1525622892&sr=8-2&keywords=game+programming+patterns>`_
+// by Robert Nystorm (the web form is `available here <http://gameprogrammingpatterns.com/game-loop.html>`_).
+//
+// ~see-file "../../../demos/TimersDemo.cpp"
+// --------------------------------------------------------------------------/
+
+// ~end-doc summary
+
+
 using clock_time_int = std::int64_t;
 
 // ----------------------------------------------------------------------------
@@ -120,19 +142,22 @@ struct GameClockRemainder {
 //
 //     This implies your code has a structure like this:
 //
-//     StopWatch w(16);
-//     while(true) {
-//         input.update();
-//         auto r = w.run_updates([&](std::int64_t ms) {  // ms is always 16
-//             move_characters(ms);
-//             view.animate(ms);
+//      .. code-block:: c++
+//
+//         StopWatch w(16);
+//         while(true) {
+//             input.update();
+//             auto r = w.run_updates([&](std::int64_t ms) {  // ms is always 16
+//                 move_characters(ms);
+//                 view.animate(ms);
+//             }
+//             old_state = gfx.animation
+//             gfx.animate(r.ms);  // Update the animation by the tiny extra bit
+//             gfx.update();
+//             gfx.animation = old_state  // restore so we can update the animation
+//                                        // again in run_updates.
 //         }
-//         old_state = gfx.animation
-//         gfx.animate(r.ms);  // Update the animation by the tiny extra bit
-//         gfx.update();
-//         gfx.animation = old_state  // restore so we can update the animation
-//                                    // again in run_updates.
-//     }
+//
 // ----------------------------------------------------------------------------
 LP3_SIMS_API
 class GameClock {
@@ -173,6 +198,7 @@ private:
     std::int64_t previous_time;
     Timer timer;
 };
+// ~end-doc
 
 }   }
 

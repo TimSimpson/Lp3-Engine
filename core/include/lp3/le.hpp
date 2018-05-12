@@ -1,41 +1,64 @@
 // ----------------------------------------------------------------------------
-// le.hpp
-// ----------------------------------------------------------------------------
-//  Defines symbols used to determine configurations.
+// How Lp3 Handles Exceptions
+// ===========================================================================
+// The Lp3 rigorously throws exceptions only in exceptional cases, except for
+// all the places I forgot to do that and throw them in stupid cases that
+// can happen all the time. J/K! (I think)
 //
-//  Note that the tricks below which determine the platform may need to be
-//  updated as time goes by.
+// Because Exceptions are expected to never happen, on some platforms Lp3
+// may disble them entirely (this was mainly for the Dreamcast which is no
+// longer fully supported).
 //
-//  Flags:
+// Because of that, LP3 only throws exceptions using the ``LP3_THROW`` macro.
+// On platforms with exceptions, this does what you'd expect, while on
+// exceptionless platforms it calls std::abort.
 //
-//   LP3_COMPILE_TARGET_WINDOWS
-//   LP3_COMPILE_TARGET_DREAMCAST
-//   LP3_COMPILE_TARGET_LINUX
-//   LP3_COMPILE_TARGET_PC
-//   LP3_COMPILE_TARGET_EMSCRIPTEN
-//   LP3_COMPILE_TARGET_POCKETCHIP
+// Configuration Flags
+// ===================
 //
-//   LP3_COMPILE_WITH_DEBUGGING
-//     If true, debug stuff is on, so feel free to take your time.
+//  These flags will be set depending on the platform and configuration of the
+//  build. In practice they're useful mainly to internal LP3 code, though
+//  some flags - such as ones dealing with logging options - can be set by
+//  consumers of the code.
 //
-//   LP3_COMPILE_LOG_DISABLE
-//     If true, don't use logging even if in debug mode.
+//  LP3_COMPILE_TARGET_WINDOWS
+//      True if the target platform is Windows.
 //
-//   LP3_COMPILE_WITH_PCH
-//     If true, try to use precompiled headers.
+//  LP3_COMPILE_TARGET_DREAMCAST
+//      True if the target platform is the Dreamcast.
 //
-//   LP3_SYMBOL_EXPORT
-//     The compiler specific trick to make a library export (only needed for MS).
+//  LP3_COMPILE_TARGET_LINUX
+//      True if the target platform is Linux.
 //
-//   LP3_SYMBOL_IMPORT
-//     The inverse of the above.
+//  LP3_COMPILE_TARGET_PC
+//      True if the target platform is a computer.
 //
-//   LP3_COMPILE_DYNAMIC
-//     If true, tries to build as dynamic or shared libraries.
+//  LP3_COMPILE_TARGET_EMSCRIPTEN
+//      True if the target platform is Javascript.
 //
-//   LP3_THROW
-//     Use this to throw exceptions.
+//  LP3_COMPILE_TARGET_POCKETCHIP
+//      True if the target platform is the C.H.I.P.
+//
+//  LP3_COMPILE_WITH_DEBUGGING
+//      If true, debug stuff is on, so feel free to take your time.
+//
+//  LP3_COMPILE_LOG_DISABLE
+//      If true, don't use logging even if in debug mode.
+//
+//  LP3_COMPILE_WITH_PCH
+//      If true, try to use precompiled headers.
+//
+//  LP3_SYMBOL_EXPORT
+//      The compiler specific trick to make a library export (only needed for MS).
+//
+//  LP3_SYMBOL_IMPORT
+//      The inverse of the above.
+//
+//  LP3_COMPILE_DYNAMIC
+//      If true, tries to build as dynamic or shared libraries.
 // ---------------------------------------------------------------------------/
+// ~end-doc summary
+
 #ifndef LE_H
 #define LE_H
 #pragma once
@@ -110,29 +133,48 @@
 #define LP3_SYMBOL_EXPORT BOOST_SYMBOL_EXPORT
 #define LP3_SYMBOL_IMPORT BOOST_SYMBOL_IMPORT
 
-// ----------------------------------------------------------------------------
 // LP3_COMPILE_WITH_PCH
-// ----------------------------------------------------------------------------
-//    Set when using precompiled headers.
-// ----------------------------------------------------------------------------
 #if defined(BOOST_BUILD_PCH_ENABLED)
   #define LP3_COMPILE_WITH_PCH
 #endif
 
-// ----------------------------------------------------------------------------
 // LP3_COMPILE_DYNAMIC
-// ----------------------------------------------------------------------------
-//     If set, libraries will try to compile dynamically (shared).
-// ----------------------------------------------------------------------------
 #if defined(BOOST_ALL_DYN_LINK) || defined(BUILD_SHARED_LIBS)
   #define LP3_COMPILE_DYNAMIC
 #endif
 
 // ----------------------------------------------------------------------------
-// LP3_THROW
+// LP3_THROW(t)
 // ----------------------------------------------------------------------------
-// Throws an exception and includes source location.
+// Given a type, constructs and throws it.
+// In release builds for some platforms this may trigger std::abort instead.
+// The main utility of this then is to throw specific exception types which
+// can be looked for when testing.
+//
+// Example:
+//
+// .. code-block:: c++
+//
+//    LP3_THROW(lp3::Exception)  // constructs lp3::Exception and throws it
+// ---------------------------------------------------------------------------/
+
 // ----------------------------------------------------------------------------
+// LP3_THROW2(t, ...)
+// ----------------------------------------------------------------------------
+// Identical to LP3_THROW but provides for arguments to be passed to the
+// exception type's constructor.
+//
+// Example:
+//
+// .. code-block:: c++
+//
+//    class FileNotFoundError {
+//    public:
+//        FileNotFoundError(const char * const filename);
+//    };
+//
+//    LP3_THROW2(FileNotFoundError, "somefile.txt")
+// ---------------------------------------------------------------------------/
 #ifndef LP3_COMPILE_TARGET_DREAMCAST
   #define LP3_THROW(t) { throw t{}; }
   #define LP3_THROW2(t, ...) { throw t(__VA_ARGS__); }

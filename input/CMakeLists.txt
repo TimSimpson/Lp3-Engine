@@ -85,8 +85,12 @@ if (LP3_INPUT_FULL)
     add_executable(view_controls ${CMAKE_CURRENT_SOURCE_DIR}/demos/view_controls.cpp)
     target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui)
 
+    add_executable(pokey ${CMAKE_CURRENT_SOURCE_DIR}/demos/pokey.cpp)
+    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui)
+
     if (LP3_SETUP_FOLDERS)
         set_target_properties (input PROPERTIES FOLDER input)
         set_target_properties (view_controls PROPERTIES FOLDER input)
+        set_target_properties (pokey PROPERTIES FOLDER input)
     endif()
 endif()

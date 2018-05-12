@@ -14,12 +14,24 @@
 
 namespace lp3 { namespace gfx {
 
+// ---------------------------------------------------------------------------
+// SceneNodeFunc
+// ---------------------------------------------------------------------------
+//     The signature of a function used for any node in a scene. When lp3::gfx
+//     is ready to render, it calls a function with this signature, passing
+//     in the previous matrix (this allows the functions to be composable in
+//     a scene graph).
+// ---------------------------------------------------------------------------
 using SceneNodeFunc = std::function<void(const glm::mat4 & previous)>;
 
+// ---------------------------------------------------------------------------
+// class Window
+// ---------------------------------------------------------------------------
 // Creates and manages a simple SDL Window that uses OpenGL.
 // This can be thought of as a simple pairing of the SDL Window and GL context
 // handles, as it manages them, combined with some helper functions to render
 // and handle SDL events in typical ways (by resizing the screen for example).
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class Window {
 public:
@@ -40,7 +52,7 @@ public:
 		return _window;
 	}
 
-	// How many pixels we're pretending to use. 
+	// How many pixels we're pretending to use.
 	inline const glm::ivec2 & virtual_resolution() {
 		return _virtual_resolution;
 	}
@@ -58,23 +70,27 @@ private:
 	boost::optional<glm::ivec2> new_size;
 	glm::ivec2 _virtual_resolution;
 	lp3::sdl::Window _window;
-	Uint32 window_id;	
-	
+	Uint32 window_id;
+
 	struct DisplayProperties {
 		glm::ivec2 resolution;
 		glm::ivec2 scissor_size;
 		glm::ivec2 scissor_start;
 		glm::mat4 scale;
 	};
-	
+
 	DisplayProperties calculate_display_properties(
 		const glm::ivec2 & new_display_resolution);
 
 	DisplayProperties display;
 };
 
+// ---------------------------------------------------------------------------
+// class Texture
+// ---------------------------------------------------------------------------
 // Creates an OpenGL texture from an SDL texture and has the ability to
 // restore it when necessary.
+// ---------------------------------------------------------------------------
 LP3_GFX_API
 class Texture {
 public:
@@ -104,6 +120,7 @@ private:
 	gsl::owner<SDL_Surface *> surface;
 	gl::TextureIDOwner texture;
 };
+// ~end-doc
 
 } }
 

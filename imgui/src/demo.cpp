@@ -1,3 +1,4 @@
+// ~begin-doc
 // This code is stolen from [redblobgames](https://github.com/redblobgames/imgui)'s
 // fork of ImGui (specifically,
 // [this file](https://github.com/redblobgames/imgui/blob/master/examples/sdl_emscripten_example/main.cpp)),
@@ -105,3 +106,4 @@ int _main(lp3::core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+// ~end-doc

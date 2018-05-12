@@ -1,8 +1,5 @@
 // --------------------------------------------------------------------
-// <lp3/main.hpp> example
-// --------------------------------------------------------------------
-//      This shows using `<lp3/main.hpp>` to quickly create a simple
-//      app.
+//      This example shows how to use LP3_MAIN to make a simple app.
 // --------------------------------------------------------------------
 #include <iostream>
 
@@ -36,3 +33,4 @@ int _main(core::PlatformLoop & loop) {
 }
 
 LP3_MAIN(_main)
+// ~end-doc

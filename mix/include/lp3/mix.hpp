@@ -12,8 +12,12 @@
 
 namespace lp3 { namespace mix {
 
-// Calls Mix_Init on construction, Mix_Quit on destruction.
-// Only one instance of this should exist at a time.
+// ---------------------------------------------------------------------------
+// class Init
+// ---------------------------------------------------------------------------
+//     Calls Mix_Init on construction, Mix_Quit on destruction.
+//     Only one instance of this should exist at a time.
+// ---------------------------------------------------------------------------
 LP3_MIX_API
 class Init {
 public:
@@ -21,16 +25,25 @@ public:
 	~Init();
 };
 
-// Calls Mix_OpenAudio on construction, Mix_CloseAudio on destruction.
-// Only one of these should exist at a time.
+// ---------------------------------------------------------------------------
+// class Mixer
+// ---------------------------------------------------------------------------
+//     Calls Mix_OpenAudio on construction, Mix_CloseAudio on destruction.
+//     Only one of these should exist at a time.
+// ---------------------------------------------------------------------------
 LP3_MIX_API
 class Mixer {
 public:
-	Mixer(const int frequency, const std::uint16_t format, const int channels, 
+	Mixer(const int frequency, const std::uint16_t format, const int channels,
 		  const int chunk_size);
 	~Mixer();
 };
 
+// ---------------------------------------------------------------------------
+// class Chunk
+// ---------------------------------------------------------------------------
+//     Owns a Mix_Chunk pointer.
+// ---------------------------------------------------------------------------
 LP3_MIX_API
 class Chunk {
 public:
@@ -67,13 +80,18 @@ private:
     gsl::owner<Mix_Chunk *> _chunk;
 };
 
+// ---------------------------------------------------------------------------
+// class Music
+// ---------------------------------------------------------------------------
+//     Owns a Mix_Music pointer.
+// ---------------------------------------------------------------------------
 LP3_MIX_API
 class Music {
 public:
     explicit Music();
 
     Music(gsl::owner<Mix_Music *> music);
-	
+
     ~Music();
 
     Music(Music && rhs);

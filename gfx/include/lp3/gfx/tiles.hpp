@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------
+// Tile Maps
+// =========
+//     Tile maps are simple grids where each element is an index to a texture
+//     containing a series of tiles.
+// ----------------------------------------------------------------------------
+// ~end-doc summary
+
 #ifndef FILE_LP3_GFX_TILES_HPP
 #define FILE_LP3_GFX_TILES_HPP
 
@@ -7,6 +15,16 @@
 
 namespace lp3 { namespace gfx {
 
+// ---------------------------------------------------------------------------
+// struct BoxTiles
+// ---------------------------------------------------------------------------
+//     Represents a series of tile indices which can be used to create a
+//     frame or border around text. For example, on the first row of the
+//     border ``ul`` would appear once at the left, ``ur`` would appear once
+//     at the right, and ``u`` would appear in the middle. For the bottom of
+//     the border, it would be the same, only with ``bl``, ``b``, and ``br``,
+//     and the left and right sides of the border would use ``l`` and ``r``.
+// ---------------------------------------------------------------------------
 struct
 LP3_GFX_API
 BoxTiles {
@@ -20,7 +38,15 @@ BoxTiles {
 	std::uint8_t br;
 };
 
-
+// ---------------------------------------------------------------------------
+// class TileMap
+// ---------------------------------------------------------------------------
+//     A grid of indices to a texture containing a series of images with the
+//     same dimensions. When rendered, "tiles" from the texture will be
+//     "mapped" to this so-called "TileMap." It's possible to also write out
+//     text from fixed-width fonts if the letters can be found on the source
+//     texture.
+// ---------------------------------------------------------------------------
 class
 LP3_GFX_API
 TileMap {
@@ -93,17 +119,7 @@ private:
     const glm::ivec2 map_size;
     std::vector<std::uint8_t> tiles;
 };
-
-template<typename Vertex>
-class TileMapRenderer {
-public:
-    TileMapRenderer(QuadArray<Vertex> & quads_arg)
-    :   quads(quads_arg)
-    {}
-private:
-    QuadArray<Vertex> quads;
-};
-
+// ~end-doc
 
 }   }   // end lp3::gfx
 

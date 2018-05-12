@@ -12,7 +12,11 @@ namespace lp3 { namespace core {
 // ----------------------------------------------------------------------------
 // class Exception
 // ----------------------------------------------------------------------------
-//     Base class for LP3 exceptions.
+//     Base class for exceptions thrown by LP3. This will only be thrown
+//     in debug builds or on platforms where exceptions are enabled.
+//     An exception of this type is considered a fatal error- this is preferred
+//     to std::abort simply to make testing and other forms of error handling
+//     easier.
 // ----------------------------------------------------------------------------
 class
 LP3_CORE_API
