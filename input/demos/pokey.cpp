@@ -3,6 +3,7 @@
 // move a face around the screen. It also shows all device keys that being
 // pressed.
 // ---------------------------------------------------------------------------
+#include <boost/format.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/input.hpp>
 #include <lp3/main.hpp>
