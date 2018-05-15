@@ -70,8 +70,7 @@ public:
 		           QuadArray<Vertex> & quads,
                    glm::ivec2 tile_src_resolution, glm::ivec2 texture_size) {
         LP3_ASSERT(this->tile_count() <= quads.size());
-        glm::vec2 draw_pos = start_pos;		
-		glm::ivec2 itr(0, 0);
+        glm::ivec2 itr(0, 0);
 		for (itr.y = 0; itr.y < this->map_size.y; ++itr.y) {
 			for (itr.x = 0; itr.x < this->map_size.x; ++itr.x) {
 				const std::size_t index = (itr.y * this->map_size.x) + itr.x;
@@ -83,9 +82,9 @@ public:
 				ta /= static_cast<glm::vec2>(texture_size);
 				tb /= static_cast<glm::vec2>(texture_size);
 
-				const glm::vec2 draw_pos = 
+				const glm::vec2 draw_pos =
 					start_pos + (static_cast<glm::vec2>(itr) * drawn_tile_size);
-				upright_quad(quads[index], draw_pos, 
+				upright_quad(quads[index], draw_pos,
 					         draw_pos + drawn_tile_size,
 					         z, ta, tb);
 			}
