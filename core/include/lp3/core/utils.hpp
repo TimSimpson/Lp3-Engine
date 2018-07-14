@@ -26,6 +26,8 @@ class
 LP3_CORE_API
 PlatformLoop {
 public:
+    PlatformLoop();
+
     PlatformLoop(int argc, char ** argv);
 
     PlatformLoop(const PlatformLoop & other) = delete;

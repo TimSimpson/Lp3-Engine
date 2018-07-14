@@ -1,6 +1,8 @@
 #include <lp3/core/utils.hpp>
 #include <boost/lexical_cast.hpp>
-
+#ifdef LP3_COMPILE_TARGET_WINDOWS
+    #include <windows.h>
+#endif
 
 namespace lp3 { namespace core {
 
@@ -12,6 +14,28 @@ namespace {
         else
             return boost::lexical_cast<int>(*value);
     }
+}
+
+PlatformLoop::PlatformLoop()
+:   arguments()
+{
+    #if defined(LP3_COMPILE_TARGET_WINDOWS)
+        int argLength;
+        LPWSTR * windowsString = ::CommandLineToArgvW(GetCommandLineW(),
+                                                      &argLength);
+        if (nullptr == windowsString)
+        {
+            LP3_LOG_ERROR("Error converting command line arguments.");
+			LP3_THROW2(lp3::core::Exception, 
+				       "Error converting command line arguments.");
+        }
+        for(int i = 0; i < argLength; i ++)
+        {
+            WCharToCharConverter original(windowsString[i]);
+            this->arguments.push_back(original.GetCharPtr());
+        }
+        LocalFree(windowsString);
+    #endif
 }
 
 PlatformLoop::PlatformLoop(int argc, char ** argv)

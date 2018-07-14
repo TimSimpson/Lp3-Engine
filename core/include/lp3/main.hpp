@@ -47,6 +47,7 @@
 
 #include <lp3/le.hpp>
 
+// Handle VC++ leak checker stuff
 #if defined(LP3_COMPILE_TARGET_WINDOWS) && defined(LP3_COMPILE_WITH_DEBUGGING)
 	#define _CRTDBG_MAP_ALLOC
 	#include <stdlib.h>
@@ -61,25 +62,39 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 
+#ifdef LP3_COMPILE_TARGET_WINDOWS
+    #include <windows.h>
+#endif
 
-#if defined(LP3_COMPILE_TARGET_WINDOWS) && defined(LP3_COMPILE_WITH_DEBUGGING)
+#if defined(LP3_COMPILE_TARGET_WINDOWS)
 
-	#define LP3_MAIN(main_function) \
-		int main(int argc, char* argv[]) { \
-			_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);	\
-			int result; \
-			{	\
-				lp3::core::OnExitCleanUp clean_up; \
-				lp3::core::PlatformLoop loop(argc, argv); \
-				result = main_function(loop); \
-			}	\
-			if (_CrtDumpMemoryLeaks()) {	\
-				__debugbreak();	\
-				return 1; \
-			}	\
-			return result;	\
-		}
+	#pragma comment( linker, "/subsystem:windows" )
+
+	#if  defined(LP3_COMPILE_WITH_DEBUGGING)
+		#define LP3_MAIN(main_function) \
+			int WinMain(HINSTANCE, HINSTANCE, LPTSTR, int) { \
+				_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);	\
+				int result; \
+				{	\
+					lp3::core::OnExitCleanUp clean_up; \
+					lp3::core::PlatformLoop loop; \
+					result = main_function(loop); \
+				}	\
+				if (_CrtDumpMemoryLeaks()) {	\
+					__debugbreak();	\
+					return 1; \
+				}	\
+				return result;	\
+			}
+	#else
+		#define LP3_MAIN(main_function) \
+			int WinMain(HINSTANCE, HINSTANCE, LPTSTR, int) { \
+				lp3::core::PlatformLoop loop;  \
+				return main_function(loop); \
+			}
+	#endif
 #else
+// Non-Windows land
 	#define LP3_MAIN(main_function) \
 		int main(int argc, char* argv[]) { \
 			lp3::core::PlatformLoop loop(argc, argv); \
