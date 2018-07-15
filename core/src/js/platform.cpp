@@ -21,6 +21,13 @@ namespace {
 
 }
 
+PlatformLoop::PlatformLoop()
+:   arguments()
+{
+    SDL_assert(global_instances < 1);
+    ++global_instances;
+}
+
 PlatformLoop::PlatformLoop(int argc, char ** argv)
 :   arguments()
 {
@@ -30,7 +37,6 @@ PlatformLoop::PlatformLoop(int argc, char ** argv)
     for (int i = 0; i < argc; i++) {
         this->arguments.push_back(argv[i]);
     }
-
 }
 
 std::vector<std::string> PlatformLoop::command_line_args() const {

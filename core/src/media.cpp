@@ -23,7 +23,7 @@ namespace lp3 { namespace core {
 
 namespace {
 	std::string get_env_media_path() {
-		return lp3::core::get_env_var("LP3_ROOT_PATH").get_value_or("");
+		return lp3::core::get_env_var("LP3_ROOT_PATH").get_value_or("./");
 	}
 }
 
