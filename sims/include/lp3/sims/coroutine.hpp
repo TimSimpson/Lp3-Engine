@@ -60,6 +60,12 @@ public:
         return code_pointer != -1;
     }
 
+    // Go to a place marked with
+    inline void go_to(int label) {
+        LP3_ASSERT(label > 0);
+        code_pointer = label * -1 - 1;
+    }
+
 };
 
 class
@@ -120,12 +126,6 @@ public:
 
 // ~end-doc
 
-#define LP3_LABELL(LABEL_NAME, VALUE) \
-        LABEL_NAME: \
-            _lp3_coroutine_code_pointer=VALUE; \
-        case(VALUE):
-
-
 #define LP3_YIELDL(VALUE, ...) \
             _lp3_coroutine_code_pointer=VALUE; \
             return __VA_ARGS__;                     \
@@ -146,7 +146,10 @@ public:
 //      Creates a label that will work in conjunction with the coroutine's
 //      yield statement. That's right: GOTO is back baby! And better than ever.
 // ---------------------------------------------------------------------------
-#define LP3_LABEL(LABEL_NAME) LP3_LABELL(LABEL_NAME, __LINE__)
+#define LP3_LABEL(VALUE) \
+            _lp3_coroutine_code_pointer=(VALUE) * -1 -1; \
+        case((VALUE) * -1 -1):
+
 // ~end-doc
 
 #endif
