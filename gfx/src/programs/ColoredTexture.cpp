@@ -11,7 +11,7 @@ namespace {
 
     constexpr char const s_texture[] = "s_texture";
 
-    const GLchar * vertex_shader_source = R"GLSL_CODE(
+	gsl::not_null<gsl::czstring<>> vertex_shader_source(R"GLSL_CODE(
 #version 100
 
 uniform mat4 u_mvp;
@@ -28,9 +28,9 @@ void main()
     v_texCoord = a_texCoord;
     v_color = a_color;
 }
-)GLSL_CODE";
+)GLSL_CODE");
 
-    const GLchar * fragment_shader_source = R"GLSL_CODE(
+    gsl::not_null<gsl::czstring<>> fragment_shader_source(R"GLSL_CODE(
 #version 100
 
 #ifdef GL_ES
@@ -53,7 +53,7 @@ void main()
     gl_FragColor = color;
 }
 
-)GLSL_CODE";
+)GLSL_CODE");
 
 
 }

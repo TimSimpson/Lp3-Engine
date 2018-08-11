@@ -29,7 +29,7 @@ endif()
 # if (CMAKE_CXX_COMPILER_ID MATCHES "GCC")
 #     add_compile_options(-std=c++14)
 # endif()
-set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANDARD 17)
 
 enable_testing()
 

@@ -36,7 +36,7 @@ LP3_GFX_API
 class Window {
 public:
 	// Accepts the title of the window and the virtual resolution.
-	Window(gsl::not_null<gsl::czstring<>> title, const glm::ivec2 & size);
+	Window(gsl::czstring<> title, const glm::ivec2 & size);
 
 	// How many pixels we're actually using. If this abstraction is successful
 	// this will rarely be used.
