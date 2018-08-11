@@ -1,4 +1,4 @@
 g-truc/glm@0.9.8.5
-Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 --define GSL_TEST=false
+Microsoft/GSL@b6c531f7c159a685eb71ad6a93d8308793a4f61b --define GSL_TEST=false
 TimSimpson/download-sdl2
 catchorg/Catch2@v1.11.0 --define NO_SELFTEST=True
