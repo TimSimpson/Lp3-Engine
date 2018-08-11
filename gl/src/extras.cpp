@@ -14,7 +14,7 @@ void initialize() {
 	}
 }
 
-#define CASE(X) case X : { return #X ; }
+#define CASE(X) case X : { return gsl::not_null(#X) ; }
 
 LP3_GL_API
 gsl::not_null<gsl::czstring<>> error_to_string(const GLenum error) {
@@ -26,7 +26,7 @@ gsl::not_null<gsl::czstring<>> error_to_string(const GLenum error) {
         CASE(GL_INVALID_FRAMEBUFFER_OPERATION)
         CASE(GL_OUT_OF_MEMORY)
 		default:
-			return "unknown";
+			return gsl::not_null("unknown");
     }
 }
 
@@ -40,13 +40,13 @@ void throw_gl_error() {
 }
 
 LP3_GL_API
-ShaderOwner compile_shader(const GLenum type, gsl::not_null<gsl::czstring<>> src) {
+ShaderOwner compile_shader(const GLenum type, gsl::czstring<> src) {
     LP3_LOG_DEBUG("Compiling shader:\n%s", src);
 	ShaderOwner shader{ glCreateShader(type) };
     if (!shader) {
         throw_gl_error();
     }
-	const GLchar * src_as_ptr = src.get();
+	const GLchar * src_as_ptr = gsl::not_null(src).get();
 	// Expects array of char arrays. :/
     glShaderSource(shader, 1, &src_as_ptr, nullptr);
 	LP3_GL_ASSERT_NO_ERRORS();

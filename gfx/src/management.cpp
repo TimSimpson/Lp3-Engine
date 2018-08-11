@@ -22,12 +22,12 @@ glm::ivec2 fudge_real_size(const glm::ivec2 & size) {
 }
 
 LP3_GFX_API
-Window::Window(gsl::not_null<gsl::czstring<>> title, const glm::ivec2 & size)
+Window::Window(gsl::czstring<> title, const glm::ivec2 & size)
 :	gl_context(),
 	new_size(boost::none),
 	_virtual_resolution(size),
 	_window(SDL_CreateWindow(
-		title,
+		gsl::not_null(title),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		size.x,

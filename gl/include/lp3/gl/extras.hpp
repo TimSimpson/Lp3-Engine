@@ -165,8 +165,8 @@ inline void attach_shader(Program program, Shader shader) {
 }
 
 inline void bind_attrib_location(Program program, VertexAttributeIndex index,
-	                             gsl::not_null<gsl::czstring<>> name) {
-	glBindAttribLocation(program, index, name);
+	                             gsl::czstring<> name) {
+	glBindAttribLocation(program, index, gsl::not_null(name));
 	LP3_GL_ASSERT_NO_ERRORS();
 }
 
@@ -214,8 +214,9 @@ inline BufferObjectName gen_buffer() {
 }
 
 inline UniformVariableLocation get_uniform_location(
-		Program program, gsl::not_null<gsl::czstring<>> name) {
-	UniformVariableLocation result(glGetUniformLocation(program, name));
+		Program program, gsl::czstring<> name) {
+	UniformVariableLocation result(
+		glGetUniformLocation(program, gsl::not_null(name)));
 	LP3_GL_ASSERT_NO_ERRORS();
 	return result;
 }
@@ -291,7 +292,7 @@ inline ProgramOwner create_program() {
 //     several OpenGL calls.
 // --------------------------------------------------------------------
 LP3_GL_API
-ShaderOwner compile_shader(const GLenum type, gsl::not_null<gsl::czstring<>> src);
+ShaderOwner compile_shader(const GLenum type, gsl::czstring<> src);
 
 LP3_GL_API
 void link_program(Program program);
