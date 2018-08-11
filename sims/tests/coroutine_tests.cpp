@@ -48,7 +48,7 @@ TEST_CASE("Running handcranked loop", "[running_handcranked_loop]") {
             LP3_COROUTINE_BEGIN(state);
 
             i = 0;
-            LP3_LABEL(start_loop);
+            start_loop:
                 if (i >= 100) {
                     goto end_loop;
                 }
@@ -56,7 +56,7 @@ TEST_CASE("Running handcranked loop", "[running_handcranked_loop]") {
                 ++ i;
                 goto start_loop;
 
-            LP3_LABEL(end_loop);
+            end_loop:
                 finished = true;
                 LP3_YIELD();
 

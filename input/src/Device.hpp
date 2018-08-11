@@ -18,7 +18,7 @@ inline namespace lp3_input_internal {
 class Device
 {
 public:
-    ~Device() = default;
+    virtual ~Device() = default;
 
     // Find first key encountered that is being pressed on this device.
     virtual int find_pressed_key_code() = 0;

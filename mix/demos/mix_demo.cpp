@@ -23,7 +23,8 @@ int _main(core::PlatformLoop & loop) {
     input::Controls controls;
     core::MediaManager media;
 
-    gfx::Window window("Lp3 Mix", glm::vec2{ 427, 240 });
+    const glm::ivec2 res2d{ 427, 240 };
+    gfx::Window window("Lp3 Mix", res2d);
 
 	mix::Mixer mixer(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
@@ -38,7 +39,6 @@ int _main(core::PlatformLoop & loop) {
 
     lp3::imgui::ImGuiApp imgui_app(window);
 
-    const glm::ivec2 res2d{ 427, 240 };
     gfx::programs::SimpleTextured program;
 
     auto node = [&](const glm::mat4 &) {
@@ -80,7 +80,7 @@ int _main(core::PlatformLoop & loop) {
 
 		controls.update();
 
-		clock.run_updates([&time_to_play, &music, &ogg, &play_state](std::int64_t ms) {
+		clock.run_updates([&time_to_play, &ogg, &play_state](std::int64_t ms) {
 			time_to_play += ms;
 			if (play_state == 0) {
 				if (time_to_play > 1000) {
