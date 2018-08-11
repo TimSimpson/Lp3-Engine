@@ -27,7 +27,7 @@ Window::Window(gsl::czstring<> title, const glm::ivec2 & size)
 	new_size(boost::none),
 	_virtual_resolution(size),
 	_window(SDL_CreateWindow(
-		gsl::not_null(title),
+		gsl::not_null<gsl::czstring<>>(title),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		size.x,
@@ -36,7 +36,7 @@ Window::Window(gsl::czstring<> title, const glm::ivec2 & size)
 	)),
 	window_id(SDL_GetWindowID(_window)),
 	display(calculate_display_properties(size))
-{	
+{
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetSwapInterval(0);
@@ -107,7 +107,7 @@ void Window::render(SceneNodeFunc f) {
 	if (this->new_size) {
 		glViewport(0, 0, this->new_size->x, this->new_size->y);
 		this->display = calculate_display_properties(*this->new_size);
-		this->new_size = boost::none;		
+		this->new_size = boost::none;
 	}
 	LP3_GL_ASSERT_NO_ERRORS();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

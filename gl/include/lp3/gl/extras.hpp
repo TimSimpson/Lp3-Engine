@@ -166,7 +166,8 @@ inline void attach_shader(Program program, Shader shader) {
 
 inline void bind_attrib_location(Program program, VertexAttributeIndex index,
 	                             gsl::czstring<> name) {
-	glBindAttribLocation(program, index, gsl::not_null(name));
+    LP3_ASSERT(name != nullptr);
+	glBindAttribLocation(program, index, name);
 	LP3_GL_ASSERT_NO_ERRORS();
 }
 
@@ -215,8 +216,9 @@ inline BufferObjectName gen_buffer() {
 
 inline UniformVariableLocation get_uniform_location(
 		Program program, gsl::czstring<> name) {
+    LP3_ASSERT(name != nullptr);
 	UniformVariableLocation result(
-		glGetUniformLocation(program, gsl::not_null(name)));
+		glGetUniformLocation(program, name));
 	LP3_GL_ASSERT_NO_ERRORS();
 	return result;
 }
