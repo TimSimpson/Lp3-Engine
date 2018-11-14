@@ -7,7 +7,10 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(Boost REQUIRED)
-find_package(sdl2 2.0.7)
+find_package(gsl_microsoft)
+find_package(sdl2)
+find_package(sdl2_image)
+find_package(catch2)
 
 add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
@@ -44,7 +47,7 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC Boost::boost sdl2::sdl2 sdl2::image)
+target_link_libraries(core PUBLIC gsl_microsoft::gsl_microsoft Boost::boost sdl2::sdl2 sdl2_image::sdl2_image)
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
@@ -112,18 +115,19 @@ if (LP3_CORE_FULL)
     target_link_libraries(MainDemo core)
 
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
-    target_link_libraries(assert_tests core)
+    target_link_libraries(assert_tests core catch2::catch2)
     add_test(assert_tests assert_tests)
 
     add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-    target_link_libraries(media_tests core)
+    target_link_libraries(media_tests core catch2::catch2)
     add_test(media_tests media_tests)
 
     add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
-    target_link_libraries(Sdl2Simple core)
+    target_link_libraries(Sdl2Simple core catch2::catch2)
 
     add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(MultipleWindows core)
+    target_link_libraries(Sdl2Simple core catch2::catch2)
+    target_link_libraries(MultipleWindows core )
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (core PROPERTIES FOLDER core)

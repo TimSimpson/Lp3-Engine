@@ -1,6 +1,6 @@
 #include <lp3/core.hpp>
 #define CATCH_CONFIG_MAIN
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 
 namespace core = lp3::core;
 

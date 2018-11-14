@@ -1,6 +1,6 @@
 #define LP3_TEST_MODULE coroutine_tests
 #include <lp3/sims.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 
 namespace sims = lp3::sims;
 

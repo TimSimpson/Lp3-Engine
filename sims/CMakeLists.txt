@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(Lp3_Core 1.0.1)
+find_package(catch2)
 
 add_library(sims
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims.hpp
@@ -75,7 +76,7 @@ install(FILES
 
 if (LP3_SIMS_FULL)
     add_library(tests-main STATIC ${CMAKE_CURRENT_SOURCE_DIR}/tests/tests-main.cpp)
-    target_link_libraries(tests-main)
+    target_link_libraries(tests-main catch2::catch2)
 
     add_executable(CoroutineTests ${CMAKE_CURRENT_SOURCE_DIR}/tests/coroutine_tests.cpp)
     target_link_libraries(CoroutineTests sims tests-main)
