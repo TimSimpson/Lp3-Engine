@@ -6,11 +6,8 @@ project(lp3_core CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-# MESSAGE(FATAL_ERROR "${CMAKE_PREFIX_PATH}")
-
 find_package(Boost REQUIRED)
-find_package(SDL2)
-find_package(SDL2)
+find_package(sdl2 2.0.7)
 
 add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
@@ -47,7 +44,7 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC Boost::boost SDL2::SDL2-static)
+target_link_libraries(core PUBLIC Boost::boost sdl2::sdl2 sdl2::image)
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
