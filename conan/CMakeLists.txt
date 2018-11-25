@@ -12,7 +12,12 @@ cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
 # with `-DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake` (for some reason, that won't
 # happen automatically when you use `conan build`.
 # I'm also not 100% certain the two approaches are the same, so I'm doing it
-# this way for now.
+# this way for now. For example, I think that some header only libraries just
+# wind up on the include path using this approach, while the modern CMake
+# targets must be explicitly depended on using `cmake_paths`.
+# Unfortunately, those modern CMake targets are hardly universal - simply
+# assuming the headers are there appears to be best practice.
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
@@ -41,25 +46,29 @@ set(LP3_CORE_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
                  ${CMAKE_CURRENT_BINARY_DIR}/core-output)
 
-set(LP3_SIMS_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../sims
-                 ${CMAKE_CURRENT_BINARY_DIR}/sims-output)
+# TODO: Add these back as they start working.
 
-set(LP3_GL_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gl
-                 ${CMAKE_CURRENT_BINARY_DIR}/gl-output)
+# set(LP3_SIMS_FULL true)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../sims
+#                  ${CMAKE_CURRENT_BINARY_DIR}/sims-output)
 
-set(LP3_GFX_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
-                 ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)
+# set(LP3_GL_FULL true)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gl
+#                  ${CMAKE_CURRENT_BINARY_DIR}/gl-output)
 
-set(LP3_IMGUI_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../imgui
-                 ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
+# set(LP3_GFX_FULL true)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
+#                  ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)
 
-set(LP3_INPUT_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
-                 ${CMAKE_CURRENT_BINARY_DIR}/input-output)
+# set(LP3_IMGUI_FULL true)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../imgui
+#                  ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
+
+# set(LP3_INPUT_FULL true)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
+#                  ${CMAKE_CURRENT_BINARY_DIR}/input-output)
+
+
 
 # set(LP3_MIX_FULL true)
 # add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix

@@ -6,13 +6,10 @@ project(lp3_core CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-
 # MESSAGE(FATAL_ERROR "${CMAKE_PREFIX_PATH}")
 
 find_package(Boost REQUIRED)
 find_package(SDL2)
-
 find_package(SDL2)
 
 add_library(core
