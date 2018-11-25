@@ -2,7 +2,20 @@ import conans as c
 
 import os
 
-print("L:")
+
+def _change(filename, find, replace):
+    new_lines = []
+    with open(filename, 'r') as f:
+        for line in f.readlines():
+            new_lines.append(line.replace(find, replace))
+
+    with open(filename, 'w') as f:
+        f.write(''.join(new_lines))
+
+
+def standardize_conan_packages():
+    _change("Findcatch2.cmake", "catch2::catch2", "Catch2::Catch2")
+
 
 class Lp3Engine(c.ConanFile):
 
@@ -15,15 +28,11 @@ class Lp3Engine(c.ConanFile):
         "catch2/2.4.1@bincrafters/stable"
     )
 
-    generators = "cmake_find_package"
-
-    # def imports(self):
-    #   self.copy("*.dll", dst="bin", src="bin") # From bin to bin
-    #   self.copy("*.dylib*", dst="bin", src="lib") # From lib to bin
-
+    generators = "cmake_paths"  # "cmake_find_package"
 
     def build(self):
-        print("yo")
+        # standardize_conan_packages()
+
         cmake = c.CMake(self)
-        cmake.configure(source_folder=os.path.join(self.source_folder, "standalone"))
+        cmake.configure(source_folder=os.path.join(self.source_folder, "core"))
         cmake.build()
