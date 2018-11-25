@@ -74,6 +74,6 @@ set(LP3_INPUT_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
                  ${CMAKE_CURRENT_BINARY_DIR}/input-output)
 
-# set(LP3_MIX_FULL true)
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
-#                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
+set(LP3_MIX_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
+                 ${CMAKE_CURRENT_BINARY_DIR}/mix-output)

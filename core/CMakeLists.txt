@@ -123,7 +123,6 @@ if (LP3_CORE_FULL)
     target_link_libraries(Sdl2Simple core)
 
     add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(Sdl2Simple core)
     target_link_libraries(MultipleWindows core )
 
     if (LP3_SETUP_FOLDERS)
