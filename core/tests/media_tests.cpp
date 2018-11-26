@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #define CATCH_CONFIG_MAIN
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 
 TEST_CASE("Read file", "[read_a_file]") {
     lp3::core::MediaManager media{};

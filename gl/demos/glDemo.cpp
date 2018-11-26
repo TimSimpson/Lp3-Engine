@@ -42,22 +42,34 @@ int _main(core::PlatformLoop & loop) {
 	gl::initialize();
 
     // Create and compile the vertex shader
-    const GLchar* vertex_shader_source =
-        "attribute vec4 v_position;    \n"
-        "void main()                   \n"
-        "{                             \n"
-        "   gl_Position = v_position;  \n"
-        "}                             \n";
+    const GLchar* vertex_shader_source = R"GLSL_CODE(
+#version 100
+
+attribute vec4 v_position;
+void main()
+{
+   gl_Position = v_position;
+}
+
+    )GLSL_CODE";
+
     gl::ShaderOwner vertex_shader
         = gl::compile_shader(GL_VERTEX_SHADER, vertex_shader_source);
 
     // Create and compile the fragment shader
-    const GLchar* fragment_source =
-        "precision mediump float;\n"
-        "void main()                                 \n"
-        "{                                           \n"
-        "  gl_FragColor = vec4 (1.0, 0.0, 0.0, 1.0 );\n"
-        "}                                           \n";
+    const GLchar* fragment_source = R"GLSL_CODE(
+#version 100
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+void main()
+{
+  gl_FragColor = vec4 (1.0, 0.0, 0.0, 1.0 );
+}
+
+        )GLSL_CODE";
 	gl::ShaderOwner fragment_shader
         = lp3::gl::compile_shader(GL_FRAGMENT_SHADER, fragment_source);
 
