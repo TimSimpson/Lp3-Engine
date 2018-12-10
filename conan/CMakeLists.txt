@@ -126,7 +126,8 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
                  ${CMAKE_CURRENT_BINARY_DIR}/input-output)
 
 
-
+# The Mix project isn't supported as there aren't any Conan packages for
+# SDL2_mix... at least not yet.
 # set(LP3_MIX_FULL true)
 # add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
 #                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
