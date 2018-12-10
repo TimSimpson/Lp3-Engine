@@ -3,6 +3,10 @@ language: cpp
 dist: trusty
 sudo: false
 
+cache:
+  directories:
+  - ./cget
+
 matrix:
   include:
     - name: "GCC 6 Release"
@@ -90,7 +94,7 @@ matrix:
 
 install:
   - |
-    pip install --user conan cmake
+    pip install --user cmake cget
 
 script:
   - |
