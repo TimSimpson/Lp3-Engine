@@ -3,9 +3,14 @@ language: cpp
 dist: trusty
 sudo: false
 
+cache:
+  directories:
+  - ./cget
+
 matrix:
   include:
-    - os: linux
+    - name: "GCC 6 Release"
+      os: linux
       compiler: gcc
       addons:
         apt:
@@ -22,7 +27,8 @@ matrix:
           CI_C=gcc-6
           CI_CXX=g++-6
           CI_BUILD_TYPE=Release
-    - os: linux
+    - name: "GCC 6 Debug"
+      os: linux
       compiler: gcc
       addons:
         apt:
@@ -39,7 +45,8 @@ matrix:
           CI_C=gcc-6
           CI_CXX=g++-6
           CI_BUILD_TYPE=Debug
-    - os: linux
+    - name: "Clang 3.8 Release"
+      os: linux
       compiler: clang
       addons:
         apt:
@@ -61,7 +68,8 @@ matrix:
           CI_C=clang-3.8
           CI_CXX=clang++-3.8
           CI_BUILD_TYPE=Release
-    - os: linux
+    - name: "Clang 3.8 Debug"
+      os: linux
       compiler: clang
       addons:
         apt:
@@ -86,24 +94,18 @@ matrix:
 
 install:
   - |
-    set -e
-    pushd /tmp
-    travis_retry wget --quiet --no-check-certificate https://cmake.org/files/v3.8/cmake-3.8.0-rc2-Linux-x86_64.tar.gz
-    tar -xf cmake-3.8.0-rc2-Linux-x86_64.tar.gz
-    git clone https://github.com/TimSimpson/cenv.git
-    travis_retry wget --quiet https://github.com/TimSimpson/cenv/archive/master.tar.gz
-    tar -xf master.tar.gz
-    pushd cenv-master
-    ./install.sh
-    popd
-    popd
+    pip install --user cmake cget
 
 script:
   - |
     set -e
-    export PATH=/tmp/cmake-3.8.0-rc2-Linux-x86_64/bin:/tmp/cenv-master/output/bvenv/bin/:${PATH}
+    $CI_CXX --version
     cmake --version
     git submodule update --init --recursive
+    set +e
+    echo 'Hi Cache! What is in CGET?'
+    ls -la cget
+    set -e
     cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=14
     cget install TimSimpson/cget-recipes
     cget install libpng
