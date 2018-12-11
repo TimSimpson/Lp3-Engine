@@ -102,7 +102,13 @@ script:
     $CI_CXX --version
     cmake --version
     git submodule update --init --recursive
-    cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=14
+    if [ -d "cget" ]; then
+      echo 'Hoping the c env is cached...'
+      ls -la cget
+    else
+      echo 'Creating new c-env...'
+      cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=14
+    fi
     cget install TimSimpson/cget-recipes
     cget install libpng
     cget install -f requirements.txt

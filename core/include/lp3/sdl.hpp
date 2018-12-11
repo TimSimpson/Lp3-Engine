@@ -210,7 +210,11 @@ public:
 		char data[sizeof(T)];
 		const auto result = read(data, sizeof(T));
 		if (1 == result) {
-			return *(reinterpret_cast<T *>(data));
+            // This is less terse than it could be to get around a
+            // strict-aliasing related warning in GCC in release mode.
+            T * const copy_ptr = reinterpret_cast<T *>(data);
+            T copy = *copy_ptr;
+            return copy;
 		} else {
 			return boost::none;
 		}
