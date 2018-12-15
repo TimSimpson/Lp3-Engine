@@ -2,6 +2,7 @@
 #define FILE_LP3_SIMS_CLOCK_HPP
 
 #include <cstdint>
+#include <optional>
 #include "config.hpp"
 
 namespace lp3 { namespace sims {

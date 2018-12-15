@@ -47,9 +47,9 @@ std::int64_t FrameTimer::next_frame() {
     /* Compute time since last call and return it. */
     std::int64_t dif = current_tick_count - start_frame_time;
     start_frame_time = current_tick_count;
-    if (max_frame_diff && dif > max_frame_diff.get()) { // Ensure slow down happens instead of goofy errors.
+    if (max_frame_diff && dif > max_frame_diff.value()) { // Ensure slow down happens instead of goofy errors.
         fps = 1.0f / ((float)dif / 1000.0f);
-        dif = static_cast<int>(max_frame_diff.get());
+        dif = static_cast<int>(max_frame_diff.value());
         speed_mod = (float)dif / 1000.0f;
     } else {
         speed_mod = (float)dif / 1000.0f;

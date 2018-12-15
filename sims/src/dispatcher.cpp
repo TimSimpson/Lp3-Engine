@@ -64,7 +64,7 @@ void EventDispatcher::send_void_ptr(
 	if (itr == subscriber_map.end()) {
 		return;
 	}
-	LP3_ASSERT(type_index == type_map[id].get());
+	LP3_ASSERT(type_index == type_map[id].value());
 	EventSubscribers & subscribers = itr->second;
 	subscribers(ptr);
 }
@@ -79,7 +79,7 @@ EventSubscribers & EventDispatcher::find_or_create_subscribers(
 		type_map[id] = type_index;
 	}
 	else {
-		LP3_ASSERT(type_index == type_map[id].get());
+		LP3_ASSERT(type_index == type_map[id].value());
 	}
 	return subscriber_map[id];
 }

@@ -30,10 +30,11 @@
 
 // Disable SDL's
 #define SDL_MAIN_HANDLED
+#include <optional>
+#include <gsl/gsl>
 #include "core/config.hpp"
 #include "core/Exception.hpp"
 #include "log.hpp"
-#include <gsl/gsl>
 #include <SDL.h>
 #include <SDL_image.h>
 
