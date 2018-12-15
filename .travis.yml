@@ -59,7 +59,7 @@ matrix:
             - clang-6.0
             - clang-format-6.0
             - clang-tidy-6.0
-            - libstdc++6
+            - libstdc++7
             - ninja-build
             - libfreetype6-dev
             - libboost-dev
@@ -82,7 +82,7 @@ matrix:
             - clang-6.0
             - clang-format-6.0
             - clang-tidy-6.0
-            - libstdc++6
+            - libstdc++7
             - ninja-build
             - libfreetype6-dev
             - libboost-dev
