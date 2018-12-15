@@ -12,15 +12,16 @@ add_library(imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/imgui.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ImGuiApp.cpp
 
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imconfig.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui_demo.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui_draw_wrapper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui_internal.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imconfig.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb_rect_pack.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb_textedit.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb_truetype.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui_widgets.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_rectpack.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_textedit.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_truetype.h
 )
 set_target_properties(imgui PROPERTIES OUTPUT_NAME "Lp3_ImGui")
 

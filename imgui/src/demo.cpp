@@ -89,7 +89,7 @@ int _main(lp3::core::PlatformLoop & loop) {
         if (g_show_test_window)
         {
             ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
-            ImGui::ShowTestWindow(&g_show_test_window);
+            ImGui::ShowDemoWindow(&g_show_test_window);
         }
 
         // Rendering
