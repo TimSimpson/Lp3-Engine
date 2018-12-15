@@ -1,7 +1,7 @@
 platform:
   - Win32
 
-os: Visual Studio 2017
+os: Visual Studio 2019 Preview
 
 environment:
   BOOST_ROOT: C:\Libraries\boost_1_67_0
