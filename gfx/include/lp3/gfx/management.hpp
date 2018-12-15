@@ -67,7 +67,7 @@ public:
 	void work_with();
 private:
 	lp3::sdl::GLContext gl_context;
-	boost::optional<glm::ivec2> new_size;
+	std::optional<glm::ivec2> new_size;
 	glm::ivec2 _virtual_resolution;
 	lp3::sdl::Window _window;
 	Uint32 window_id;

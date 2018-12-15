@@ -7,10 +7,10 @@
 namespace lp3 { namespace core {
 
 namespace {
-    boost::optional<int> loop_count() {
+    std::optional<int> loop_count() {
         auto value = get_env_var("LP3_LOOP_COUNT");
         if (!value)
-            return boost::none;
+            return std::nullopt;
         else
             return boost::lexical_cast<int>(*value);
     }
@@ -26,7 +26,7 @@ PlatformLoop::PlatformLoop()
         if (nullptr == windowsString)
         {
             LP3_LOG_ERROR("Error converting command line arguments.");
-			LP3_THROW2(lp3::core::Exception, 
+			LP3_THROW2(lp3::core::Exception,
 				       "Error converting command line arguments.");
         }
         for(int i = 0; i < argLength; i ++)

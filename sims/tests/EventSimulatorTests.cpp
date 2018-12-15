@@ -29,7 +29,7 @@ TEST_CASE("Sending Some Events", "[es-example-1]") {
 	simmy.run([&history]() {
 		LP3_LOG_INFO("Cast heal spell!");
 		history.push_back('a');
-		return boost::none;
+		return std::nullopt;
 	}, 10);
 	simmy.process_events(3000);
 
@@ -77,15 +77,15 @@ TEST_CASE("Spawning events during events", "[es-example-2]") {
 		Cow(sims::EventSimulator & _simmy)
 			: c_simmy(_simmy) {}
 
-		boost::optional<int> operator() () {
+		std::optional<int> operator() () {
 			LP3_COROUTINE_BEGIN(state)
 				LP3_LOG_INFO("Cow is waking up.")
 				c_simmy.emit(ON_HURT, HurtMsg{ 20, "Cow" }, 20);
 				LP3_YIELD(1);
 				c_simmy.emit(ON_HURT, HurtMsg{ 40, "Cow" }, 10);
-				LP3_YIELD(boost::none);
+				LP3_YIELD(std::nullopt);
 			LP3_COROUTINE_END();
-			return boost::none;
+			return std::nullopt;
 		}
 	} cow(simmy);
 

@@ -24,7 +24,7 @@ glm::ivec2 fudge_real_size(const glm::ivec2 & size) {
 LP3_GFX_API
 Window::Window(gsl::czstring<> title, const glm::ivec2 & size)
 :	gl_context(),
-	new_size(boost::none),
+	new_size(std::nullopt),
 	_virtual_resolution(size),
 	_window(SDL_CreateWindow(
 		gsl::not_null<gsl::czstring<>>(title),
@@ -107,7 +107,7 @@ void Window::render(SceneNodeFunc f) {
 	if (this->new_size) {
 		glViewport(0, 0, this->new_size->x, this->new_size->y);
 		this->display = calculate_display_properties(*this->new_size);
-		this->new_size = boost::none;
+		this->new_size = std::nullopt;
 	}
 	LP3_GL_ASSERT_NO_ERRORS();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

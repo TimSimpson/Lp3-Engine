@@ -43,7 +43,7 @@ LP3_CORE_API void prompt_to_continue_on_dreamcast() {
 }
 
 
-boost::optional<std::string> get_env_var(const gsl::cstring_span<> & name) {
+std::optional<std::string> get_env_var(const gsl::cstring_span<> & name) {
 #ifdef LP3_COMPILE_TARGET_WINDOWS
     char * env_var_value;
     std::size_t length;
@@ -59,7 +59,7 @@ boost::optional<std::string> get_env_var(const gsl::cstring_span<> & name) {
     if (env_var_value) {
         return std::string{env_var_value};
     } else {
-        return boost::none;
+        return std::nullopt;
     }
 }
 

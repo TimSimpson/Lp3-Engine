@@ -27,8 +27,8 @@ public:
     // designated keycode.
     virtual bool is_analog_key(const int key_code) = 0;
 
-	virtual boost::optional<lp3::input::PreferredDevice> get_preferred_device_type() {
-		return boost::none;
+	virtual std::optional<lp3::input::PreferredDevice> get_preferred_device_type() {
+		return std::nullopt;
 	}
 
 	virtual bool is_keyboard() {

@@ -14,13 +14,13 @@ TEST_CASE("Run a few simple routines.", "[basic_runs]") {
     runner.run([&history]() {
         LP3_LOG_INFO("Running routine 1");
 		history.push_back('2');
-        return boost::none;
+        return std::nullopt;
     }, 30);
 
     runner.run([&history]() {
         LP3_LOG_INFO("Running routine 2");
 		history.push_back('1');
-        return boost::none;
+        return std::nullopt;
     }, 20);
 
 	LP3_ASSERT(history.size() == 0);
@@ -46,7 +46,7 @@ TEST_CASE("Cancel a routine before it runs", "[cancel_run]") {
 	sims::QRoutineRunner runner;
     sims::QRoutineId id = runner.run([]() {
         LP3_LOG_INFO("Running routine 1");
-        return boost::none;
+        return std::nullopt;
     }, 3);
 
     SDL_assert(runner.proc_count() == 1);
@@ -66,7 +66,7 @@ TEST_CASE("Call a routine with arguments.", "[calling_with_args]") {
     auto some_crazy_func = [](const std::string & hi) {
         LP3_LOG_VAR(hi);
         LP3_LOG_INFO("I got message: %s", hi);
-        return boost::none;
+        return std::nullopt;
     };
 
     runner.run([arg_holder, &some_crazy_func] (){
@@ -81,22 +81,22 @@ TEST_CASE("Sleeping routines.", "[sleepy_q]") {
 	sims::QRoutineRunner runner;
 	std::vector<char> history;
 	sims::CoroutineState coro1;
-	runner.run([&history, &coro1]() -> boost::optional<sims::SleepTime> {
+	runner.run([&history, &coro1]() -> std::optional<sims::SleepTime> {
 		LP3_COROUTINE_BEGIN(coro1)
 			LP3_LOG_INFO("Running routine 1");
 			history.push_back('1');
 			LP3_YIELD(10);
 			LP3_LOG_INFO("Running routine 1");
 			history.push_back('3');
-			LP3_YIELD(boost::none);
+			LP3_YIELD(std::nullopt);
 		LP3_COROUTINE_END()
-		return boost::none;
+		return std::nullopt;
 	}, 30);
 
 	runner.run([&history]() {
 		LP3_LOG_INFO("Running routine 2");
 		history.push_back('2');
-		return boost::none;
+		return std::nullopt;
 	}, 35);
 
 	REQUIRE(history.size() == 0);
@@ -120,19 +120,19 @@ TEST_CASE("Kicking off routines from routines.", "[basic_runs]") {
 	std::vector<char> history;
 	sims::CoroutineState coro1;
 	int spawn = 80;
-	runner.run([&]() -> boost::optional<sims::SleepTime> {
+	runner.run([&]() -> std::optional<sims::SleepTime> {
 		LP3_COROUTINE_BEGIN(coro1)
 			for (spawn = 0; spawn < 100; ++spawn) {
                 LP3_LOG_INFO("Main proc, spawn %i", spawn);
 				runner.run([&history, spawn]() {
 					LP3_LOG_INFO("Child routine (%i)", spawn);
 					history.push_back('c');
-					return boost::none;
+					return std::nullopt;
 				}, 50);
 				LP3_YIELD(10);
 			}
 		LP3_COROUTINE_END()
-		return boost::none;
+		return std::nullopt;
 	}, 10);
 
     // int step = 1;

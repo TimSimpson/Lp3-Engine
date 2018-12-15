@@ -27,7 +27,7 @@ Timer::time_int Timer::get_time() {
 }
 
 LP3_SIMS_API
-FrameTimer::FrameTimer(const boost::optional<float> frame_diff_cap)
+FrameTimer::FrameTimer(const std::optional<float> frame_diff_cap)
 :   average_fps(60),
     frame_count(0),
     fps(0),
