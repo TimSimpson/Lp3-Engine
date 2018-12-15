@@ -27,9 +27,10 @@ public:
 
     void operator() (const glm::mat4 & previous);
 
-    static void new_frame(::lp3::gfx::Window & window);
-    static bool process_event(SDL_Event & event);
-
+    void new_frame(::lp3::gfx::Window & window);
+    bool process_event(SDL_Event & event);
+private:
+    ImGuiContext * context;
 };
 // ~end-doc
 

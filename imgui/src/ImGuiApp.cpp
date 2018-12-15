@@ -296,8 +296,13 @@ void ImGui_ImplSdl_InvalidateDeviceObjects()
 }
 
 LP3_IMGUI_API
-lp3::imgui::ImGuiApp::ImGuiApp(lp3::gfx::Window & window) {
+lp3::imgui::ImGuiApp::ImGuiApp(lp3::gfx::Window & window)
+:   context(nullptr)
+{
     (void)window; // Unused on Linux
+    LP3_LOG_DEBUG("Initializing ImGui Context")
+    context = ImGui::CreateContext();
+    ImGui::SetCurrentContext(context);
 
     LP3_LOG_DEBUG("Initializing ImGuiApp");
     ImGuiIO& io = ImGui::GetIO();
@@ -339,14 +344,16 @@ lp3::imgui::ImGuiApp::ImGuiApp(lp3::gfx::Window & window) {
 
 lp3::imgui::ImGuiApp::~ImGuiApp() {
     ImGui_ImplSdl_InvalidateDeviceObjects();
-    ImGui::Shutdown();
+    ImGui::DestroyContext(context);
 }
 
 void lp3::imgui::ImGuiApp::operator() (const glm::mat4 &) {
+    ImGui::SetCurrentContext(context);
     ImGui::Render();
 }
 
 void lp3::imgui::ImGuiApp::new_frame(lp3::gfx::Window & window) {
+    ImGui::SetCurrentContext(context);
     if (!g_FontTexture)
         ImGui_ImplSdl_CreateDeviceObjects();
 
