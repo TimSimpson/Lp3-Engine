@@ -1,5 +1,6 @@
 #define LP3_SIMS_API_CREATE
 #include <lp3/sims/Clock.hpp>
+#include <algorithm>
 #include <chrono>
 #include <lp3/log.hpp>
 
