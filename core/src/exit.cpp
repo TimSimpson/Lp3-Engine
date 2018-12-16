@@ -6,12 +6,12 @@
 #include <lp3/assert.hpp>
 
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
 namespace {
 
     typedef void(*ExitCall)();
-	
+
     // Visual C++'s memory leak detector complains if a typical global variable
     // is used for a complex type, but not if we use a pointer, which coerces
     // some of the anti-patterns seen here.
@@ -66,4 +66,4 @@ void on_exit_clean_up(GlobalResource * gr) {
 	get_globals()->emplace_back(gr);
 }
 
-}   }
+}

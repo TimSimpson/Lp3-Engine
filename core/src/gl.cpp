@@ -3,7 +3,7 @@
 #include <vector>
 #include <lp3/core/Exception.hpp>
 
-namespace lp3 { namespace gl {
+namespace lp3::gl {
 
 #define CASE(X) case X : { return #X ; }
 
@@ -70,4 +70,4 @@ void link_program(Program obj) {
     }
 }
 
-}   }
+}

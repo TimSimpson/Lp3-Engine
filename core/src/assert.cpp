@@ -1,6 +1,6 @@
 #include <lp3/assert.hpp>
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
 namespace {
     bool throw_on_asserts = false;
@@ -29,4 +29,4 @@ void AssertListener::throw_assert_failed() {
     }
 }
 
-}   }
+}

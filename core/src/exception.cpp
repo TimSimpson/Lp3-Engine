@@ -2,7 +2,7 @@
 #include <lp3/core/Exception.hpp>
 #include <lp3/log.hpp>
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
     LP3_CORE_API
     Exception::Exception(Exception const  & other) BOOST_NOEXCEPT
@@ -23,7 +23,7 @@ namespace lp3 { namespace core {
         return message.c_str();
     }
 
-} }
+}
 
 
 

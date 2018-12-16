@@ -6,7 +6,7 @@
 #include <SDL.h>
 #include <lp3/core/utils.hpp>
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
 namespace {
     static int global_instances = 0;
@@ -56,4 +56,4 @@ int PlatformLoop::run(std::function<bool()> iterate) {
     return 0;
 }
 
-}   }
+}

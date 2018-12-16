@@ -86,7 +86,7 @@ public:
 
 #include <boost/format.hpp>
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
     template<typename LastType>
     void feedToFormat(boost::format & format, const LastType & arg)
@@ -118,7 +118,7 @@ namespace lp3 { namespace core {
         write_log(filename, lineNumber, level, message.c_str());
     }
 
-} }
+}
 
 #define LP3_LOG(...) \
     lp3::core::write_log(__FILE__, __LINE__, __VA_ARGS__);

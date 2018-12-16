@@ -4,7 +4,7 @@
     #include <windows.h>
 #endif
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
 namespace {
     std::optional<int> loop_count() {
@@ -63,4 +63,4 @@ int PlatformLoop::run(std::function<bool()> iterate) {
     return 0;
 }
 
-}   }
+}
