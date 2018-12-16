@@ -4,6 +4,7 @@
 #include "config.hpp"
 #include <functional>
 #include <map>
+#include <optional>
 #include <typeindex>
 #include <vector>
 
