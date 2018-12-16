@@ -5,7 +5,6 @@
 #include <functional>
 #include <vector>
 #include <boost/any.hpp>
-#include <boost/optional.hpp>
 #include <gsl/gsl>
 #include "config.hpp"
 #include "../sdl.hpp"
@@ -47,7 +46,7 @@ private:
 //     Returns an environment variable.
 // --------------------------------------------------------------------
 LP3_CORE_API
-boost::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
+std::optional<std::string> get_env_var(const gsl::cstring_span<> & value);
 
 // ----------------------------------------------------------------------------
 // class MediaManager

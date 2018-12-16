@@ -1,5 +1,6 @@
 #define LP3_SIMS_API_CREATE
 #include <lp3/sims/Clock.hpp>
+#include <algorithm>
 #include <chrono>
 #include <lp3/log.hpp>
 
@@ -27,7 +28,7 @@ Timer::time_int Timer::get_time() {
 }
 
 LP3_SIMS_API
-FrameTimer::FrameTimer(const boost::optional<float> frame_diff_cap)
+FrameTimer::FrameTimer(const std::optional<float> frame_diff_cap)
 :   average_fps(60),
     frame_count(0),
     fps(0),
@@ -47,9 +48,9 @@ std::int64_t FrameTimer::next_frame() {
     /* Compute time since last call and return it. */
     std::int64_t dif = current_tick_count - start_frame_time;
     start_frame_time = current_tick_count;
-    if (max_frame_diff && dif > max_frame_diff.get()) { // Ensure slow down happens instead of goofy errors.
+    if (max_frame_diff && dif > max_frame_diff.value()) { // Ensure slow down happens instead of goofy errors.
         fps = 1.0f / ((float)dif / 1000.0f);
-        dif = static_cast<int>(max_frame_diff.get());
+        dif = static_cast<int>(max_frame_diff.value());
         speed_mod = (float)dif / 1000.0f;
     } else {
         speed_mod = (float)dif / 1000.0f;

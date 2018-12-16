@@ -9,7 +9,7 @@ cache:
 
 matrix:
   include:
-    - name: "GCC 6 Release"
+    - name: "GCC 8 Release"
       os: linux
       compiler: gcc
       addons:
@@ -17,17 +17,17 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
-            - g++-6
+            - gcc-8
+            - g++-8
             - ninja-build
             - libfreetype6-dev
             - libboost-dev
       env:
         - CENV_NAME=gcc64r
-          CI_C=gcc-6
-          CI_CXX=g++-6
+          CI_C=gcc-8
+          CI_CXX=g++-8
           CI_BUILD_TYPE=Release
-    - name: "GCC 6 Debug"
+    - name: "GCC 8 Debug"
       os: linux
       compiler: gcc
       addons:
@@ -35,61 +35,61 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
-            - g++-6
+            - gcc-8
+            - g++-8
             - ninja-build
             - libfreetype6-dev
             - libboost-dev
       env:
         - CENV_NAME=gcc64d
-          CI_C=gcc-6
-          CI_CXX=g++-6
+          CI_C=gcc-8
+          CI_CXX=g++-8
           CI_BUILD_TYPE=Debug
-    - name: "Clang 3.8 Release"
+    - name: "Clang 6.0 Release"
       os: linux
       compiler: clang
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise
+            - llvm-toolchain-trusty-6.0
           packages:
             - gcc-6
             - g++-6
-            - clang-3.8
-            - clang-format-3.8
-            - clang-tidy-3.8
-            - libstdc++6
+            - clang-6.0
+            - clang-format-6.0
+            - clang-tidy-6.0
+            - libstdc++-7-dev
             - ninja-build
             - libfreetype6-dev
             - libboost-dev
       env:
         - CENV_NAME=clang64r
-          CI_C=clang-3.8
-          CI_CXX=clang++-3.8
+          CI_C=clang-6.0
+          CI_CXX=clang++-6.0
           CI_BUILD_TYPE=Release
-    - name: "Clang 3.8 Debug"
+    - name: "Clang 6.0 Debug"
       os: linux
       compiler: clang
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise
+            - llvm-toolchain-trusty-6.0
           packages:
             - gcc-6
             - g++-6
-            - clang-3.8
-            - clang-format-3.8
-            - clang-tidy-3.8
-            - libstdc++6
+            - clang-6.0
+            - clang-format-6.0
+            - clang-tidy-6.0
+            - libstdc++-7-dev
             - ninja-build
             - libfreetype6-dev
             - libboost-dev
       env:
         - CENV_NAME=clang64d
-          CI_C=clang-3.8
-          CI_CXX=clang++-3.8
+          CI_C=clang-6.0
+          CI_CXX=clang++-6.0
           CI_BUILD_TYPE=Debug
 
 install:
@@ -106,7 +106,7 @@ script:
     echo 'Hi Cache! What is in CGET?'
     ls -la cget
     set -e
-    cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=14
+    cget init --std=c++17 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=17
     cget install TimSimpson/cget-recipes
     cget install libpng
     cget install -f requirements.txt

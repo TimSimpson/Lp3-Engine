@@ -2,7 +2,7 @@
 #define FILE_LP3_SIMS_CLOCK_HPP
 
 #include <cstdint>
-#include <boost/optional.hpp>
+#include <optional>
 #include "config.hpp"
 
 namespace lp3 { namespace sims {
@@ -69,7 +69,7 @@ private:
 LP3_SIMS_API
 class FrameTimer {
 public:
-    FrameTimer(const boost::optional<float> frame_diff_cap = boost::none);
+    FrameTimer(const std::optional<float> frame_diff_cap = std::nullopt);
 
     inline float get_average_fps() const {
         return average_fps;
@@ -103,7 +103,7 @@ private:
     // next for the purposes of game logic.
     // For example, this keeps the "GetSpeedMod()" float from returning
     // enormous values if the game is paused in Windows.
-    boost::optional<float> max_frame_diff;
+    std::optional<float> max_frame_diff;
     float speed_mod;                 // % of a second it took for last frame.
     std::int64_t start_frame_time;
     Timer timer;

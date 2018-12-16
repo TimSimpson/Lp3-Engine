@@ -73,10 +73,10 @@ bool QRoutineRunner::process_events(const SleepTime time) {
 	auto itr = routines.begin();
 	while (itr != routines.end() && itr->sleep_time <= time) {
 		current_time_processed = itr->sleep_time;
-		boost::optional<int> result = itr->func();
+		std::optional<int> result = itr->func();
 		if (result) {
             LP3_ASSERT(list_is_ordered());
-			itr->sleep_time += result.get();
+			itr->sleep_time += result.value();
             // Move it back
 			auto start = std::find_if(routines.begin(), routines.end(),
 				[itr](const QRoutine & r) {

@@ -30,11 +30,11 @@
 
 // Disable SDL's
 #define SDL_MAIN_HANDLED
+#include <optional>
+#include <gsl/gsl>
 #include "core/config.hpp"
 #include "core/Exception.hpp"
 #include "log.hpp"
-#include <boost/optional.hpp>
-#include <gsl/gsl>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -205,7 +205,7 @@ public:
     }
 
 	template<typename T>
-	inline boost::optional<T> read_optional() {
+	inline std::optional<T> read_optional() {
 		static_assert(std::is_pod<T>::value, "Type must be POD.");
 		char data[sizeof(T)];
 		const auto result = read(data, sizeof(T));
@@ -216,7 +216,7 @@ public:
             T copy = *copy_ptr;
             return copy;
 		} else {
-			return boost::none;
+			return std::nullopt;
 		}
 	}
 

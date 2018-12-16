@@ -2,9 +2,9 @@
 #define FILE_LP3_SIMS_QROUTINES_HPP
 
 #include "config.hpp"
-#include <boost/optional.hpp>
 #include <functional>
 #include <list>
+#include <optional>
 #include <vector>
 
 
@@ -20,7 +20,7 @@ using QRoutineId = int;
 
 using SleepTime = int;
 
-using QRoutineDelegate = std::function<boost::optional<SleepTime>()>;
+using QRoutineDelegate = std::function<std::optional<SleepTime>()>;
 
 class QRoutine {
 public:

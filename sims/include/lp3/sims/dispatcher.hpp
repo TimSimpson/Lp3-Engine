@@ -2,9 +2,9 @@
 #define FILE_LP3_SIMS_DISPATCHER_HPP
 
 #include "config.hpp"
-#include <boost/optional.hpp>
 #include <functional>
 #include <map>
+#include <optional>
 #include <typeindex>
 #include <vector>
 
@@ -81,7 +81,7 @@ public:
         return send_void_ptr(id, v_ptr, std::type_index(typeid(T)));
     }
 
-	void send_void_ptr(const EventType id, void * ptr, 
+	void send_void_ptr(const EventType id, void * ptr,
 		               const std::type_index & type_index);
 
 	EventSubscribers & find_or_create_subscribers(
@@ -89,21 +89,21 @@ public:
 		const std::type_index & type_index);
 
     template<typename T>
-	SubscriptionId subscribe(const EventType id, 
+	SubscriptionId subscribe(const EventType id,
 		                     std::function<void(T args)> func) {
         EventSubscribers & subscribers
             = find_or_create_subscribers(id, std::type_index(typeid(T)));
         SubscriptionFuncId fid = subscribers.add_subscriber(func);
 		return { id, fid };
     }
-	
+
 	void prune();
 
     void unsubscribe(SubscriptionId);
 
 private:
 	std::map<EventType, EventSubscribers> subscriber_map;
-	std::map<EventType, boost::optional<std::type_index>> type_map;
+	std::map<EventType, std::optional<std::type_index>> type_map;
 };
 
 }}

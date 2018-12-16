@@ -211,7 +211,7 @@ public:
 		const auto find_device = [&](const PreferredDevice & dev_type) -> Device * {
             for (auto i = 0; i < device_source.get_device_count(); ++i) {
 				auto pdt = device_source.get_device(i)->get_preferred_device_type();
-            	if (pdt && dev_type == pdt.get()) {
+            	if (pdt && dev_type == pdt.value()) {
 					return device_source.get_device(i);
 				}
 			}

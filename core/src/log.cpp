@@ -157,7 +157,7 @@ LogSystem::LogSystem()
         #endif
 		auto level = lp3::core::get_env_var("LP3_LOG_LEVEL");
 		if (level) {
-			std::string l = level.get();
+			std::string l = level.value();
 			std::transform(l.begin(), l.end(), l.begin(), ::tolower);
 			verbosity_level =
 				(l == "critical" ? LogLevel::Critical

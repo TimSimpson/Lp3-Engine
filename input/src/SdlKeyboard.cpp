@@ -25,7 +25,7 @@ public:
         return false;
     }
 
-	boost::optional<lp3::input::PreferredDevice> get_preferred_device_type() override {
+	std::optional<lp3::input::PreferredDevice> get_preferred_device_type() override {
 		return lp3::input::PreferredDevice::KEYBOARD;
 	}
 

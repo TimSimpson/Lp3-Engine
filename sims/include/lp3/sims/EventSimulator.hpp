@@ -17,9 +17,9 @@ public:
 
     template<typename T>
     QRoutineId emit(EventType id, T args, SleepTime sleep_time) {
-        return runner.run([id, args, this] () -> boost::optional<SleepTime> {
+        return runner.run([id, args, this] () -> std::optional<SleepTime> {
             dispatcher.send(id, args);
-            return boost::none;
+            return std::nullopt;
         }, sleep_time);
     }
 
