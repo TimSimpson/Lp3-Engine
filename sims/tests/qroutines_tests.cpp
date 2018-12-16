@@ -124,7 +124,7 @@ TEST_CASE("Kicking off routines from routines.", "[basic_runs]") {
 		LP3_COROUTINE_BEGIN(coro1)
 			for (spawn = 0; spawn < 100; ++spawn) {
                 LP3_LOG_INFO("Main proc, spawn %i", spawn);
-				runner.run([&history]() {
+				runner.run([&history, spawn]() {
 					LP3_LOG_INFO("Child routine (%i)", spawn);
 					history.push_back('c');
 					return std::nullopt;
