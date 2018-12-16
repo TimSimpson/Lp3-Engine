@@ -106,7 +106,7 @@ script:
     echo 'Hi Cache! What is in CGET?'
     ls -la cget
     set -e
-    cget init --std=c++14 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=14
+    cget init --std=c++17 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=17
     cget install TimSimpson/cget-recipes
     cget install libpng
     cget install -f requirements.txt

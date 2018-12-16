@@ -15,7 +15,7 @@ build_script:
 
       SET LP3_ROOT_PATH=%CD%\standalone\media
 
-      pip install cget
+      pip install cget cmake
 
       set OLD_PATH=%PATH%
 
@@ -26,6 +26,8 @@ build_script:
       cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
 
       cget install -f ../requirements.txt --debug
+
+      cmake --version
 
       cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
 
