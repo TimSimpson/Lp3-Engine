@@ -16,7 +16,7 @@
 #endif
 #include <SDL.h>
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
 namespace {
 	static LogLevel verbosity_level = LogLevel::Debug;
@@ -179,4 +179,4 @@ LogSystem::~LogSystem()
     #endif
 }
 
-} }
+}

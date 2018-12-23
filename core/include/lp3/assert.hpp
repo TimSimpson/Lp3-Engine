@@ -25,7 +25,7 @@
 // executing, since the exception will stop the code path without aborting the
 // entire program.
 
-namespace lp3 { namespace core {
+namespace lp3::core {
 
 // Instantiate this class to make all failed asserts throw exceptions.
 LP3_CORE_API
@@ -44,7 +44,7 @@ public:
 };
 
 
-}   }
+}
 
 
 #ifdef LP3_COMPILE_WITH_DEBUGGING

@@ -1,7 +1,7 @@
 # LP3 Engine vII
 
 [![Build Status](https://travis-ci.org/TimSimpson/Lp3-Engine.svg?branch=master)](https://travis-ci.org/TimSimpson/Lp3-Engine)
-[![Build status](https://ci.appveyor.com/api/projects/status/hro698ynw2t40014?svg=true)](https://ci.appveyor.com/project/TimSimpson/lp3-engine)
+[![Build status](https://ci.appveyor.com/api/projects/status/hro698ynw2t40014/branch/master?svg=true)](https://ci.appveyor.com/project/TimSimpson/lp3-engine-4dbet/branch/master)
 
 This is a series of helper libraries for writing games in C++. There are a million of those, so why create one of those?
 

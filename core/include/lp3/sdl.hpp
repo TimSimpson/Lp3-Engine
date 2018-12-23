@@ -39,7 +39,7 @@
 #include <SDL_image.h>
 
 
-namespace lp3 { namespace sdl {
+namespace lp3::sdl {
 
 // ----------------------------------------------------------------------------
 // struct SDL2
@@ -256,6 +256,6 @@ private:
 
 // ~end-doc
 
-} }
+}
 
 #endif

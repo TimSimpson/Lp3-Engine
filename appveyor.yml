@@ -15,7 +15,9 @@ build_script:
 
       SET LP3_ROOT_PATH=%CD%\standalone\media
 
-      pip install cget cmake
+      pip install cget
+
+      cmake --version
 
       set OLD_PATH=%PATH%
 
