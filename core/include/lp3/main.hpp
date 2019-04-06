@@ -68,7 +68,9 @@
 
 #if defined(LP3_COMPILE_TARGET_WINDOWS)
 
-	#pragma comment( linker, "/subsystem:windows" )
+	#if defined(_MSC_VER)
+		#pragma comment( linker, "/subsystem:windows" )
+	#endif
 
 	#if  defined(LP3_COMPILE_WITH_DEBUGGING)
 		#define LP3_MAIN(main_function) \

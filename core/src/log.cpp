@@ -91,7 +91,7 @@ namespace {
 
 namespace {
 
-#ifdef LP3_COMPILE_TARGET_WINDOWS
+#if !defined(LP3_COMPILE_LOG_DISABLE) && defined(LP3_COMPILE_TARGET_WINDOWS)
 	LogLevel sdl_priority_to_log_level(SDL_LogPriority priority) {
 		switch (priority) {
 		case SDL_LOG_PRIORITY_VERBOSE:
