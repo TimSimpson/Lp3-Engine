@@ -15,8 +15,10 @@
 
 #include <lp3/core.hpp>
 
-// Disable the ever-present error message about strncpy being obsolete.
-#pragma warning(disable : 4996)
+#ifdef _MSC_VER
+    // Disable the ever-present error message about strncpy being obsolete.
+    #pragma warning(disable : 4996)
+#endif
 
 
 using lp3::core::WCharToCharConverter;
@@ -39,7 +41,6 @@ namespace {
 
     static CRITICAL_SECTION cs;
 
-    static char newLineChar[4] = "^%^";//"\r\n";
     static char ewbuffer[EWBUFFER_SIZE];
     static char syncChar = 0;
 
@@ -50,7 +51,7 @@ namespace {
     static HANDLE hPipe;
 
     /* Connects to the pipe server. */
-    bool openPipe(TCHAR * pipeName) {
+    bool openPipe(const TCHAR * pipeName) {
         /* Keep trying to open pipe. */
         hPipe = INVALID_HANDLE_VALUE;
         while(INVALID_HANDLE_VALUE == hPipe)
