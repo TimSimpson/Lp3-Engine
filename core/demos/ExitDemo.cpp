@@ -39,7 +39,7 @@ struct RegisterData {
 RegisterData data_1("Tim", "Author");
 RegisterData data_2("C++", "Language");
 
-int _main(core::PlatformLoop &) {
+int _main(lp3::main::PlatformLoop &) {
     lp3::core::LogSystem log;
 
     LP3_LOG_DEBUG("Let's play with crazy global data.");

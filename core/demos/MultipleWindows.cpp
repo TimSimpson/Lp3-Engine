@@ -29,7 +29,7 @@ struct Window {
     }
 };
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
 
     core::LogSystem log;

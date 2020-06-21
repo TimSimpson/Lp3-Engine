@@ -6,6 +6,7 @@ project(lp3_input CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
+find_package(lp3-main REQUIRED)
 find_package(Lp3_Core 1.0.1)
 
 add_library(input
@@ -82,11 +83,11 @@ if (LP3_INPUT_FULL)
     find_package(Lp3_ImGui 1.0.1)
     find_package(Lp3_Gfx 1.0.1)
 
-    add_executable(view_controls ${CMAKE_CURRENT_SOURCE_DIR}/demos/view_controls.cpp)
-    target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui)
+    add_executable(view_controls WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/view_controls.cpp)
+    target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui lp3-main::lp3-main)
 
-    add_executable(pokey ${CMAKE_CURRENT_SOURCE_DIR}/demos/pokey.cpp)
-    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui)
+    add_executable(pokey WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/pokey.cpp)
+    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui lp3-main::lp3-main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (input PROPERTIES FOLDER input)

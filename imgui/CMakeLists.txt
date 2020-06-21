@@ -6,6 +6,7 @@ project(lp3_imgui CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
+find_package(lp3-main REQUIRED)
 find_package(Lp3_Gfx 1.0.1)
 
 add_library(imgui
@@ -84,8 +85,8 @@ if (NOT is_child)
 endif()
 
 if (LP3_IMGUI_FULL)
-    add_executable(ImGuiDemo ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
-    target_link_libraries(ImGuiDemo imgui ${LP3_LIBS})
+    add_executable(ImGuiDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
+    target_link_libraries(ImGuiDemo imgui ${LP3_LIBS} lp3-main::lp3-main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (imgui PROPERTIES FOLDER imgui)

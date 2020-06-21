@@ -39,7 +39,7 @@ void set_default_controls(lp3::input::Controls & controls) {
     controls.set_defaults(0, preferred_mappings);
 }
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     core::LogSystem log;
     sdl::SDL2 sdl2(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK| SDL_INIT_GAMECONTROLLER);
 
@@ -63,7 +63,7 @@ int _main(core::PlatformLoop & loop) {
 
     auto pokey_quad = elements.add_quad();
     auto quads = tm.create_quads(elements);
-	
+
     tm.write({20, 1}, "~ INSTRUCTIONS ~", true);
     int tm_y = 2;
     auto write_text = [&](const char * msg, int button_index) {

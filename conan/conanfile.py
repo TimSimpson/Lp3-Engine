@@ -14,6 +14,9 @@ class Lp3Engine(c.ConanFile):
     default_options = {"shared": False}
 
     requires = (
+        "Lp3-Main/1.0.5@TimSimpson/testing",
+        "Lp3-Sdl/1.0.4@TimSimpson/testing",
+
         "Catch2/2.11.1@catchorg/stable",
         "glm/0.9.8.5@g-truc/stable",
         "gsl_microsoft/2.0.0@bincrafters/stable",

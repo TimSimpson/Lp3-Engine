@@ -6,6 +6,7 @@ project(lp3_sims CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
+find_package(lp3-main REQUIRED)
 find_package(Lp3_Core 1.0.1)
 
 add_library(sims
@@ -93,8 +94,8 @@ if (LP3_SIMS_FULL)
     target_link_libraries(EventSimulatorTests sims tests-main)
     add_test(EventSimulatorTests EventSimulatorTests)
 
-    add_executable(TimersDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/TimersDemo.cpp)
-    target_link_libraries(TimersDemo sims)
+    add_executable(TimersDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/TimersDemo.cpp)
+    target_link_libraries(TimersDemo sims lp3-main::lp3-main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (sims PROPERTIES FOLDER sims)

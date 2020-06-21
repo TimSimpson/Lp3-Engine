@@ -6,8 +6,9 @@ project(lp3_gl CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(glm)
-find_package(Lp3_Core 1.0.1)
+find_package(glm REQUIRED)
+find_package(lp3-main REQUIRED)
+find_package(Lp3_Core REQUIRED)
 
 add_library(gl
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp
@@ -79,8 +80,8 @@ if (NOT is_child)
 endif()
 
 if (LP3_GL_FULL)
-    add_executable(glDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/glDemo.cpp)
-    target_link_libraries(glDemo gl ${LP3_LIBS})
+    add_executable(glDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/glDemo.cpp)
+    target_link_libraries(glDemo gl ${LP3_LIBS} lp3-main::lp3-main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (gl PROPERTIES FOLDER gl)

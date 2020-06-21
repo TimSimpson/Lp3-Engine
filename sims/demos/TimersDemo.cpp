@@ -9,7 +9,7 @@
 namespace core = lp3::core;
 namespace sims = lp3::sims;
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     core::LogSystem logger;
 
     // A real timer.

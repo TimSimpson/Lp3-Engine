@@ -14,7 +14,7 @@ namespace gfx = lp3::gfx;
 namespace sdl = lp3::sdl;
 namespace sims = lp3::sims;
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
     core::LogSystem log;
     core::MediaManager media;
@@ -76,7 +76,7 @@ int _main(core::PlatformLoop & loop) {
 		const float z = 0.0f;  // z coordinate to render map at
 		const glm::vec2 draw_tile_size(32.0f, 32.0f);  // size when we draw it
 		const glm::ivec2 src_tile_size(16, 16); // size in the source texture
-		tm.set_quads(draw_at, z, draw_tile_size, 
+		tm.set_quads(draw_at, z, draw_tile_size,
 			         quads, src_tile_size,
 			         texture_text.size());
 

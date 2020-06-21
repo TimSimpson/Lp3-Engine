@@ -155,7 +155,7 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
     }
 }
 
-int load(core::PlatformLoop & loop,
+int load(lp3::main::PlatformLoop & loop,
          sdl::RWops & input_file,
          const bool & run) {
 
@@ -244,7 +244,7 @@ int load(core::PlatformLoop & loop,
     });
 }
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
     TTF_Init();
 
