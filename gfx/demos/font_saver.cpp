@@ -7,11 +7,14 @@
 #include <lp3/sdl.hpp>
 #include <lp3/log.hpp>
 #include <lp3/main.hpp>
+#include <SDL_image.h>
 #if LP3_COMPILE_TARGET_EMSCRIPTEN
 #include <SDL/SDL_ttf.h>
 #else
 #include <SDL_ttf.h>
 #endif
+
+
 #include <lp3/sims.hpp>
 #include <lp3/gfx.hpp>
 

@@ -3,6 +3,7 @@
 #include <lp3/main.hpp>
 #include <lp3/sdl.hpp>
 #include <lp3/sims.hpp>
+#include <SDL_image.h>
 
 namespace core = lp3::core;
 namespace gl = lp3::gl;

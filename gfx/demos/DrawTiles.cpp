@@ -2,6 +2,7 @@
 // This example shows how a TileMap can be used to write some text to the
 // screen.
 // ----------------------------------------------------------------------------
+#include <SDL_image.h>
 #include <lp3/core.hpp>
 #include <lp3/gfx.hpp>
 #include <lp3/main.hpp>

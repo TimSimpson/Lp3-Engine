@@ -7,15 +7,14 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(Boost REQUIRED)
-find_package(sdl2 2.0.7)
 find_package(lp3-main REQUIRED)
+find_package(lp3-sdl REQUIRED)
 
 add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/casts.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sdl.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
@@ -30,7 +29,6 @@ add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/exit.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/sdl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp
 )
@@ -44,13 +42,7 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC Boost::boost sdl2::sdl2 sdl2::image)
-
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-    target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
-else()
-    target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
-endif()
+target_link_libraries(core PUBLIC Boost::boost lp3-sdl::lp3-sdl sdl2::image)
 
 
 

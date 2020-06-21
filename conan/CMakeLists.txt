@@ -60,6 +60,11 @@ clone_library(sdl2::ttf sdl2_ttf::sdl2_ttf)
 find_package(sdl2_mixer REQUIRED)
 clone_library(sdl2::mixer sdl2_mixer::sdl2_mixer)
 
+
+# Load this, as Core can't seem to "export" it
+find_package(lp3-sdl REQUIRED)
+
+
 # Do the find_package macro trick to ignore any package we're dealing with
 # specially, such as subprojects or Conan-derived dependencies.
 

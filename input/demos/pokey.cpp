@@ -7,6 +7,7 @@
 #include <lp3/gfx.hpp>
 #include <lp3/input.hpp>
 #include <lp3/main.hpp>
+#include <SDL_image.h>
 
 namespace core = lp3::core;
 namespace gfx = lp3::gfx;
