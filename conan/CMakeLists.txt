@@ -57,6 +57,8 @@ find_package(sdl2_image REQUIRED)
 clone_library(sdl2::image sdl2_image::sdl2_image)
 find_package(sdl2_ttf REQUIRED)
 clone_library(sdl2::ttf sdl2_ttf::sdl2_ttf)
+find_package(sdl2_mixer REQUIRED)
+clone_library(sdl2::mixer sdl2_mixer::sdl2_mixer)
 
 # Do the find_package macro trick to ignore any package we're dealing with
 # specially, such as subprojects or Conan-derived dependencies.
@@ -96,9 +98,6 @@ set(LP3_INPUT_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
                  ${CMAKE_CURRENT_BINARY_DIR}/input-output)
 
-
-# The Mix project isn't supported as there aren't any Conan packages for
-# SDL2_mix... at least not yet.
-# set(LP3_MIX_FULL true)
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
-#                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
+set(LP3_MIX_FULL true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
+                 ${CMAKE_CURRENT_BINARY_DIR}/mix-output)

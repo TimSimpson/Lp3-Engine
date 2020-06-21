@@ -29,10 +29,17 @@ class Lp3Engine(c.ConanFile):
         "libpng/1.6.37",
         "openssl/1.1.1g",
         "glib/2.64.0@bincrafters/stable",
-        "libmodplug/0.8.9.0@bincrafters/stable",
+        # "libmodplug/0.8.9.0@bincrafters/stable",
     )
 
+    default_options = {
+        "sdl2_mixer:modplug": False,
+        "sdl2_mixer:fluidsynth": False,
+        "sdl2_mixer:tinymidi": False,
+    }
+
     generators = "cmake_find_package"
+
 
     def build(self):
         cmake = c.CMake(self)
