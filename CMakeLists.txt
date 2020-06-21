@@ -98,29 +98,29 @@ set(LP3_SETUP_FOLDERS TRUE)  # Organizes VS folders
 # endif()
 
 set(LP3_CORE_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/core
                  ${CMAKE_CURRENT_BINARY_DIR}/core-output)
 
 set(LP3_SIMS_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../sims
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sims
                  ${CMAKE_CURRENT_BINARY_DIR}/sims-output)
 
 set(LP3_GL_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gl
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/gl
                  ${CMAKE_CURRENT_BINARY_DIR}/gl-output)
 
 set(LP3_GFX_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/gfx
                  ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)
 
 set(LP3_IMGUI_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../imgui
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/imgui
                  ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
 
 set(LP3_INPUT_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/input
                  ${CMAKE_CURRENT_BINARY_DIR}/input-output)
 
 set(LP3_MIX_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mix
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mix
                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
