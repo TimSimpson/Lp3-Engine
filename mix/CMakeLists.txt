@@ -16,6 +16,7 @@ add_library(mix
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/mix.cpp
 )
+set_target_properties(mix PROPERTIES OUTPUT_NAME "Lp3_Mix")
 
 target_include_directories(mix
     PUBLIC

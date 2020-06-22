@@ -87,15 +87,18 @@ class Lp3Engine(c.ConanFile):
 
     def package_info(self):
         self.cpp_info.name = "lp3-engine"
-
+        self.cpp_info.libs = [
+            "Lp3_Core",
+            "Lp3_Gl",
+            "Lp3_Gfx",
+            "Lp3_ImGui",
+            "Lp3_Input",
+            "Lp3_Mix",
+            "Lp3_Sims",
+        ]
         # TODO: sort out with components, somehow
-
-        # self.cpp_info.components["core"].libs = ["lp3core"]
-        # self.cpp_info.components["core"].defines = ["DEFINE_CRYPTO=1"]
-        # self.cpp_info.components["core"].requires = ["zlib::zlib"]  # Depends on all components in zlib package
-
-        # self.cpp_info.components["ssl"].names["cmake"] = "SSL"
-        # self.cpp_info.components["ssl"].includedirs = ["include/headers_ssl"]
-        # self.cpp_info.components["ssl"].libs = ["libssl"]
-        # self.cpp_info.components["ssl"].requires = ["crypto",
-        #                                             "boost::headers"]  # Depends on
+        # self.cpp_info.requires = [ "Lp3-Main" ]
+        # self.cpp_info.components["core"].libs = ["Lp3_Core"]
+        # self.cpp_info.components["core"].requires = ["Lp3-Main"]
+        # self.cpp_info.components["core"].requires = ["Boost::boost"]
+        # self.cpp_info.components["core"].requires = ["sdl2::image"]
