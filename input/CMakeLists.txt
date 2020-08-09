@@ -85,10 +85,10 @@ if (LP3_INPUT_FULL)
     find_package(Lp3_Gfx 1.0.1)
 
     add_executable(view_controls WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/view_controls.cpp)
-    target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui lp3-main::lp3-main)
+    target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui lp3::main)
 
     add_executable(pokey WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/pokey.cpp)
-    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui lp3-main::lp3-main)
+    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui lp3::main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (input PROPERTIES FOLDER input)

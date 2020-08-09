@@ -95,7 +95,7 @@ if (LP3_SIMS_FULL)
     add_test(EventSimulatorTests EventSimulatorTests)
 
     add_executable(TimersDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/TimersDemo.cpp)
-    target_link_libraries(TimersDemo sims lp3-main::lp3-main)
+    target_link_libraries(TimersDemo sims lp3::main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (sims PROPERTIES FOLDER sims)

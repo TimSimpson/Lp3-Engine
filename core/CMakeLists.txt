@@ -42,7 +42,7 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC Boost::boost lp3-sdl::lp3-sdl sdl2::image)
+target_link_libraries(core PUBLIC Boost::boost lp3::sdl sdl2::image)
 
 
 
@@ -95,13 +95,13 @@ endif()
 
 if (LP3_CORE_FULL)
     add_executable(ExitDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/ExitDemo.cpp)
-    target_link_libraries(ExitDemo core lp3-main::lp3-main)
+    target_link_libraries(ExitDemo core lp3::main)
 
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
     target_link_libraries(LogDemo core)
 
     add_executable(MainDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
-    target_link_libraries(MainDemo core lp3-main::lp3-main)
+    target_link_libraries(MainDemo core lp3::main)
 
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
     target_link_libraries(assert_tests core)
@@ -112,10 +112,10 @@ if (LP3_CORE_FULL)
     add_test(media_tests media_tests)
 
     add_executable(Sdl2Simple WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
-    target_link_libraries(Sdl2Simple core lp3-main::lp3-main)
+    target_link_libraries(Sdl2Simple core lp3::main)
 
     add_executable(MultipleWindows WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(MultipleWindows core lp3-main::lp3-main)
+    target_link_libraries(MultipleWindows core lp3::main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (core PROPERTIES FOLDER core)

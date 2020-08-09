@@ -99,26 +99,26 @@ if (LP3_GFX_FULL)
     find_package(sdl2 2.0.7)
 
     add_executable(Lp3_Gfx_MultipleWindows WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(Lp3_Gfx_MultipleWindows gfx lp3-main::lp3-main)
+    target_link_libraries(Lp3_Gfx_MultipleWindows gfx lp3::main)
 
     add_executable(SimpleGfx WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/SimpleGfx.cpp)
-    target_link_libraries(SimpleGfx gfx lp3-main::lp3-main)
+    target_link_libraries(SimpleGfx gfx lp3::main)
 
     add_executable(CPaperDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/CPaperDemo.cpp)
-    target_link_libraries(CPaperDemo gfx lp3-main::lp3-main)
+    target_link_libraries(CPaperDemo gfx lp3::main)
 
     add_executable(TextureDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/TextureDemo.cpp)
-    target_link_libraries(TextureDemo gfx lp3::sims lp3-main::lp3-main)
+    target_link_libraries(TextureDemo gfx lp3::sims lp3::main)
 
     add_executable(DrawTiles WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/DrawTiles.cpp)
-    target_link_libraries(DrawTiles gfx lp3::sims lp3-main::lp3-main)
+    target_link_libraries(DrawTiles gfx lp3::sims lp3::main)
 
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
-    target_link_libraries(font_saver gfx lp3::sims sdl2::ttf lp3-main::lp3-main)
+    target_link_libraries(font_saver gfx lp3::sims sdl2::ttf lp3::main)
 
     add_executable(show_font WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/show_font.cpp)
-    target_link_libraries(show_font gfx lp3::sims lp3-main::lp3-main)
+    target_link_libraries(show_font gfx lp3::sims lp3::main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (gfx PROPERTIES FOLDER gfx)

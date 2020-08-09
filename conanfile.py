@@ -12,8 +12,8 @@ class Lp3Engine(c.ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     requires = (
-        "Lp3-Main/1.0.5@TimSimpson/testing",
-        "Lp3-Sdl/1.0.4@TimSimpson/testing",
+        "lp3-main/1.0.7@TimSimpson/testing",
+        "lp3-sdl/1.0.5@TimSimpson/testing",
         "glm/0.9.8.5@g-truc/stable",
         "gsl_microsoft/2.0.0@bincrafters/stable",
         "boost/1.71.0@conan/stable",
@@ -60,7 +60,7 @@ class Lp3Engine(c.ConanFile):
     generators = "cmake_find_package"
 
     exports_sources = (
-        "src/*", "include/*", "demos/*", "tests/*", "CMakeLists.txt",
+        "src/*", "include/*", "demos/*", "tests/*", "CMakeLists.txt", "Lp3EngineTargets.cmake",
         "core/*",
         "gfx/*",
         "gl/*",
