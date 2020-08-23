@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(lp3-main REQUIRED)
+find_package(lp3-sims REQUIRED)
 find_package(Lp3_Gl REQUIRED)
 
 add_library(gfx

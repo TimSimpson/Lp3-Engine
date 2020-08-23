@@ -14,6 +14,7 @@ class Lp3Engine(c.ConanFile):
     requires = (
         "lp3-main/1.0.7@TimSimpson/testing",
         "lp3-sdl/1.0.5@TimSimpson/testing",
+        "lp3-sims/1.0.1@TimSimpson/testing",
         "glm/0.9.8.5@g-truc/stable",
         "gsl_microsoft/2.0.0@bincrafters/stable",
         "boost/1.71.0@conan/stable",
@@ -93,7 +94,6 @@ class Lp3Engine(c.ConanFile):
             "Lp3_ImGui",
             "Lp3_Input",
             "Lp3_Mix",
-            "Lp3_Sims",
         ]
         # TODO: sort out with components, somehow
         # self.cpp_info.requires = [ "Lp3-Main" ]

@@ -101,10 +101,6 @@ set(LP3_CORE_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/core
                  ${CMAKE_CURRENT_BINARY_DIR}/core-output)
 
-set(LP3_SIMS_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sims
-                 ${CMAKE_CURRENT_BINARY_DIR}/sims-output)
-
 set(LP3_GL_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/gl
                  ${CMAKE_CURRENT_BINARY_DIR}/gl-output)

@@ -8,6 +8,7 @@ include(CMakePackageConfigHelpers)
 
 find_package(lp3-main REQUIRED)
 find_package(lp3-sdl REQUIRED)
+find_package(lp3-sims REQUIRED)
 find_package(Lp3_Core 1.0.1)
 
 add_library(mix
