@@ -67,7 +67,6 @@ class Lp3Engine(c.ConanFile):
         "imgui/*",
         "input/*",
         "mix/*",
-        "sims/*",
     )
 
     def _configed_cmake(self):
