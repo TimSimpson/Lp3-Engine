@@ -14,6 +14,7 @@ clang-linux: &clang-linux
         - clang-8
         - libstdc++-8-dev
         - python3-pip
+        - xorg-dev
 
 emscripten: &emscripten
   os: linux
@@ -32,7 +33,7 @@ osx: &osx
 
 install:
   - git clone https://github.com/TimSimpson/ci-land.git ci
-  - pushd ci && git checkout 0a03669041cc3a6b02ccbfd644511909d6dd277a && popd
+  - pushd ci && git checkout abf52caf7ca4d23cc3d016b1448ae25c0f4a1fdc && popd
   - ./ci/cpp/conan/travis/install.sh
 
 script:
