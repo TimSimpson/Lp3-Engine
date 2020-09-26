@@ -20,6 +20,8 @@ add_library(gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/gles2.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/gles2._orig_c
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(gl PUBLIC cxx_std_17)
 set_target_properties(gl PROPERTIES OUTPUT_NAME "Lp3_Gl")
 
 target_include_directories(gl

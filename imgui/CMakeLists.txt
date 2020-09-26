@@ -24,6 +24,8 @@ add_library(imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_textedit.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_truetype.h
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(imgui PUBLIC cxx_std_17)
 set_target_properties(imgui PROPERTIES OUTPUT_NAME "Lp3_ImGui")
 
 target_include_directories(imgui

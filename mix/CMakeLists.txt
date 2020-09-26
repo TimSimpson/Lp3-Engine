@@ -17,6 +17,8 @@ add_library(mix
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/mix.cpp
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(mix PUBLIC cxx_std_17)
 set_target_properties(mix PROPERTIES OUTPUT_NAME "Lp3_Mix")
 
 target_include_directories(mix

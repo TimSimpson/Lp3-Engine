@@ -22,6 +22,8 @@ add_library(input
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SdlJoystick.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SdlKeyboard.cpp
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(input PUBLIC cxx_std_17)
 set_target_properties(input PROPERTIES OUTPUT_NAME "Lp3_Input")
 
 target_include_directories(input

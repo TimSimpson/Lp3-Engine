@@ -32,6 +32,8 @@ add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(core PUBLIC cxx_std_17)
 set_target_properties(core PROPERTIES OUTPUT_NAME "Lp3_Core")
 
 target_include_directories(core

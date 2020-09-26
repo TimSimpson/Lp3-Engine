@@ -40,7 +40,8 @@ add_library(gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/ColoredTexture.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/SimpleTextured.cpp
 )
-
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(gfx PUBLIC cxx_std_17)
 target_include_directories(gfx
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

@@ -7,6 +7,7 @@ class TestPackage(conans.ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     requires = (
+        "lp3-engine/1.0.2@TimSimpson/testing"
     )
 
     def build(self):

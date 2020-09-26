@@ -1,14 +1,22 @@
-
-# This CMake super project uses Conan.
-# By placing Conan support here, it keeps the root project clean and portable
-# between package managers.
-
-project(lp3_engine-Parent CXX)
+# *********************************************************************
+# LP3_ENGINE
+#       Combines several bits of game / media functionality.
+# *********************************************************************
 cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
 
-set (CMAKE_CXX_STANDARD 17)
+if(NOT DEFINED PROJECT_NAME)
+    set(NOT_SUBPROJECT ON)
+endif()
+
+project(lp3_engine CXX)
+
+include(CTest)
 enable_testing()
 include(ExternalProject)
+
+# Allow user to ask explicitly to build tests
+option(LP3_ENGINE_Build_Tests "Build tests when BUILD_TESTING is enabled."
+       ${NOT_SUBPROJECT})
 
 # Hack a bunch of stuff to make it work with Conan.
 
@@ -45,11 +53,26 @@ endfunction()
 find_package(gsl_microsoft REQUIRED)
 add_header_library(gsl_microsoft::gsl_microsoft)
 
-find_package(Catch2 REQUIRED)
-add_header_library(Catch2::Catch2)
-
 find_package(glm REQUIRED)
 clone_library(glm glm::glm)
+
+
+if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+    find_package(SDL2)
+    if(TARGET SDL2::SDL2-static)
+        clone_library(sdl2::sdl2 SDL2::SDL2-static)
+    elseif(TARGET SDL2::SDL2)
+        clone_library(sdl2::sdl2 SDL2::SDL2)
+    else()
+        # Try using BinCrafter's find package name from pre 2.0.12 versions.
+        find_package(sdl2)
+        if(TARGET sdl2::sdl2)
+            # cool?
+        else()
+            message(FATAL_ERROR "Could not find SDL2!")
+        endif()
+    endif()
+endif()
 
 find_package(sdl2 REQUIRED)
 # clone_library(sdl2::sdl2 CONAN_PKG::sdl2)  # oh the irony, I named mine the same
@@ -63,6 +86,25 @@ clone_library(sdl2::mixer sdl2_mixer::sdl2_mixer)
 
 # Load this, as Core can't seem to "export" it
 find_package(lp3-sdl REQUIRED)
+
+
+# If testiing is required, turn on the "full" options for each subproject.
+if(BUILD_TESTING AND LP3_ENGINE_Build_Tests)
+    find_package(Catch2 REQUIRED)
+    add_header_library(Catch2::Catch2)
+
+    set(LP3_CORE_FULL true)
+
+    set(LP3_GL_FULL true)
+
+    set(LP3_GFX_FULL true)
+
+    set(LP3_IMGUI_FULL true)
+
+    set(LP3_INPUT_FULL true)
+
+    set(LP3_MIX_FULL true)
+endif()
 
 
 # Do the find_package macro trick to ignore any package we're dealing with
@@ -97,26 +139,21 @@ set(LP3_SETUP_FOLDERS TRUE)  # Organizes VS folders
 #         "${CMAKE_CURRENT_SOURCE_DIR}/imgui/lib/")
 # endif()
 
-set(LP3_CORE_FULL true)
+
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/core
                  ${CMAKE_CURRENT_BINARY_DIR}/core-output)
 
-set(LP3_GL_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/gl
                  ${CMAKE_CURRENT_BINARY_DIR}/gl-output)
 
-set(LP3_GFX_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/gfx
                  ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)
 
-set(LP3_IMGUI_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/imgui
                  ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
 
-set(LP3_INPUT_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/input
                  ${CMAKE_CURRENT_BINARY_DIR}/input-output)
 
-set(LP3_MIX_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mix
                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
