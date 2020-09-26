@@ -1,62 +1,19 @@
-platform:
-  - Win32
-
-os: Visual Studio 2019 Preview
+os: Visual Studio 2019
 
 environment:
-  BOOST_ROOT: C:\Libraries\boost_1_67_0
-  PYTHON: "C:\\Python36"
+    PYTHON: "C:\Python37"
+
+    matrix:
+
+        - PROFILE:  msvc-d-shared
+        - PROFILE:  msvc-r-static
+
+install:
+  - git clone https://github.com/TimSimpson/ci-land.git ci
+  - cd ci
+  - git checkout 0a03669041cc3a6b02ccbfd644511909d6dd277a
+  - cd ..
+  - ci\cpp\conan\appveyor\install.bat
 
 build_script:
-  - cmd: >-
-      git submodule update --init --recursive
-
-      SET PATH=%PATH%;%PYTHON%\Scripts\
-
-      SET LP3_ROOT_PATH=%CD%\standalone\media
-
-      pip install cget
-
-      cmake --version
-
-      set OLD_PATH=%PATH%
-
-      mkdir debug
-
-      cd debug
-
-      cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Debug
-
-      cget install -f ../requirements.txt --debug
-
-      cmake --version
-
-      cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
-
-      cmake --build ./ --config Debug
-
-      set PATH=%CD%\cget\lib;%OLD_PATH%
-
-      ctest --output-on-failure
-
-      set PATH=%OLD_PATH%
-
-      cd ..
-
-      mkdir release
-
-      cd release
-
-      cget init -DCMAKE_GENERATOR_PLATFORM:none=x64 -DCMAKE_BUILD_TYPE:none=Release
-
-      cget install -f ../requirements.txt --release
-
-      cmake -DCMAKE_TOOLCHAIN_FILE=./cget/cget/cget.cmake -H../standalone -B./
-
-      cmake --build ./ --config Release
-
-      set PATH=%CD%\cget\lib;%OLD_PATH%
-
-      ctest --output-on-failure
-
-      set PATH=%OLD_PATH%
+  - ci\cpp\conan\appveyor\run.bat %PROFILE%

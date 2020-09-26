@@ -1,121 +1,77 @@
 language: cpp
 
-dist: trusty
-sudo: false
+clang-linux: &clang-linux
+  os: linux
+  dist: bionic
+  python: "3.7"
+  compiler: clang
+  addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-bionic-8
+      packages:
+        - clang-8
+        - libstdc++-8-dev
+        - python3-pip
 
-cache:
-  directories:
-  - ./cget
+emscripten: &emscripten
+  os: linux
+  dist: bionic
+  python: "3.7"
+  compiler: clang
+  addons:
+    apt:
+      packages:
+        - python3-pip
+
+osx: &osx
+   os: osx
+   language: generic
+   osx_image: xcode11.3
+
+install:
+  - git clone https://github.com/TimSimpson/ci-land.git ci
+  - pushd ci && git checkout 0a03669041cc3a6b02ccbfd644511909d6dd277a && popd
+  - ./ci/cpp/conan/travis/install.sh
+
+script:
+  - ./ci/cpp/conan/travis/run.sh
 
 matrix:
   include:
-    - name: "GCC 8 Release"
-      os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-8
-            - g++-8
-            - ninja-build
-            - libfreetype6-dev
-            - libboost-dev
-      env:
-        - CENV_NAME=gcc64r
-          CI_C=gcc-8
-          CI_CXX=g++-8
-          CI_BUILD_TYPE=Release
-    - name: "GCC 8 Debug"
-      os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-8
-            - g++-8
-            - ninja-build
-            - libfreetype6-dev
-            - libboost-dev
-      env:
-        - CENV_NAME=gcc64d
-          CI_C=gcc-8
-          CI_CXX=g++-8
-          CI_BUILD_TYPE=Debug
-    - name: "Clang 6.0 Release"
-      os: linux
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-          packages:
-            - gcc-6
-            - g++-6
-            - clang-6.0
-            - clang-format-6.0
-            - clang-tidy-6.0
-            - libstdc++-7-dev
-            - ninja-build
-            - libfreetype6-dev
-            - libboost-dev
-      env:
-        - CENV_NAME=clang64r
-          CI_C=clang-6.0
-          CI_CXX=clang++-6.0
-          CI_BUILD_TYPE=Release
-    - name: "Clang 6.0 Debug"
-      os: linux
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-          packages:
-            - gcc-6
-            - g++-6
-            - clang-6.0
-            - clang-format-6.0
-            - clang-tidy-6.0
-            - libstdc++-7-dev
-            - ninja-build
-            - libfreetype6-dev
-            - libboost-dev
-      env:
-        - CENV_NAME=clang64d
-          CI_C=clang-6.0
-          CI_CXX=clang++-6.0
-          CI_BUILD_TYPE=Debug
 
-install:
-  - |
-    pip install --user cmake cget
+    - name: "Linux Clang 8.0 Release"
+      <<: *clang-linux
+      env:
+        - PROFILE=clang-8-r-static
+    - name: "Linux Clang 8.0 Debug"
+      <<: *clang-linux
+      env:
+        - PROFILE=clang-8-d-static
+    - name: "Emscripten WASM Release"
+      <<: *clang-linux
+      env:
+        - PROFILE=emscripten-w-r
+    - name: "Emscripten Javascript Debug"
+      <<: *clang-linux
+      env:
+        - PROFILE=emscripten-js-d
 
-script:
-  - |
-    set -e
-    $CI_CXX --version
-    cmake --version
-    git submodule update --init --recursive
-    set +e
-    echo 'Hi Cache! What is in CGET?'
-    ls -la cget
-    set -e
-    cget init --std=c++17 -DCMAKE_C_COMPILER:none=${CI_C} -DCMAKE_CXX_COMPILER:none=${CI_CXX} -DCMAKE_BUILD_TYPE:none=${CI_BUILD_TYPE} -DCMAKE_CXX_STANDARD=17
-    cget install TimSimpson/cget-recipes
-    cget install libpng
-    cget install -f requirements.txt
-    mkdir build
-    cd build
-    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake -H../standalone -B./
-    cmake --build ./
-    export CTEST_OUTPUT_ON_FAILURE=1
-    export PATH=$(pwd)/../cget/lib:${PATH}
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/../cget/lib
-    export LP3_ROOT_PATH=$(pwd)/../standalone/media
-    ctest
+    - name: "Docs"
+      language: python
+      os: linux
+      dist: bionic
+      python: "3.7"
+      addons:
+        apt:
+          packages:
+            - python3-pip
+            - pandoc
+      script:
+        - ./ci/cpp/conan/travis/docs.sh
+
+env:
+  global:
+    - CONAN_LOGIN_USERNAME=TimSimpson
+    - secure: "BU+n8/DhUa+V0XJc+q0z5Yoeut+t+eesc1XcLQ4LrWmcGfGnRQKmY5JTHQAfm9SX+DjUDPpqe02JPXf4LMlGhdK51Igvm/5+AyJsSNN/oMOmJSw9fWAo9O264Oce4IuWZszPxHdj4UZ89zMVa6l3RSzPSq0hsxfwjS32PzydtNJTaF6SjGRrv4MRqSD44i8DV6Knyf72TPw1nCZXr2P9tfbuoMYnmitpdxtKOnIOozp7pUm15Lsj+h9w1xYTGY5XH3e66OGyeOLRoT6BRFKKGxPE2YhVa8wqLZAuJLpYgpc36UyXnLEevroMZRUtkGgpHxULdZlpdqmZBL95XwDs4waO3L42YPavxXUSzKCsLbw73SdLyusEN19phTRwzq0Vw1xx5Iqxf0mfpZ3ijH7wQ+c/VJtfDHeUltp2vjEq1IDYvxgFymEe7NfjrKPII41vG3fuGdiW+WnpiO1TLJseydZdJC5huzJofjW9AZvLmLyetq3vfHOni0kV18dHkYKZQGo17y2miXcTChJu6IlnYZyDUKX3D2uqttpUzPK6Rl28UIZI+j/wbybNZXRlJu3qGMaQZzdXWH9i1pAxkG2unPARQQBtC2Wbk8pg+9VzHzAik8bSEe9Dp51+Jm9TTIaLSHlkq/4CYm0uG5jY9n8kQKnWKt17Q7oNrSAFsyIBXYA="
