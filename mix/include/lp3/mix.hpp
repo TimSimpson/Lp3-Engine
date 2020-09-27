@@ -4,10 +4,10 @@
 
 #include "mix/config.hpp"
 #include <lp3/core.hpp>
-#ifndef LP3_COMPILE_TARGET_EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 #include <SDL_mixer.h>
 #else
-#include <SDL/SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 #endif
 
 namespace lp3 { namespace mix {

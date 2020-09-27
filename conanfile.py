@@ -47,7 +47,9 @@ class Lp3Engine(c.ConanFile):
 
 
     def get_sdl2_dependencies(self):
-        if not self.options.use_basic_sdl2:
+        if self.settings.os == "Emscripten":
+            return []
+        elif not self.options.use_basic_sdl2:
             return (
                 "sdl2/2.0.9@bincrafters/stable",
                 "sdl2_image/2.0.5@bincrafters/stable",

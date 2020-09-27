@@ -56,6 +56,14 @@ add_header_library(gsl_microsoft::gsl_microsoft)
 find_package(glm REQUIRED)
 clone_library(glm glm::glm)
 
+###############################################################################
+# Adds SDL2 libraries
+# These names are based on the following package I used to use with cget:
+# https://github.com/TimSimpson/download-sdl2/blob/master/sdl2-config.cmake
+#
+# These days it seems the standard CMake targets come from vcpkg. Maybe one
+# day I'll change them.
+###############################################################################
 
 if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
     find_package(SDL2)
@@ -72,16 +80,34 @@ if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
             message(FATAL_ERROR "Could not find SDL2!")
         endif()
     endif()
-endif()
 
-find_package(sdl2 REQUIRED)
-# clone_library(sdl2::sdl2 CONAN_PKG::sdl2)  # oh the irony, I named mine the same
-find_package(sdl2_image REQUIRED)
-clone_library(sdl2::image sdl2_image::sdl2_image)
-find_package(sdl2_ttf REQUIRED)
-clone_library(sdl2::ttf sdl2_ttf::sdl2_ttf)
-find_package(sdl2_mixer REQUIRED)
-clone_library(sdl2::mixer sdl2_mixer::sdl2_mixer)
+    find_package(sdl2_image REQUIRED)
+    clone_library(sdl2::image sdl2_image::sdl2_image)
+    find_package(sdl2_ttf REQUIRED)
+    clone_library(sdl2::ttf sdl2_ttf::sdl2_ttf)
+    find_package(sdl2_mixer REQUIRED)
+    clone_library(sdl2::mixer sdl2_mixer::sdl2_mixer)
+else()
+    add_library(sdl2::sdl2 INTERFACE IMPORTED)
+    add_library(sdl2::image INTERFACE IMPORTED)
+    # Warning: TTF currently does not work:
+    add_library(sdl2::ttf INTERFACE IMPORTED)
+    add_library(sdl2::mixer INTERFACE IMPORTED)
+
+    # target_compile_options(sdl2::sdl2 INTERFACE "SHELL:-s USE_SDL=2")
+    # target_link_options(sdl2::sdl2 INTERFACE "SHELL:-s USE_SDL=2")
+
+
+    target_compile_options(sdl2::image INTERFACE "SHELL:-s USE_SDL_IMAGE=2  -s SDL2_IMAGE_FORMATS='[\"png\",\"bmp\"]'")
+    target_link_options(sdl2::image INTERFACE "SHELL:-s USE_SDL_IMAGE=2  -s SDL2_IMAGE_FORMATS='[\"png\",\"bmp\"]'")
+
+    target_compile_options(sdl2::ttf INTERFACE "SHELL:-s -s USE_SDL_TTF=2")
+    target_link_options(sdl2::ttf INTERFACE "SHELL:-s -s USE_SDL_TTF=2")
+
+    target_compile_options(sdl2::mixer INTERFACE "SHELL:-s -s USE_SDL_MIXER=2")
+    target_link_options(sdl2::mixer INTERFACE "SHELL:-s -s USE_SDL_MIXER=2")
+
+endif()
 
 
 # Load this, as Core can't seem to "export" it
