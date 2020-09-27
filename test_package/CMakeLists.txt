@@ -16,4 +16,4 @@ add_executable(pokey WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/../input/demos/pokey.cpp)
 target_link_libraries(pokey lp3::gfx lp3::input lp3::main)
 
 add_executable(mix_demo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/../mix/demos/mix_demo.cpp)
-target_link_libraries(mix_demo lp3::gfx lp3::input lp3::mix lp3::imgui lp3::main lp3::sims)
+target_link_libraries(mix_demo lp3::engine)

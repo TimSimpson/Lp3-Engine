@@ -138,6 +138,10 @@ class Lp3Engine(c.ConanFile):
         self._set_lib('input', 'Lp3_Input', [ 'core' ])
         self._set_lib('mix', 'Lp3_Mix', [ 'core', 'sdl2_mixer::sdl2_mixer'])
 
+        # This makes alias of main and sims... this may be a terrible idea and
+        # might lead to problems, only one way to find out baby!
+        # (nobody is using this anyway)
+        self.cpp_info.components['main'].requires = [ 'lp3-main::main' ]
         self.cpp_info.components['sims'].requires = [ 'lp3-sims::sims' ]
 
         # I don't understand why Conan requires things to use _every_ package
@@ -151,6 +155,18 @@ class Lp3Engine(c.ConanFile):
                 'bzip2::bzip2',
                 'libpng::libpng'
             ]
+
+        self.cpp_info.components['engine'].requires = [
+            'core',
+            'gl',
+            'gfx',
+            'imgui',
+            'input',
+            'main',
+            'mix',
+            'sims',
+        ]
+
 
         # _set_for_cmake(self.cpp_info.components['core'].names, "core")
         # self.cpp_info.components['core'].libs = [ "lp3-main" ]
