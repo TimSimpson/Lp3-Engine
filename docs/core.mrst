@@ -15,8 +15,6 @@ LP3_COMPILE_LOG_DISABLE
     If set, disables logging even in debug mode. Good if you don't wish to use the built-in logging utilities.
 
 
-~dumpfile "../core/include/lp3/main.hpp" section = "=" end_before = "// ~end-doc summary"
-
 ~dumpfile "../core/include/lp3/le.hpp" section = "=" end_before = "// ~end-doc summary"
 
 ~dumpfile "../core/include/lp3/assert.hpp" section = "=" end_before = "// ~end-doc summary"
