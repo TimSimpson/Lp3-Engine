@@ -21,7 +21,6 @@ LP3_COMPILE_LOG_DISABLE
 
 ~dumpfile "../core/include/lp3/log.hpp" section = "=" end_before = "// ~end-doc summary"
 
-~dumpfile "../core/include/lp3/sdl.hpp" section = "=" end_before = "// ~end-doc summary"
 
 Reference
 ---------
