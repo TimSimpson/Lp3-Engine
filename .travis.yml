@@ -26,6 +26,7 @@ clang-linux: &clang-linux
         - libxcb-sync-dev
         - libxcb-xfixes0-dev
         - libxcb-xinerama0-dev
+        - libxcb-randr0-dev
         - autoconf
 
 emscripten: &emscripten
