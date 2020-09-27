@@ -112,6 +112,9 @@ if (LP3_CORE_FULL)
     add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
     target_link_libraries(media_tests core)
     add_test(media_tests media_tests)
+    set_tests_properties(media_tests
+                         PROPERTIES
+                         ENVIRONMENT "LP3_ROOT_PATH=${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
     add_executable(Sdl2Simple WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
     target_link_libraries(Sdl2Simple core lp3::main)
