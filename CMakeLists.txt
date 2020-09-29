@@ -19,50 +19,9 @@ option(LP3_ENGINE_Build_Tests "Build tests when BUILD_TESTING is enabled."
        ${NOT_SUBPROJECT})
 
 
-function(add_header_library SRC)
-    get_property(var TARGET ${SRC} PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-    include_directories(${var})
-endfunction()
-
-function(clone_library DST SRC)
-    add_library(${DST} INTERFACE IMPORTED)
-
-    get_property(var TARGET ${SRC} PROPERTY INTERFACE_LINK_LIBRARIES)
-    set_property(TARGET ${DST} PROPERTY INTERFACE_LINK_LIBRARIES ${var})
-
-    get_property(var TARGET ${SRC} PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-    set_property(TARGET ${DST} PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${var})
-
-    get_property(var TARGET ${SRC} PROPERTY INTERFACE_COMPILE_DEFINITIONS)
-    set_property(TARGET ${DST} PROPERTY INTERFACE_COMPILE_DEFINITIONS ${var})
-
-    get_property(var TARGET ${SRC} PROPERTY INTERFACE_COMPILE_OPTIONS)
-    set_property(TARGET ${DST} PROPERTY INTERFACE_COMPILE_OPTIONS ${var})
-endfunction()
-
-
-find_package(gsl_microsoft REQUIRED)
-add_header_library(gsl_microsoft::gsl_microsoft)
-
-find_package(glm REQUIRED)
-clone_library(glm glm::glm)
-
-###############################################################################
-# Adds SDL2 libraries
-# These names are based on the following package I used to use with cget:
-# https://github.com/TimSimpson/download-sdl2/blob/master/sdl2-config.cmake
-#
-# These days it seems the standard CMake targets come from vcpkg. Maybe one
-# day I'll change them.
-###############################################################################
-
-# Load this, as Core can't seem to "export" it
-find_package(lp3-sdl REQUIRED)
-
 # If testiing is required, turn on the "full" options for each subproject.
 if(BUILD_TESTING AND LP3_ENGINE_Build_Tests)
     find_package(Catch2 REQUIRED)
-    add_header_library(Catch2::Catch2)
 
     set(LP3_CORE_FULL true)
 
@@ -101,7 +60,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mix
 
 
 add_library(engine INTERFACE)
-target_link_libraries(engine PUBLIC INTERFACE lp3::core lp3::gl lp3::gfx lp3::imgui lp3::input lp3::mix)
+target_link_libraries(engine PUBLIC INTERFACE lp3::core lp3::gl lp3::gfx lp3::imgui lp3::input lp3::mix lp3::main lp3::sims)
 
 add_library(lp3::engine ALIAS engine)
 

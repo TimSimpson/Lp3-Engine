@@ -30,7 +30,7 @@ target_include_directories(gl
     PRIVATE
         src)
 
-target_link_libraries(gl PUBLIC lp3::core glm)
+target_link_libraries(gl PUBLIC lp3::core glm::glm)
 
 # *********************************************************************
 # Package / Install Stuff

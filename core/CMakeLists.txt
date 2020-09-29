@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(boost REQUIRED)
+find_package(gsl_microsoft REQUIRED)
 find_package(lp3-main REQUIRED)
 find_package(lp3-sdl REQUIRED)
 if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
@@ -51,7 +52,7 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC boost::boost lp3::sdl sdl2_image::sdl2_image)
+target_link_libraries(core PUBLIC boost::boost gsl_microsoft::gsl_microsoft lp3::sdl sdl2_image::sdl2_image)
 
 
 
@@ -103,6 +104,8 @@ if (NOT is_child)
 endif()
 
 if (LP3_CORE_FULL)
+    find_package(Catch2 REQUIRED)
+
     add_executable(ExitDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/ExitDemo.cpp)
     target_link_libraries(ExitDemo core lp3::main)
 
@@ -113,11 +116,11 @@ if (LP3_CORE_FULL)
     target_link_libraries(MainDemo core lp3::main)
 
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
-    target_link_libraries(assert_tests core)
+    target_link_libraries(assert_tests core Catch2::Catch2)
     add_test(assert_tests assert_tests)
 
     add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-    target_link_libraries(media_tests core)
+    target_link_libraries(media_tests core Catch2::Catch2)
     add_test(media_tests media_tests)
     set_tests_properties(media_tests
                          PROPERTIES
