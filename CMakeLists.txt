@@ -98,3 +98,11 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/input
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mix
                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
+
+
+add_library(engine INTERFACE)
+target_link_libraries(engine PUBLIC INTERFACE lp3::core lp3::gl lp3::gfx lp3::imgui lp3::input lp3::mix)
+
+add_library(lp3::engine ALIAS engine)
+
+# TODO: support traditional CMake package install, maybe?
