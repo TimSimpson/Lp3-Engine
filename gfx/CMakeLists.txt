@@ -8,7 +8,14 @@ include(CMakePackageConfigHelpers)
 
 find_package(lp3-main REQUIRED)
 find_package(lp3-sims REQUIRED)
-find_package(Lp3_Gl REQUIRED)
+
+if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+    find_package(sdl2_ttf REQUIRED)
+else()
+    add_library(sdl2_ttf::sdl2_ttf INTERFACE IMPORTED)
+    target_compile_options(sdl2::ttf INTERFACE "SHELL:-s -s USE_SDL_TTF=2")
+    target_link_options(sdl2::ttf INTERFACE "SHELL:-s -s USE_SDL_TTF=2")
+endif()
 
 add_library(gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx.hpp
@@ -117,7 +124,7 @@ if (LP3_GFX_FULL)
 
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
-    target_link_libraries(font_saver gfx lp3::sims sdl2::ttf lp3::main)
+    target_link_libraries(font_saver gfx lp3::sims sdl2_ttf::sdl2_ttf lp3::main)
 
     add_executable(show_font WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/show_font.cpp)
     target_link_libraries(show_font gfx lp3::sims lp3::main)

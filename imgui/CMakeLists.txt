@@ -7,7 +7,6 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(lp3-main REQUIRED)
-find_package(Lp3_Gfx 1.0.1)
 
 add_library(imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/imgui.hpp

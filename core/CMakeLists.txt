@@ -9,6 +9,13 @@ include(CMakePackageConfigHelpers)
 find_package(boost REQUIRED)
 find_package(lp3-main REQUIRED)
 find_package(lp3-sdl REQUIRED)
+if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+    find_package(sdl2_image REQUIRED)
+else()
+    add_library(sdl2_image::sdl2_image INTERFACE IMPORTED)
+    target_compile_options(sdl2_image::sdl2_image INTERFACE "SHELL:-s USE_SDL_IMAGE=2  -s SDL2_IMAGE_FORMATS='[\"png\",\"bmp\"]'")
+    target_link_options(sdl2_image::sdl2_image INTERFACE "SHELL:-s USE_SDL_IMAGE=2  -s SDL2_IMAGE_FORMATS='[\"png\",\"bmp\"]'")
+endif()
 
 add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
@@ -44,7 +51,7 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC boost::boost lp3::sdl sdl2::image)
+target_link_libraries(core PUBLIC boost::boost lp3::sdl sdl2_image::sdl2_image)
 
 
 

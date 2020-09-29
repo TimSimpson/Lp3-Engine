@@ -8,7 +8,6 @@ include(CMakePackageConfigHelpers)
 
 find_package(glm REQUIRED)
 find_package(lp3-main REQUIRED)
-find_package(Lp3_Core REQUIRED)
 
 add_library(gl
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp

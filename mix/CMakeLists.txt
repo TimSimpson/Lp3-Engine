@@ -9,7 +9,14 @@ include(CMakePackageConfigHelpers)
 find_package(lp3-main REQUIRED)
 find_package(lp3-sdl REQUIRED)
 find_package(lp3-sims REQUIRED)
-find_package(Lp3_Core 1.0.1)
+
+if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+    find_package(sdl2_mixer REQUIRED)
+else()
+    add_library(sdl2_mixer::sdl2_mixer INTERFACE IMPORTED)
+    target_compile_options(sdl2_mixer::sdl2_mixer INTERFACE "SHELL:-s -s USE_SDL_MIXER=2")
+    target_link_options(sdl2_mixer::sd2_mixer INTERFACE "SHELL:-s -s USE_SDL_MIXER=2")
+endif()
 
 add_library(mix
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/mix.hpp
@@ -28,7 +35,7 @@ target_include_directories(mix
     PRIVATE
         src)
 
-target_link_libraries(mix PUBLIC sdl2::mixer lp3::core )
+target_link_libraries(mix PUBLIC sdl2_mixer::sdl2_mixer lp3::core )
 
 # *********************************************************************
 # Package / Install Stuff
@@ -76,11 +83,6 @@ if (NOT is_child)
 endif()
 
 if (LP3_MIX_FULL)
-    find_package(Lp3_Sims 1.0.1)
-    find_package(Lp3_ImGui 1.0.1)
-    find_package(Lp3_Input 1.0.1)
-    find_package(Lp3_Gfx 1.0.1)
-
     add_executable(mix_demo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/mix_demo.cpp)
     target_link_libraries(mix_demo mix lp3::gfx lp3::input lp3::sims lp3::imgui lp3::main)
 
