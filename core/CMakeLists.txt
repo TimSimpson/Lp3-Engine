@@ -27,14 +27,12 @@ add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/exit.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/exception.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/exit.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
@@ -105,9 +103,6 @@ endif()
 
 if (LP3_CORE_FULL)
     find_package(Catch2 REQUIRED)
-
-    add_executable(ExitDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/ExitDemo.cpp)
-    target_link_libraries(ExitDemo core lp3::main)
 
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
     target_link_libraries(LogDemo core)
