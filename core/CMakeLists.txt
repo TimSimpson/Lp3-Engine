@@ -129,7 +129,6 @@ if (LP3_CORE_FULL)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (core PROPERTIES FOLDER core)
-        set_target_properties (ExitDemo PROPERTIES FOLDER core)
         set_target_properties (LogDemo PROPERTIES FOLDER core)
         set_target_properties (MainDemo PROPERTIES FOLDER core)
         set_target_properties (assert_tests PROPERTIES FOLDER core)
