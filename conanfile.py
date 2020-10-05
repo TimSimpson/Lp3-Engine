@@ -25,7 +25,7 @@ class Lp3Engine(c.ConanFile):
 
 
     requires = (
-        "lp3-main/1.0.7@TimSimpson/testing",
+        "lp3-main/1.0.8@TimSimpson/testing",
         "lp3-sdl/1.0.5@TimSimpson/testing",
         "lp3-sims/1.0.1@TimSimpson/testing",
         "glm/0.9.8.5@g-truc/stable",
