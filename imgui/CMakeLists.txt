@@ -6,7 +6,7 @@ project(lp3_imgui CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(Lp3_Gfx 1.0.1)
+find_package(lp3-main REQUIRED)
 
 add_library(imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/imgui.hpp
@@ -23,6 +23,8 @@ add_library(imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_textedit.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/imstb_truetype.h
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(imgui PUBLIC cxx_std_17)
 set_target_properties(imgui PROPERTIES OUTPUT_NAME "Lp3_ImGui")
 
 target_include_directories(imgui
@@ -84,8 +86,8 @@ if (NOT is_child)
 endif()
 
 if (LP3_IMGUI_FULL)
-    add_executable(ImGuiDemo ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
-    target_link_libraries(ImGuiDemo imgui ${LP3_LIBS})
+    add_executable(ImGuiDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
+    target_link_libraries(ImGuiDemo imgui ${LP3_LIBS} lp3::main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (imgui PROPERTIES FOLDER imgui)

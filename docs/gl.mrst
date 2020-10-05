@@ -1,4 +1,4 @@
-~dumpfile "../../gl/README.md"
+~dumpfile "../gl/README.md"
 
 Build Info and Options
 ----------------------
@@ -8,7 +8,7 @@ If you're using CMake, just include gl directory's CMakeLists.txt as a subdirect
 An Example
 ----------
 
-~dumpfile "../../gl/demos/glDemo.cpp" section==
+~dumpfile "../gl/demos/glDemo.cpp" section==
 
 Reference
 ---------
@@ -20,5 +20,5 @@ The following components live in the ``::lp3::gl`` namespace. They can be brough
 
 Traditional OpenGL functions are put in the global namespace (following the standard) while helper types and functions are defiend in the namespace `lp3::gl`.
 
-~dumpfile "../../gl/include/lp3/gl/extras.hpp" section=~
+~dumpfile "../gl/include/lp3/gl/extras.hpp" section=~
 

@@ -3,6 +3,7 @@
 #include <lp3/main.hpp>
 #include <lp3/sdl.hpp>
 #include <lp3/sims.hpp>
+#include <SDL_image.h>
 
 namespace core = lp3::core;
 namespace gl = lp3::gl;
@@ -10,7 +11,7 @@ namespace gfx = lp3::gfx;
 namespace sdl = lp3::sdl;
 namespace sims = lp3::sims;
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
     core::LogSystem log;
     core::MediaManager media;
@@ -25,7 +26,7 @@ int _main(core::PlatformLoop & loop) {
 	gfx::Texture earth(IMG_Load_RW(earth_file, 0));
 
 	gfx::ElementWriter<gfx::TexCVert> earth_elements{ 4 };
-    
+
     glm::vec4 color{0.0f, 1.0f, 0.0f, 1.0f};
 
 	gfx::upright_quad(

@@ -15,7 +15,7 @@ namespace core = lp3::core;
 namespace sdl = lp3::sdl;
 
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
 
     core::LogSystem log;
@@ -27,7 +27,7 @@ int _main(core::PlatformLoop & loop) {
 
     sdl::Window window = SDL_CreateWindow(
         "SDL2",
-        SDL_WINDOWPOS_CENTERED,
+    SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         640,
         480,

@@ -23,7 +23,7 @@ namespace gfx = lp3::gfx;
 namespace sdl = lp3::sdl;
 
 
-int _main(lp3::core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     core::LogSystem log;
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
 

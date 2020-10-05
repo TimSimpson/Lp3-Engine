@@ -6,8 +6,8 @@ project(lp3_gl CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(glm)
-find_package(Lp3_Core 1.0.1)
+find_package(glm REQUIRED)
+find_package(lp3-main REQUIRED)
 
 add_library(gl
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gl.hpp
@@ -19,6 +19,8 @@ add_library(gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/gles2.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/gles2._orig_c
 )
+# Mandate the use of at least C++17 by everything that uses this
+target_compile_features(gl PUBLIC cxx_std_17)
 set_target_properties(gl PROPERTIES OUTPUT_NAME "Lp3_Gl")
 
 target_include_directories(gl
@@ -28,7 +30,7 @@ target_include_directories(gl
     PRIVATE
         src)
 
-target_link_libraries(gl PUBLIC lp3::core glm)
+target_link_libraries(gl PUBLIC lp3::core glm::glm)
 
 # *********************************************************************
 # Package / Install Stuff
@@ -79,8 +81,8 @@ if (NOT is_child)
 endif()
 
 if (LP3_GL_FULL)
-    add_executable(glDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/glDemo.cpp)
-    target_link_libraries(glDemo gl ${LP3_LIBS})
+    add_executable(glDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/glDemo.cpp)
+    target_link_libraries(glDemo gl ${LP3_LIBS} lp3::main)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (gl PROPERTIES FOLDER gl)

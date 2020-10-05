@@ -1,4 +1,4 @@
-~dumpfile "../../imgui/README.md"
+~dumpfile "../imgui/README.md"
 
 
 Build Info and Options
@@ -11,7 +11,7 @@ If you're using CMake, just include Lp3 imgui directory's CMakeLists.txt as a su
 Example
 -------
 
-~dumpfile "../../imgui/src/demo.cpp"
+~dumpfile "../imgui/src/demo.cpp"
 
 Reference
 ---------
@@ -22,4 +22,4 @@ Reference
 The following components live in the ``::lp3::imgui`` namespace.
 They can be brought in by including ``lp3/imgui.hpp``.
 
-~dumpfile "../../imgui/include/lp3/imgui.hpp" section = "-"
+~dumpfile "../imgui/include/lp3/imgui.hpp" section = "-"

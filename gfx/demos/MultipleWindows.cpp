@@ -8,7 +8,7 @@ namespace gl = lp3::gl;
 namespace gfx = lp3::gfx;
 namespace sdl = lp3::sdl;
 
-int _main(core::PlatformLoop & loop) {
+int _main(lp3::main::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
     core::LogSystem log;
     core::MediaManager media;
