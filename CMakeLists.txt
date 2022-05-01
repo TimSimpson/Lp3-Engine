@@ -4,7 +4,6 @@
 # See standalone/CMakeLists.txt for an example of using them in integrated
 # builds.
 project(lp3_engine-Install CXX)
-
 cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
 
 if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/imgui/lib/imgui.h")

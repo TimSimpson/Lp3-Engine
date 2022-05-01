@@ -3,5 +3,3 @@ build*
 *.pyc
 __pycache__
 imgui.ini
-conan/output/*
-output/*
