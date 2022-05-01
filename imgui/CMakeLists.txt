@@ -84,7 +84,7 @@ if (NOT is_child)
 endif()
 
 if (LP3_IMGUI_FULL)
-    add_executable(ImGuiDemo ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
+    add_executable(ImGuiDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/src/demo.cpp)
     target_link_libraries(ImGuiDemo imgui ${LP3_LIBS})
 
     if (LP3_SETUP_FOLDERS)

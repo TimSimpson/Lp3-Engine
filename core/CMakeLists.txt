@@ -108,9 +108,8 @@ if (LP3_CORE_FULL)
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
     target_link_libraries(LogDemo core)
 
-    add_executable(MainDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
+    add_executable(MainDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
     target_link_libraries(MainDemo core)
-
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
     target_link_libraries(assert_tests core)
     add_test(assert_tests assert_tests)
@@ -118,12 +117,15 @@ if (LP3_CORE_FULL)
     add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
     target_link_libraries(media_tests core)
     add_test(media_tests media_tests)
+    set_tests_properties(media_tests
+                         PROPERTIES
+                         ENVIRONMENT "LP3_ROOT_PATH=${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
-    add_executable(Sdl2Simple ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
+    add_executable(Sdl2Simple WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
     target_link_libraries(Sdl2Simple core)
 
-    add_executable(MultipleWindows ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(MultipleWindows core )
+    add_executable(MultipleWindows WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
+    target_link_libraries(MultipleWindows core)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (core PROPERTIES FOLDER core)

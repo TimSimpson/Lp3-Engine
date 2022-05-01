@@ -78,7 +78,7 @@ if (LP3_MIX_FULL)
     find_package(Lp3_Input 1.0.1)
     find_package(Lp3_Gfx 1.0.1)
 
-    add_executable(mix_demo ${CMAKE_CURRENT_SOURCE_DIR}/demos/mix_demo.cpp)
+    add_executable(mix_demo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/mix_demo.cpp)
     target_link_libraries(mix_demo mix lp3::gfx lp3::input lp3::sims lp3::imgui)
 
     if (LP3_SETUP_FOLDERS)

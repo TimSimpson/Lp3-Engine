@@ -79,7 +79,7 @@ if (NOT is_child)
 endif()
 
 if (LP3_GL_FULL)
-    add_executable(glDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/glDemo.cpp)
+    add_executable(glDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/glDemo.cpp)
     target_link_libraries(glDemo gl ${LP3_LIBS})
 
     if (LP3_SETUP_FOLDERS)
