@@ -6,16 +6,7 @@ project(lp3_gfx CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(lp3-main REQUIRED)
-find_package(lp3-sims REQUIRED)
-
-if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-    find_package(sdl2_ttf REQUIRED)
-else()
-    add_library(sdl2_ttf::sdl2_ttf INTERFACE IMPORTED)
-    target_compile_options(sdl2::ttf INTERFACE "SHELL:-s -s USE_SDL_TTF=2")
-    target_link_options(sdl2::ttf INTERFACE "SHELL:-s -s USE_SDL_TTF=2")
-endif()
+find_package(Lp3_Gl 1.0.1)
 
 add_library(gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx.hpp
@@ -47,8 +38,7 @@ add_library(gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/ColoredTexture.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/programs/SimpleTextured.cpp
 )
-# Mandate the use of at least C++17 by everything that uses this
-target_compile_features(gfx PUBLIC cxx_std_17)
+
 target_include_directories(gfx
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -108,26 +98,26 @@ if (LP3_GFX_FULL)
     find_package(sdl2 2.0.7)
 
     add_executable(Lp3_Gfx_MultipleWindows WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(Lp3_Gfx_MultipleWindows gfx lp3::main)
+    target_link_libraries(Lp3_Gfx_MultipleWindows gfx)
 
     add_executable(SimpleGfx WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/SimpleGfx.cpp)
-    target_link_libraries(SimpleGfx gfx lp3::main)
+    target_link_libraries(SimpleGfx gfx)
 
     add_executable(CPaperDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/CPaperDemo.cpp)
-    target_link_libraries(CPaperDemo gfx lp3::main)
+    target_link_libraries(CPaperDemo gfx)
 
     add_executable(TextureDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/TextureDemo.cpp)
-    target_link_libraries(TextureDemo gfx lp3::sims lp3::main)
+    target_link_libraries(TextureDemo gfx lp3::sims)
 
     add_executable(DrawTiles WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/DrawTiles.cpp)
-    target_link_libraries(DrawTiles gfx lp3::sims lp3::main)
+    target_link_libraries(DrawTiles gfx lp3::sims)
 
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
-    target_link_libraries(font_saver gfx lp3::sims sdl2_ttf::sdl2_ttf lp3::main)
+    target_link_libraries(font_saver gfx lp3::sims sdl2::ttf)
 
     add_executable(show_font WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/show_font.cpp)
-    target_link_libraries(show_font gfx lp3::sims lp3::main)
+    target_link_libraries(show_font gfx lp3::sims)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (gfx PROPERTIES FOLDER gfx)

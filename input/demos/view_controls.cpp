@@ -13,7 +13,7 @@ namespace input = lp3::input;
 namespace sdl = lp3::sdl;
 namespace sims = lp3::sims;
 
-int _main(lp3::main::PlatformLoop & loop) {
+int _main(core::PlatformLoop & loop) {
     core::LogSystem log;
     sdl::SDL2 sdl2(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK| SDL_INIT_GAMECONTROLLER);
 

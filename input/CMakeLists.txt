@@ -6,8 +6,7 @@ project(lp3_input CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(lp3-main REQUIRED)
-find_package(lp3-sims REQUIRED)
+find_package(Lp3_Core 1.0.1)
 
 add_library(input
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/input.hpp
@@ -21,9 +20,6 @@ add_library(input
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SdlJoystick.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SdlKeyboard.cpp
 )
-# Mandate the use of at least C++17 by everything that uses this
-target_compile_features(input PUBLIC cxx_std_17)
-set_target_properties(input PROPERTIES OUTPUT_NAME "Lp3_Input")
 
 target_include_directories(input
     PUBLIC
@@ -82,11 +78,15 @@ if (NOT is_child)
 endif()
 
 if (LP3_INPUT_FULL)
-    add_executable(view_controls WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/view_controls.cpp)
-    target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui lp3::main)
+    find_package(Lp3_Sims 1.0.1)
+    find_package(Lp3_ImGui 1.0.1)
+    find_package(Lp3_Gfx 1.0.1)
+
+    add_executable(view_controls ${CMAKE_CURRENT_SOURCE_DIR}/demos/view_controls.cpp)
+    target_link_libraries(view_controls input lp3::gfx lp3::sims lp3::imgui)
 
     add_executable(pokey WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/pokey.cpp)
-    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui lp3::main)
+    target_link_libraries(pokey input lp3::gfx lp3::sims lp3::imgui)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (input PROPERTIES FOLDER input)

@@ -1,8 +1,6 @@
 #define LP3_GFX_API_CREATE
 #include <lp3/gfx/text.hpp>
 
-#include <SDL_image.h>
-
 namespace lp3 { namespace gfx {
 
 namespace sdl = lp3::sdl;

@@ -6,12 +6,39 @@
 #include <vector>
 #include <boost/any.hpp>
 #include <gsl/gsl>
-#include <lp3/sdl.hpp>
 #include "config.hpp"
+#include "../sdl.hpp"
 
 
 namespace lp3 { namespace core {
 
+
+// --------------------------------------------------------------------
+// class PlatformLoop
+// --------------------------------------------------------------------
+//     Contains code to run the main loop on any given platform.
+//     While it's possible to create this yourself, you should instead
+//     use the macro LP3_MAIN from <lp3/main.hpp> which creates this
+//     for you.
+// --------------------------------------------------------------------
+class
+LP3_CORE_API
+PlatformLoop {
+public:
+    PlatformLoop();
+
+    PlatformLoop(int argc, char ** argv);
+
+    PlatformLoop(const PlatformLoop & other) = delete;
+    PlatformLoop & operator=(const PlatformLoop & other) = delete;
+
+    std::vector<std::string> command_line_args() const;
+
+    int run(std::function<bool()> iterate);
+
+private:
+    std::vector<std::string> arguments;
+};
 
 // --------------------------------------------------------------------
 // get_env_var

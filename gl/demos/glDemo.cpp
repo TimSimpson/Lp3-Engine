@@ -16,7 +16,7 @@ namespace core = lp3::core;
 namespace gl = lp3::gl;
 namespace sdl = lp3::sdl;
 
-int _main(lp3::main::PlatformLoop & loop) {
+int _main(core::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
     core::LogSystem log;
     core::MediaManager media;

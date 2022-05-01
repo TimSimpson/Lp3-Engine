@@ -6,17 +6,8 @@ project(lp3_mix CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(lp3-main REQUIRED)
-find_package(lp3-sdl REQUIRED)
-find_package(lp3-sims REQUIRED)
-
-if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-    find_package(sdl2_mixer REQUIRED)
-else()
-    add_library(sdl2_mixer::sdl2_mixer INTERFACE IMPORTED)
-    target_compile_options(sdl2_mixer::sdl2_mixer INTERFACE "SHELL:-s -s USE_SDL_MIXER=2")
-    target_link_options(sdl2_mixer::sd2_mixer INTERFACE "SHELL:-s -s USE_SDL_MIXER=2")
-endif()
+find_package(sdl2 2.0.7)
+find_package(Lp3_Core 1.0.1)
 
 add_library(mix
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/mix.hpp
@@ -24,9 +15,6 @@ add_library(mix
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/mix.cpp
 )
-# Mandate the use of at least C++17 by everything that uses this
-target_compile_features(mix PUBLIC cxx_std_17)
-set_target_properties(mix PROPERTIES OUTPUT_NAME "Lp3_Mix")
 
 target_include_directories(mix
     PUBLIC
@@ -35,7 +23,7 @@ target_include_directories(mix
     PRIVATE
         src)
 
-target_link_libraries(mix PUBLIC sdl2_mixer::sdl2_mixer lp3::core )
+target_link_libraries(mix PUBLIC sdl2::mixer lp3::core )
 
 # *********************************************************************
 # Package / Install Stuff
@@ -59,6 +47,8 @@ install(EXPORT Lp3_Mix-targets
 
 file(WRITE "${PROJECT_BINARY_DIR}/Lp3_Mix-config.cmake" "
 include(CMakeFindDependencyMacro)
+find_package(sdl2)
+find_package(Lp3_Core)
 include(\"\${CMAKE_CURRENT_LIST_DIR}/Lp3_Mix-targets.cmake\")
 ")
 
@@ -83,8 +73,13 @@ if (NOT is_child)
 endif()
 
 if (LP3_MIX_FULL)
+    find_package(Lp3_Sims 1.0.1)
+    find_package(Lp3_ImGui 1.0.1)
+    find_package(Lp3_Input 1.0.1)
+    find_package(Lp3_Gfx 1.0.1)
+
     add_executable(mix_demo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/mix_demo.cpp)
-    target_link_libraries(mix_demo mix lp3::gfx lp3::input lp3::sims lp3::imgui lp3::main)
+    target_link_libraries(mix_demo mix lp3::gfx lp3::input lp3::sims lp3::imgui)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (mix PROPERTIES FOLDER mix)

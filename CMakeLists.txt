@@ -1,47 +1,33 @@
-# *********************************************************************
-# LP3_ENGINE
-#       Combines several bits of game / media functionality.
-# *********************************************************************
+# This parent project installs all the subprojects, which makes this repository
+# compatable with CGet.
+
+# See standalone/CMakeLists.txt for an example of using them in integrated
+# builds.
+project(lp3_engine-Install CXX)
+
 cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
 
-if(NOT DEFINED PROJECT_NAME)
-    set(NOT_SUBPROJECT ON)
+if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/imgui/lib/imgui.h")
+    file(DOWNLOAD
+            "https://github.com/ocornut/imgui/archive/1cd1ca259efd38d560ac3c44e6353af81a9b72e3.tar.gz"
+            "${PROJECT_BINARY_DIR}/imgui.tar.gz"
+             SHOW_PROGRESS
+             EXPECTED_MD5 "1c0d601fa39235a4e3611c206403a49a")
+    execute_process(
+        WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E tar xvf "${PROJECT_BINARY_DIR}/imgui.tar.gz"
+    )
+    file(COPY
+        "${PROJECT_BINARY_DIR}/imgui-1cd1ca259efd38d560ac3c44e6353af81a9b72e3/"
+        DESTINATION
+        "${CMAKE_CURRENT_SOURCE_DIR}/imgui/lib/")
 endif()
-
-project(lp3_engine CXX)
-
-include(CTest)
-enable_testing()
-include(ExternalProject)
-
-# Allow user to ask explicitly to build tests
-option(LP3_ENGINE_Build_Tests "Build tests when BUILD_TESTING is enabled."
-       ${NOT_SUBPROJECT})
-
-
-# If testiing is required, turn on the "full" options for each subproject.
-if(BUILD_TESTING AND LP3_ENGINE_Build_Tests)
-    find_package(Catch2 REQUIRED)
-
-    set(LP3_CORE_FULL true)
-
-    set(LP3_GL_FULL true)
-
-    set(LP3_GFX_FULL true)
-
-    set(LP3_IMGUI_FULL true)
-
-    set(LP3_INPUT_FULL true)
-
-    set(LP3_MIX_FULL true)
-endif()
-
-
-set(LP3_SETUP_FOLDERS TRUE)  # Organizes VS folders
-
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/core
                  ${CMAKE_CURRENT_BINARY_DIR}/core-output)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sims
+                 ${CMAKE_CURRENT_BINARY_DIR}/sims-output)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/gl
                  ${CMAKE_CURRENT_BINARY_DIR}/gl-output)
@@ -57,11 +43,3 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/input
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mix
                  ${CMAKE_CURRENT_BINARY_DIR}/mix-output)
-
-
-add_library(engine INTERFACE)
-target_link_libraries(engine PUBLIC INTERFACE lp3::core lp3::gl lp3::gfx lp3::imgui lp3::input lp3::mix lp3::main lp3::sims)
-
-add_library(lp3::engine ALIAS engine)
-
-# TODO: support traditional CMake package install, maybe?

@@ -7,14 +7,11 @@
 #include <lp3/sdl.hpp>
 #include <lp3/log.hpp>
 #include <lp3/main.hpp>
-#include <SDL_image.h>
 #if LP3_COMPILE_TARGET_EMSCRIPTEN
 #include <SDL/SDL_ttf.h>
 #else
 #include <SDL_ttf.h>
 #endif
-
-
 #include <lp3/sims.hpp>
 #include <lp3/gfx.hpp>
 
@@ -158,7 +155,7 @@ void save_file(sdl::RWops & input_file, int font_size, sdl::RWops & out_file) {
     }
 }
 
-int load(lp3::main::PlatformLoop & loop,
+int load(core::PlatformLoop & loop,
          sdl::RWops & input_file,
          const bool & run) {
 
@@ -247,7 +244,7 @@ int load(lp3::main::PlatformLoop & loop,
     });
 }
 
-int _main(lp3::main::PlatformLoop & loop) {
+int _main(core::PlatformLoop & loop) {
     sdl::SDL2 sdl2(SDL_INIT_VIDEO);
     TTF_Init();
 

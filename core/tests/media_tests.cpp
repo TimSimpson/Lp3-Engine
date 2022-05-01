@@ -10,7 +10,7 @@
 
 TEST_CASE("Read file", "[read_a_file]") {
     lp3::core::MediaManager media{};
-	auto story = media.load("story.txt");
+	auto story = media.load("Engine/Resources/story.txt");
 
     char content[16];
     std::size_t read_size = story.read(content, 1, 16);

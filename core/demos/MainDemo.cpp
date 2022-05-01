@@ -7,7 +7,10 @@
 #include <lp3/core.hpp>
 #include <lp3/main.hpp>
 
-int _main(lp3::main::PlatformLoop & loop) {
+namespace core = lp3::core;
+
+
+int _main(core::PlatformLoop & loop) {
     lp3::core::LogSystem log;
 
     LP3_LOG_DEBUG("Greetings from the MicroMain Demo.");

@@ -1,0 +1,14 @@
+[[source]]
+url = 'https://pypi.python.org/simple'
+verify_ssl = true
+name = 'pypi'
+
+[requires]
+# python_version = ">= 3.6.0"
+
+[packages]
+frontdoor = "*"
+mrst = { version = "==0.5.1" }
+pandoc = { version = "==1.0.2" }
+Sphinx = "*"
+typing = "*"
