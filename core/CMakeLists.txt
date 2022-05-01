@@ -6,40 +6,34 @@ project(lp3_core CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(boost REQUIRED)
-find_package(gsl_microsoft REQUIRED)
-find_package(lp3-main REQUIRED)
-find_package(lp3-sdl REQUIRED)
-if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-    find_package(sdl2_image REQUIRED)
-else()
-    add_library(sdl2_image::sdl2_image INTERFACE IMPORTED)
-    target_compile_options(sdl2_image::sdl2_image INTERFACE "SHELL:-s USE_SDL_IMAGE=2  -s SDL2_IMAGE_FORMATS='[\"png\",\"bmp\"]'")
-    target_link_options(sdl2_image::sdl2_image INTERFACE "SHELL:-s USE_SDL_IMAGE=2  -s SDL2_IMAGE_FORMATS='[\"png\",\"bmp\"]'")
-endif()
+find_package(Boost REQUIRED)
+find_package(sdl2 2.0.7)
 
 add_library(core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/le.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/assert.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/casts.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/log.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/main.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sdl.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/Exception.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/exit.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/core/utils.hpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/assert.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ErrOut.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/exception.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/exit.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/media.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/sdl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WCharToCharConverter.cpp
 )
-# Mandate the use of at least C++17 by everything that uses this
-target_compile_features(core PUBLIC cxx_std_17)
 set_target_properties(core PROPERTIES OUTPUT_NAME "Lp3_Core")
 
 target_include_directories(core
@@ -50,7 +44,13 @@ target_include_directories(core
         src)
 
 # Note: GSL is assumed and obtained from cget.
-target_link_libraries(core PUBLIC boost::boost gsl_microsoft::gsl_microsoft lp3::sdl sdl2_image::sdl2_image)
+target_link_libraries(core PUBLIC Boost::boost sdl2::sdl2 sdl2::image)
+
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
+    target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/js/platform.cpp)
+else()
+    target_sources(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pc/platform.cpp)
+endif()
 
 
 
@@ -102,33 +102,34 @@ if (NOT is_child)
 endif()
 
 if (LP3_CORE_FULL)
-    find_package(Catch2 REQUIRED)
+    add_executable(ExitDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/ExitDemo.cpp)
+    target_link_libraries(ExitDemo core)
 
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
     target_link_libraries(LogDemo core)
 
     add_executable(MainDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
-    target_link_libraries(MainDemo core lp3::main)
-
+    target_link_libraries(MainDemo core)
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
-    target_link_libraries(assert_tests core Catch2::Catch2)
+    target_link_libraries(assert_tests core)
     add_test(assert_tests assert_tests)
 
     add_executable(media_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/media_tests.cpp)
-    target_link_libraries(media_tests core Catch2::Catch2)
+    target_link_libraries(media_tests core)
     add_test(media_tests media_tests)
     set_tests_properties(media_tests
                          PROPERTIES
                          ENVIRONMENT "LP3_ROOT_PATH=${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
     add_executable(Sdl2Simple WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/Sdl2Simple.cpp)
-    target_link_libraries(Sdl2Simple core lp3::main)
+    target_link_libraries(Sdl2Simple core)
 
     add_executable(MultipleWindows WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
-    target_link_libraries(MultipleWindows core lp3::main)
+    target_link_libraries(MultipleWindows core)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (core PROPERTIES FOLDER core)
+        set_target_properties (ExitDemo PROPERTIES FOLDER core)
         set_target_properties (LogDemo PROPERTIES FOLDER core)
         set_target_properties (MainDemo PROPERTIES FOLDER core)
         set_target_properties (assert_tests PROPERTIES FOLDER core)
