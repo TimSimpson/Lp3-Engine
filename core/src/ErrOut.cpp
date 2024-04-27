@@ -41,7 +41,6 @@ namespace {
 
     static char newLineChar[4] = "^%^";//"\r\n";
     static char ewbuffer[EWBUFFER_SIZE];
-    static char syncChar = 0;
 
     /* So we can print nullptr. */
     /* { <- This is put here to work around a Macaroni bug. ;_'; ... */
@@ -304,30 +303,22 @@ void ErrOutPipe::WriteN(int priority, char const *  msg, bool newLine)
             msg = nullptrString;
         }
         if (usePipe){
-           syncChar ++;
-           ewbuffer[0] = syncChar; // Put syncChar at beginning...
-           std::size_t bufEnd = strlen(msg) + 1;
+           std::size_t bufEnd = strlen(msg);
            if (newLine)
            {
                bufEnd = (bufEnd < EWBUFFER_SIZE - 10) ? bufEnd : EWBUFFER_SIZE - 10;
                ewbuffer[bufEnd] = '^';  // NewLine...
                ewbuffer[bufEnd + 1] = '%';
                ewbuffer[bufEnd + 2] = '^';
-               ewbuffer[bufEnd + 3] = syncChar; //And at end.
-               ewbuffer[bufEnd + 4] = '\0';
+               ewbuffer[bufEnd + 3] = '\0';
            }
            else
            {
                bufEnd = (bufEnd < EWBUFFER_SIZE - 2) ? bufEnd : EWBUFFER_SIZE - 2;
-               ewbuffer[bufEnd] = syncChar;
-               ewbuffer[bufEnd + 1] = '\0';
+               ewbuffer[bufEnd] = '\0';
            }
            // Copy the string into the ewBuffer
-           strncpy(ewbuffer + 1, msg, bufEnd - 1);
-            if (newLine)
-            {
-
-            }
+           strncpy(ewbuffer, msg, bufEnd);
             if (!writePipe(ewbuffer))
             {
                 closePipe();

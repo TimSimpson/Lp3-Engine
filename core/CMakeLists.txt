@@ -108,6 +108,13 @@ if (LP3_CORE_FULL)
     add_executable(LogDemo ${CMAKE_CURRENT_SOURCE_DIR}/demos/LogDemo.cpp)
     target_link_libraries(LogDemo core)
 
+    if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
+        add_executable(
+            Lp3TailLog
+            ${CMAKE_CURRENT_SOURCE_DIR}/demos/Lp3TailLog.cpp)
+        target_link_libraries(Lp3TailLog core)
+    endif()
+
     add_executable(MainDemo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MainDemo.cpp)
     target_link_libraries(MainDemo core)
     add_executable(assert_tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_tests.cpp)
