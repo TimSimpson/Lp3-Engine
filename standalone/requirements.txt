@@ -1,4 +1,7 @@
 g-truc/glm@0.9.8.5
 Microsoft/GSL@1c95f9436eae69c9b9315911ef6aa210df7d1e31 --define GSL_TEST=false
-TimSimpson/download-sdl2
-catchorg/Catch2@v1.11.0 --define NO_SELFTEST=True
+catchorg/Catch2@v2.13.9 --define NO_SELFTEST=True
+libsdl-org/SDL@SDL2
+libsdl-org/SDL_image@SDL2
+libsdl-org/SDL_mixer@SDL2 --define SDL2MIXER_OPUS=off --define SDL2MIXER_MOD_XMP=off --define SDL2MIXER_MOD=off --define SDL2MIXER_MIDI_FLUIDSYNTH=off --define SDL2MIXER_WAVPACK=off
+libsdl-org/SDL_ttf@SDL2

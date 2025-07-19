@@ -66,9 +66,9 @@ set(LP3_GFX_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../gfx
                  ${CMAKE_CURRENT_BINARY_DIR}/gfx-output)
 
-set(LP3_IMGUI_FULL true)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../imgui
-                 ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
+# set(LP3_IMGUI_FULL true)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../imgui
+#                  ${CMAKE_CURRENT_BINARY_DIR}/imgui-output)
 
 set(LP3_INPUT_FULL true)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../input

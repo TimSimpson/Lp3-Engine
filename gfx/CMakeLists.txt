@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
 find_package(Lp3_Gl 1.0.1)
+find_package(SDL2_ttf REQUIRED)
 
 add_library(gfx
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/gfx.hpp
@@ -95,7 +96,7 @@ if (NOT is_child)
 endif()
 
 if (LP3_GFX_FULL)
-    find_package(sdl2 2.0.7)
+    find_package(SDL2 2.32.8 REQUIRED)
 
     add_executable(Lp3_Gfx_MultipleWindows WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/MultipleWindows.cpp)
     target_link_libraries(Lp3_Gfx_MultipleWindows gfx)
@@ -114,7 +115,7 @@ if (LP3_GFX_FULL)
 
     # This uses sdl2_ttf, which doesn't work well on Emscripten.
     add_executable(font_saver WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/font_saver.cpp)
-    target_link_libraries(font_saver gfx lp3::sims sdl2::ttf)
+    target_link_libraries(font_saver gfx lp3::sims SDL2_ttf::SDL2_ttf)
 
     add_executable(show_font WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/show_font.cpp)
     target_link_libraries(show_font gfx lp3::sims)

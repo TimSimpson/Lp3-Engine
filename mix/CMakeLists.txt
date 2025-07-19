@@ -6,7 +6,8 @@ project(lp3_mix CXX)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 include(CMakePackageConfigHelpers)
 
-find_package(sdl2 2.0.7)
+find_package(SDL2 REQUIRED)
+find_package(SDL2_mixer REQUIRED)
 find_package(Lp3_Core 1.0.1)
 
 add_library(mix
@@ -23,7 +24,7 @@ target_include_directories(mix
     PRIVATE
         src)
 
-target_link_libraries(mix PUBLIC sdl2::mixer lp3::core )
+target_link_libraries(mix PUBLIC SDL2_mixer::SDL2_mixer lp3::core )
 
 # *********************************************************************
 # Package / Install Stuff
@@ -78,11 +79,11 @@ if (LP3_MIX_FULL)
     find_package(Lp3_Input 1.0.1)
     find_package(Lp3_Gfx 1.0.1)
 
-    add_executable(mix_demo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/mix_demo.cpp)
-    target_link_libraries(mix_demo mix lp3::gfx lp3::input lp3::sims lp3::imgui)
+    # add_executable(mix_demo WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/demos/mix_demo.cpp)
+    # target_link_libraries(mix_demo mix lp3::gfx lp3::input lp3::sims lp3::imgui)
 
     if (LP3_SETUP_FOLDERS)
         set_target_properties (mix PROPERTIES FOLDER mix)
-        set_target_properties (mix_demo PROPERTIES FOLDER mix)
+        # set_target_properties (mix_demo PROPERTIES FOLDER mix)
     endif()
 endif()
